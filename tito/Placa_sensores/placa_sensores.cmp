@@ -1,0 +1,66 @@
+Cmp-Mod V01 Created by CvPCB (2010-03-14)-final date = Tue 12 Apr 2011 03:09:57 PM ART
+
+BeginCmp
+TimeStamp = /4DA30119;
+Reference = D1;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4DA30121;
+Reference = D2;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4DA308A8;
+Reference = D3;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4DA30122;
+Reference = D4;
+ValeurCmp = LED;
+IdModule  = LED-5MM;
+EndCmp
+
+BeginCmp
+TimeStamp = /4DA30867;
+Reference = P1;
+ValeurCmp = CONN_3X2;
+IdModule  = pin_array_3x2;
+EndCmp
+
+BeginCmp
+TimeStamp = /4DA301B3;
+Reference = R1;
+ValeurCmp = 220;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4DA301BB;
+Reference = R2;
+ValeurCmp = 220;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4DA308A7;
+Reference = R3;
+ValeurCmp = 220;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4DA30433;
+Reference = R4;
+ValeurCmp = 220;
+IdModule  = R1;
+EndCmp
+
+EndListe
