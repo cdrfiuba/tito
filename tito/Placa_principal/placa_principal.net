@@ -1,10 +1,10 @@
-# EESchema Netlist Version 1.1 created  vie 29 abr 2011 21:54:45 ART
+# EESchema Netlist Version 1.1 created  vie 06 may 2011 21:15:33 ART
 (
- ( /4DA49DB0 $noname$ C1 100nF
+ ( /4DA49DB0 C1 C1 100nF
   ( 1 GND )
   ( 2 +5V )
  )
- ( /4DA49BD1 DIL28 IC1 ATMEGA8-P
+ ( /4DA49BD1 DIP-28__300_ELL IC1 ATMEGA8-P
   ( 1 /RESET )
   ( 2 /LED3 )
   ( 3 /LED4 )
@@ -50,18 +50,18 @@
   ( 5 /RESET )
   ( 6 GND )
  )
- ( /4DA8E50C PIN_ARRAY_2X1 P3 CONN_2
+ ( /4DA8E50C bornier2 P3 CONN_2
   ( 1 GND )
   ( 2 VCC )
  )
  ( /4DBB55F5 pin_array_4x2 P4 CONN_4X2
-  ( 1 /SENSOR_1 )
-  ( 2 +5V )
+  ( 1 /SENSOR_3 )
+  ( 2 VCC )
   ( 3 /SENSOR_2 )
-  ( 4 VCC )
-  ( 5 /SENSOR_3 )
-  ( 6 GND )
-  ( 7 /SENSOR_CURVA )
+  ( 4 /SENSOR_CURVA )
+  ( 5 /SENSOR_1 )
+  ( 6 +5V )
+  ( 7 GND )
   ( 8 ? )
  )
  ( /4DBB589A PIN_ARRAY_2X1 P5 CONN_2
@@ -73,42 +73,42 @@
   ( 2 /MOT_3B )
  )
  ( /4DA4A25D R1 R1 100
-  ( 1 N-000031 )
+  ( 1 N-000030 )
   ( 2 GND )
  )
  ( /4DA4A28D R1 R2 100
-  ( 1 N-000032 )
+  ( 1 N-000031 )
   ( 2 GND )
  )
  ( /4DA4A294 R1 R3 100
-  ( 1 N-000003 )
+  ( 1 N-000004 )
   ( 2 GND )
  )
- ( /4DA4A24D $noname$ R4 RVAR
-  ( 1 /SENSOR_1 )
+ ( /4DA4A24D POT_CMS R4 RVAR
+  ( 1 /SENSOR_3 )
+  ( 2 N-000030 )
+ )
+ ( /4DA4A28E POT_CMS R5 RVAR
+  ( 1 /SENSOR_2 )
   ( 2 N-000031 )
  )
- ( /4DA4A28E $noname$ R5 RVAR
-  ( 1 /SENSOR_2 )
-  ( 2 N-000032 )
- )
- ( /4DA4A293 $noname$ R6 RVAR
-  ( 1 /SENSOR_3 )
-  ( 2 N-000003 )
+ ( /4DA4A293 POT_CMS R6 RVAR
+  ( 1 /SENSOR_1 )
+  ( 2 N-000004 )
  )
  ( /4DBB5686 R1 R7 100
-  ( 1 N-000017 )
+  ( 1 N-000013 )
   ( 2 GND )
  )
- ( /4DBB5687 $noname$ R8 RVAR
+ ( /4DBB5687 POT_CMS R8 RVAR
   ( 1 /SENSOR_CURVA )
-  ( 2 N-000017 )
+  ( 2 N-000013 )
  )
- ( /4DA8DD43 $noname$ U1 L298D
+ ( /4DA8DD43 L298D U1 L298D
   ( 1 GND )
   ( 2 /MOT_1A )
   ( 3 /MOT_2A )
-  ( 4 ? )
+  ( 4 VCC )
   ( 5 /IN_1A )
   ( 6 /ENABLEA )
   ( 7 /IN_2A )
@@ -121,10 +121,10 @@
   ( 14 /MOT_4B )
   ( 15 GND )
  )
- ( /4DA8E46C $noname$ U2 7805
-  ( GND GND )
-  ( VI VCC )
-  ( VO +5V )
+ ( /4DC47F06 TO220_VERT U2 7805B
+  ( 1 +5V )
+  ( 2 VCC )
+  ( 3 GND )
  )
 )
 *

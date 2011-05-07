@@ -1,17 +1,17 @@
-Cmp-Mod V01 Created by CvPCB (2011-03-30 BZR 2932)-stable date = vie 29 abr 2011 21:54:45 ART
+Cmp-Mod V01 Created by CvPCB (2011-03-30 BZR 2932)-stable date = vie 06 may 2011 21:15:33 ART
 
 BeginCmp
 TimeStamp = /4DA49DB0;
 Reference = C1;
 ValeurCmp = 100nF;
-IdModule  = ;
+IdModule  = C1;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DA49BD1;
 Reference = IC1;
 ValeurCmp = ATMEGA8-P;
-IdModule  = DIL28;
+IdModule  = DIP-28__300_ELL;
 EndCmp
 
 BeginCmp
@@ -32,7 +32,7 @@ BeginCmp
 TimeStamp = /4DA8E50C;
 Reference = P3;
 ValeurCmp = CONN_2;
-IdModule  = PIN_ARRAY_2X1;
+IdModule  = bornier2;
 EndCmp
 
 BeginCmp
@@ -81,21 +81,21 @@ BeginCmp
 TimeStamp = /4DA4A24D;
 Reference = R4;
 ValeurCmp = RVAR;
-IdModule  = ;
+IdModule  = POT_CMS;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DA4A28E;
 Reference = R5;
 ValeurCmp = RVAR;
-IdModule  = ;
+IdModule  = POT_CMS;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DA4A293;
 Reference = R6;
 ValeurCmp = RVAR;
-IdModule  = ;
+IdModule  = POT_CMS;
 EndCmp
 
 BeginCmp
@@ -109,21 +109,21 @@ BeginCmp
 TimeStamp = /4DBB5687;
 Reference = R8;
 ValeurCmp = RVAR;
-IdModule  = ;
+IdModule  = POT_CMS;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DA8DD43;
 Reference = U1;
 ValeurCmp = L298D;
-IdModule  = ;
+IdModule  = L298D;
 EndCmp
 
 BeginCmp
-TimeStamp = /4DA8E46C;
+TimeStamp = /4DC47F06;
 Reference = U2;
-ValeurCmp = 7805;
-IdModule  = ;
+ValeurCmp = 7805B;
+IdModule  = TO220_VERT;
 EndCmp
 
 EndListe
