@@ -1,5 +1,9 @@
-# EESchema Netlist Version 1.1 created  vie 13 may 2011 21:22:00 ART
+# EESchema Netlist Version 1.1 created  vie 03 jun 2011 21:38:50 ART
 (
+ ( /4DE047FF $noname  C2 10nF {Lib=C}
+  (    1 N-000017 )
+  (    2 GND )
+ )
  ( /4DCDC3AB $noname  D7 DIODE {Lib=DIODE}
   (    1 /MOT_3B )
   (    2 +BATT )
@@ -36,26 +40,26 @@
   (    1 +BATT )
   (    2 +5V )
   (    3 GND )
-  (    4 ? )
-  (    5 ? )
+  (    4 N-000017 )
+  (    5 +BATT )
  )
  ( /4DC48B87 $noname  RV3 POT {Lib=POT}
-  (    1 N-000038 )
+  (    1 N-000037 )
   (    2 /SENSOR_1 )
   (    3 /SENSOR_1 )
  )
  ( /4DC48B85 $noname  RV1 POT {Lib=POT}
-  (    1 N-000036 )
+  (    1 N-000035 )
   (    2 /SENSOR_3 )
   (    3 /SENSOR_3 )
  )
  ( /4DC48B82 $noname  RV4 POT {Lib=POT}
-  (    1 N-000012 )
+  (    1 N-000010 )
   (    2 /SENSOR_CURVA )
   (    3 /SENSOR_CURVA )
  )
  ( /4DC48B5E $noname  RV2 POT {Lib=POT}
-  (    1 N-000037 )
+  (    1 N-000036 )
   (    2 /SENSOR_2 )
   (    3 /SENSOR_2 )
  )
@@ -68,7 +72,7 @@
   (    2 /MOT_1A )
  )
  ( /4DBB5686 $noname  R4 100 {Lib=R}
-  (    1 N-000012 )
+  (    1 N-000010 )
   (    2 GND )
  )
  ( /4DBB55F5 $noname  P3 CONN_4X2 {Lib=CONN_4X2}
@@ -103,15 +107,15 @@
   (   15 GND )
  )
  ( /4DA4A294 $noname  R3 100 {Lib=R}
-  (    1 N-000038 )
-  (    2 GND )
- )
- ( /4DA4A28D $noname  R2 100 {Lib=R}
   (    1 N-000037 )
   (    2 GND )
  )
- ( /4DA4A25D $noname  R1 100 {Lib=R}
+ ( /4DA4A28D $noname  R2 100 {Lib=R}
   (    1 N-000036 )
+  (    2 GND )
+ )
+ ( /4DA4A25D $noname  R1 100 {Lib=R}
+  (    1 N-000035 )
   (    2 GND )
  )
  ( /4DA49E4D $noname  P6 CONN_3X2 {Lib=CONN_3X2}
@@ -167,6 +171,11 @@
 )
 *
 { Allowed footprints by component:
+$component C2
+ SM*
+ C?
+ C1-1
+$endlist
 $component D7
  D?
  S*
@@ -235,137 +244,142 @@ $endlist
 $endfootprintlist
 }
 { Pin List by Nets
-Net 4 "/MOT_1A" "MOT_1A"
- D5 1
- D1 2
- U1 2
- P1 2
-Net 5 "/MOT_2A" "MOT_2A"
- D6 1
- U1 3
- P1 1
- D2 2
-Net 6 "/MOT_3B" "MOT_3B"
- D3 2
+Net 1 "/MOT_3B" "MOT_3B"
  D7 1
- P2 2
+ D3 2
  U1 13
-Net 7 "/MOT_4B" "MOT_4B"
- D8 1
+ P2 2
+Net 2 "/MOT_4B" "MOT_4B"
  D4 2
  U1 14
  P2 1
-Net 8 "GND" "GND"
- U1 15
- IC1 8
- IC1 22
- P6 6
- U1 8
- U1 1
- R3 2
- R2 2
- R1 2
- D4 1
- D3 1
- P5 2
+ D8 1
+Net 3 "GND" "GND"
  D2 1
  D1 1
- U2 3
- R4 2
- P3 7
- P4 1
+ U1 15
+ U1 8
+ IC1 8
+ P6 6
  C1 1
-Net 10 "/SENSOR_CURVA" "SENSOR_CURVA"
- P3 4
- IC1 4
- RV4 3
- RV4 2
-Net 12 "" ""
- RV4 1
- R4 1
-Net 17 "+BATT" "+BATT"
- U2 1
- D5 2
+ P5 2
+ IC1 22
+ U2 3
+ R3 2
+ P4 1
+ P3 7
+ R1 2
+ R2 2
+ U1 1
+ D4 1
+ D3 1
+ C2 2
+ R4 2
+Net 4 "/MOT_2A" "MOT_2A"
+ P1 1
+ U1 3
+ D2 2
+ D6 1
+Net 5 "+BATT" "+BATT"
+ U1 4
  D6 2
+ D5 2
+ U2 5
+ U2 1
+ P4 2
  D7 2
  D8 2
- P4 2
- U1 4
-Net 18 "/LED4" "LED4"
- P5 4
- IC1 23
-Net 19 "/LED1" "LED1"
+Net 7 "/SENSOR_CURVA" "SENSOR_CURVA"
+ RV4 2
+ P3 4
+ RV4 3
+ IC1 4
+Net 9 "+5V" "+5V"
+ IC1 21
+ C1 2
+ P5 1
+ P3 6
+ U2 2
+ IC1 20
+ P6 2
+ U1 9
+ IC1 7
+Net 10 "" ""
+ RV4 1
+ R4 1
+Net 16 "/MOT_1A" "MOT_1A"
+ U1 2
+ P1 2
+ D1 2
+ D5 1
+Net 17 "" ""
+ U2 4
+ C2 1
+Net 18 "/LED1" "LED1"
  P5 3
  IC1 26
-Net 20 "/SCK" "SCK"
- P6 3
+Net 19 "/LED2" "LED2"
+ P5 5
+ IC1 25
+Net 20 "/SENSOR 2" "SENSOR 2"
+ IC1 12
+ RV2 3
+ RV2 2
+ P3 3
+Net 21 "/SCK" "SCK"
  IC1 19
-Net 21 "/IN_4B" "IN_4B"
- U1 12
+ P6 3
+Net 22 "/IN_4B" "IN_4B"
  IC1 28
-Net 22 "/MISO" "MISO"
+ U1 12
+Net 23 "/MISO" "MISO"
  IC1 18
  P6 1
-Net 23 "/IN_3B" "IN_3B"
+Net 24 "/IN_3B" "IN_3B"
  IC1 27
  U1 10
-Net 24 "/MOSI" "MOSI"
+Net 25 "/MOSI" "MOSI"
  IC1 17
  P6 4
-Net 25 "/ENABLEB" "ENABLEB"
- IC1 16
- U1 11
 Net 26 "/ENABLEA" "ENABLEA"
  U1 6
  IC1 15
-Net 27 "/SENSOR 3" "SENSOR 3"
- RV1 3
+Net 27 "/LED4" "LED4"
+ IC1 23
+ P5 4
+Net 28 "/SENSOR 3" "SENSOR 3"
  P3 1
- IC1 13
+ RV1 3
  RV1 2
-Net 28 "/SENSOR 2" "SENSOR 2"
- IC1 12
- RV2 2
- P3 3
- RV2 3
-Net 29 "+5V" "+5V"
- P6 2
- IC1 21
- C1 2
- U2 2
- IC1 20
- P5 1
- IC1 7
- U1 9
- P3 6
-Net 30 "/SENSOR 1" "SENSOR 1"
- IC1 11
- RV3 2
- RV3 3
- P3 5
-Net 31 "/IN_1A" "IN_1A"
+ IC1 13
+Net 29 "/IN_1A" "IN_1A"
  U1 5
  IC1 3
-Net 32 "/IN_2A" "IN_2A"
- IC1 2
+Net 30 "/IN_2A" "IN_2A"
  U1 7
-Net 33 "/RESET" "RESET"
- IC1 1
+ IC1 2
+Net 31 "/RESET" "RESET"
  P6 5
-Net 34 "/LED3" "LED3"
+ IC1 1
+Net 32 "/LED3" "LED3"
  IC1 24
  P5 6
-Net 35 "/LED2" "LED2"
- IC1 25
- P5 5
-Net 36 "" ""
+Net 33 "/ENABLEB" "ENABLEB"
+ U1 11
+ IC1 16
+Net 34 "/SENSOR 1" "SENSOR 1"
+ RV3 2
+ RV3 3
+ IC1 11
+ P3 5
+Net 35 "" ""
  RV1 1
  R1 1
-Net 37 "" ""
+Net 36 "" ""
  R2 1
  RV2 1
-Net 38 "" ""
- R3 1
+Net 37 "" ""
  RV3 1
+ R3 1
 }
 #End

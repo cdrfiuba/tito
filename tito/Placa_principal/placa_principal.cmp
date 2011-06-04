@@ -1,9 +1,16 @@
-Cmp-Mod V01 Created by CvPCB (2011-03-30 BZR 2932)-stable date = vie 13 may 2011 20:54:09 ART
+Cmp-Mod V01 Created by CvPCB (2011-05-25)-testing date = vie 03 jun 2011 21:06:06 ART
 
 BeginCmp
 TimeStamp = /4DA49DB0;
 Reference = C1;
 ValeurCmp = 100nF;
+IdModule  = C1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4DE047FF;
+Reference = C2;
+ValeurCmp = 10nF;
 IdModule  = C1;
 EndCmp
 
@@ -176,10 +183,10 @@ IdModule  = L298D;
 EndCmp
 
 BeginCmp
-TimeStamp = /4DC49978;
+TimeStamp = /4DE9715A;
 Reference = U2;
 ValeurCmp = REG_104-5;
-IdModule  = TO220_VERT;
+IdModule  = SOT223-5;
 EndCmp
 
 EndListe

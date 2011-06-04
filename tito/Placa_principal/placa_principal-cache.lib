@@ -1,4 +1,4 @@
-EESchema-LIBRARY Version 2.3  Date: vie 27 may 2011 21:56:14 ART
+EESchema-LIBRARY Version 2.3  Date: vie 03 jun 2011 21:59:30 ART
 #encoding utf-8
 #
 # +5V
@@ -230,7 +230,7 @@ S -300 350 300 -250 0 1 0 N
 X Vin 1 -500 100 200 R 40 40 1 1 I
 X Vout 2 -500 -100 200 R 40 40 1 1 I
 X GND 3 0 -450 200 U 40 40 1 1 I
-X NRadjust 4 500 100 200 L 40 40 1 1 I
+X NR 4 500 100 200 L 40 40 1 1 I
 X ENABLE 5 500 -100 200 L 40 40 1 1 I
 ENDDRAW
 ENDDEF
