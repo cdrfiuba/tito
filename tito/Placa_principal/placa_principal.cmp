@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPCB (2011-05-25)-testing date = vie 03 jun 2011 21:06:06 ART
+Cmp-Mod V01 Created by CvPCB (2010-00-09 BZR 23xx)-stable date = Wed 15 Jun 2011 11:36:11 AM ART
 
 BeginCmp
 TimeStamp = /4DA49DB0;
@@ -123,28 +123,28 @@ BeginCmp
 TimeStamp = /4DA4A25D;
 Reference = R1;
 ValeurCmp = 100;
-IdModule  = R1;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DA4A28D;
 Reference = R2;
 ValeurCmp = 100;
-IdModule  = R1;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DA4A294;
 Reference = R3;
 ValeurCmp = 100;
-IdModule  = R1;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DBB5686;
 Reference = R4;
 ValeurCmp = 100;
-IdModule  = R1;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
@@ -176,6 +176,13 @@ IdModule  = PIN_ARRAY_3X1;
 EndCmp
 
 BeginCmp
+TimeStamp = /4DF8B753;
+Reference = SW1;
+ValeurCmp = SW_PUSH_SMALL;
+IdModule  = SW_PUSH_SMALL;
+EndCmp
+
+BeginCmp
 TimeStamp = /4DA8DD43;
 Reference = U1;
 ValeurCmp = L298D;
@@ -183,7 +190,7 @@ IdModule  = L298D;
 EndCmp
 
 BeginCmp
-TimeStamp = /4DE9715A;
+TimeStamp = /4DC49978;
 Reference = U2;
 ValeurCmp = REG_104-5;
 IdModule  = SOT223-5;
