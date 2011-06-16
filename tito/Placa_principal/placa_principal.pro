@@ -1,4 +1,4 @@
-update=Wed 15 Jun 2011 12:24:46 PM ART
+update=Thu 16 Jun 2011 12:26:35 PM ART
 last_client=pcbnew
 [general]
 version=1
@@ -74,9 +74,9 @@ LibName32=7805b
 LibName33=reg_204-5
 [pcbnew]
 version=1
-PadDrlX=320
-PadDimH=787
-PadDimV=787
+PadDrlX=600
+PadDimH=1181
+PadDimV=1181
 BoardThickness=630
 SgPcb45=1
 TxtPcbV=800
