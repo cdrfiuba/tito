@@ -1,7 +1,5 @@
-#ifndef CONTROL_TEMP
-#define CONTROL_TEMP
-
-
+#ifndef HEADER_TITO
+#define HEADER_TITO
 
 #define PORT_LED_1_NAME  	C
 #define LED_1_NUMBER     	3
@@ -29,9 +27,9 @@
 
 #define PORT_SENSOR_1_NAME  	D
 #define SENSOR_1_NUMBER     	5
-#define PORT_SENSOR_1    def_port_reg(PORT_LED_4_NAME)
-#define PIN_SENSOR_1      def_pin_reg(PORT_LED_4_NAME)
-#define DDR_SENSOR_1      def_ddr_reg(PORT_LED_4_NAME)
+#define PORT_SENSOR_1    def_port_reg(PORT_SENSOR_1_NAME)
+#define PIN_SENSOR_1      def_pin_reg(PORT_SENSOR_1_NAME)
+#define DDR_SENSOR_1      def_ddr_reg(PORT_SENSOR_1_NAME)
 
 #define PORT_SENSOR_2_NAME  	D
 #define SENSOR_2_NUMBER     	6
@@ -39,14 +37,11 @@
 #define PIN_SENSOR_2      def_pin_reg(PORT_SENSOR_2_NAME)
 #define DDR_SENSOR_2      def_ddr_reg(PORT_SENSOR_2_NAME)
 
-#define PORT_SENSOR_2_NAME  	D
-#define SENSOR_2_NUMBER     	7
-#define PORT_SENSOR_2    def_port_reg(PORT_LED_4_NAME)
-#define PIN_SENSOR_2      def_pin_reg(PORT_LED_4_NAME)
-#define DDR_SENSOR_2      def_ddr_reg(PORT_LED_4_NAME)
-
-
-
+#define PORT_SENSOR_3_NAME  	D
+#define SENSOR_3_NUMBER     	7
+#define PORT_SENSOR_3    def_port_reg(PORT_SENSOR_3_NAME)
+#define PIN_SENSOR_3      def_pin_reg(PORT_SENSOR_3_NAME)
+#define DDR_SENSOR_3      def_ddr_reg(PORT_SENSOR_3_NAME)
 
 
 #define SetBit(Byte,Bit)	 (Byte |= (1<<Bit))
