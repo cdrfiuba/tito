@@ -5,21 +5,25 @@
 #include "tito.h"
 #include "lib/lib_pwm.h"
 
-int main(void) {
+int main(void) 
+{
 	
 	startup();
-	for(;;){
-		SetBit (PORT_LED_1, LED_1_NUMBER);
-		_delay_ms (10000);
-		ClearBit (PORT_LED_1, LED_1_NUMBER);
-		_delay_ms (20000);
+	pwm_start();
+	
+	for(;;)
+	{
+		mot1_sent(AD);
+		PWM1_VEL(100);
+		mot2_sent(AT);
+		PWM2_VEL(100);		
 	}
 }
 	
 
 
-void startup (void){
-
+void startup (void)
+{
 	SetBit (DDR_LED_1, LED_1_NUMBER);
 	SetBit (DDR_LED_2, LED_2_NUMBER);
 	SetBit (DDR_LED_3, LED_3_NUMBER);
@@ -27,9 +31,10 @@ void startup (void){
 
 	ClearBit (DDR_SENSOR_1, SENSOR_1_NUMBER);
 	ClearBit (DDR_SENSOR_2, SENSOR_2_NUMBER);
-
-
-/*	DDRC |= ((1<<PC0) | (1<<PC1) | (1<<PC2));
+	pwm_config();
+	sei();	
+/*
+	DDRC |= ((1<<PC0) | (1<<PC1) | (1<<PC2));
 	DDRC &= ~((1<<PC3) | (1<<PC4) | (1<<PC5));
 	DDRD &=~ 1<<PD5;
 	PORTD |= 1<<PD5;
