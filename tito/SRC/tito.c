@@ -11,12 +11,27 @@ int main(void)
 	startup();
 	pwm_start();
 	
+	mot1_sent(AD);
+	PWM1_VEL(100);
+	mot2_sent(AD);
+	PWM2_VEL(100);
+
 	for(;;)
 	{
-		mot1_sent(AD);
-		PWM1_VEL(100);
-		mot2_sent(AT);
-		PWM2_VEL(100);		
+		if (IsBitSet(PIN_SENSOR_1, SENSOR_1_NUMBER)){
+			PWM1_VEL(60);
+			PWM2_VEL(100);
+		}
+		else if (IsBitSet(PIN_SENSOR_1, SENSOR_1_NUMBER)){
+			PWM1_VEL(100);
+			PWM2_VEL(60);
+		
+		}
+		else {
+			PWM1_VEL(100);
+			PWM2_VEL(100);
+
+		}
 	}
 }
 	
@@ -31,12 +46,9 @@ void startup (void)
 
 	ClearBit (DDR_SENSOR_1, SENSOR_1_NUMBER);
 	ClearBit (DDR_SENSOR_2, SENSOR_2_NUMBER);
+	ClearBit (DDR_SENSOR_3, SENSOR_3_NUMBER);
+	ClearBit (DDR_SENSOR_CURVA, SENSOR_CURVA_NUMBER);
 	pwm_config();
 	sei();	
-/*
-	DDRC |= ((1<<PC0) | (1<<PC1) | (1<<PC2));
-	DDRC &= ~((1<<PC3) | (1<<PC4) | (1<<PC5));
-	DDRD &=~ 1<<PD5;
-	PORTD |= 1<<PD5;
-*/
+
 }
