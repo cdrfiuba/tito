@@ -1,0 +1,44 @@
+# EESchema Netlist Version 1.1 created  Tue 01 Nov 2011 12:37:18 PM ART
+(
+ ( /4EB00597 $noname  R1 100 {Lib=R}
+  (    1 N-000004 )
+  (    2 N-000003 )
+ )
+ ( /4EB00261 $noname  ??1 CNY70 {Lib=CNY70}
+  (    A N-000004 )
+  (    C N-000003 )
+  (    E N-000002 )
+  (    K N-000001 )
+ )
+ ( /4EB002AC $noname  K1 CONN_3 {Lib=CONN_3}
+  (    1 N-000002 )
+  (    2 N-000001 )
+  (    3 N-000003 )
+ )
+)
+*
+{ Allowed footprints by component:
+$component R1
+ R?
+ SM0603
+ SM0805
+ R?-*
+$endlist
+$endfootprintlist
+}
+{ Pin List by Nets
+Net 1 "" ""
+ K1 2
+ ??1 K
+Net 2 "" ""
+ K1 1
+ ??1 E
+Net 3 "" ""
+ K1 3
+ ??1 C
+ R1 2
+Net 4 "" ""
+ ??1 A
+ R1 1
+}
+#End
