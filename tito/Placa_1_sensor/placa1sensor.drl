@@ -1,5 +1,5 @@
 M48
-;DRILL file {PCBnew (2011-05-25)-stable} date Tue 01 Nov 2011 04:26:55 PM ART
+;DRILL file {PCBnew (2011-05-25)-stable} date Wed 02 Nov 2011 05:09:27 PM ART
 ;FORMAT={-:-/ absolute / inch / decimal}
 FMAT,2
 INCH,TZ
@@ -17,8 +17,8 @@ X3.300Y-2.100
 X3.400Y-2.000
 X3.400Y-2.100
 T2
-X3.200Y-2.250
-X3.500Y-2.250
+X3.250Y-2.250
+X3.450Y-2.250
 T3
 X3.250Y-1.850
 X3.350Y-1.850

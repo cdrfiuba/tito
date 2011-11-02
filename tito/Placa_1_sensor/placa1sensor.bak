@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date Tue 01 Nov 2011 12:33:18 PM ART
+EESchema Schematic File Version 2  date Tue 01 Nov 2011 08:07:58 PM ART
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -44,26 +44,6 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-NoConn ~ 5150 2700
-NoConn ~ 4750 2700
-$Comp
-L CONN_1 P1
-U 1 1 4EB01117
-P 4900 2700
-F 0 "P1" H 4980 2700 40  0000 L CNN
-F 1 "CONN_1" H 4900 2755 30  0001 C CNN
-	1    4900 2700
-	1    0    0    -1  
-$EndComp
-$Comp
-L CONN_1 P2
-U 1 1 4EB0110F
-P 5300 2700
-F 0 "P2" H 5380 2700 40  0000 L CNN
-F 1 "CONN_1" H 5300 2755 30  0001 C CNN
-	1    5300 2700
-	1    0    0    -1  
-$EndComp
 Connection ~ 5350 3050
 Wire Wire Line
 	4600 3250 4700 3250

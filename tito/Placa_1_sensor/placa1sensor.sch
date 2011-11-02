@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date Tue 01 Nov 2011 08:07:58 PM ART
+EESchema Schematic File Version 2  date Wed 02 Nov 2011 04:31:05 PM ART
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -30,7 +30,8 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:cny70
-EELAYER 43  0
+LIBS:placa1sensor-cache
+EELAYER 25  0
 EELAYER END
 $Descr A4 11700 8267
 encoding utf-8

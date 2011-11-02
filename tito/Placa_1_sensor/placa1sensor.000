@@ -1,4 +1,4 @@
-PCBNEW-BOARD Version 1 date Tue 01 Nov 2011 03:16:21 PM ART
+PCBNEW-BOARD Version 1 date Wed 02 Nov 2011 11:34:36 AM ART
 
 # Created by Pcbnew(2011-05-25)-stable
 
@@ -9,9 +9,9 @@ Ly 1FFF8001
 EnabledLayers 1FFF8001
 Links 5
 NoConn 0
-Di 30731 14513 36542 26384
+Di 30936 14508 36342 26382
 Ndraw 4
-Ntrack 20
+Ntrack 28
 Nzone 0
 BoardThickness 630
 Nmodule 5
@@ -21,7 +21,7 @@ $EndGENERAL
 $SHEETDESCR
 Sheet A4 11700 8267
 Title ""
-Date "1 nov 2011"
+Date "2 nov 2011"
 Rev ""
 Comp ""
 Comment1 ""
@@ -35,8 +35,8 @@ InternalUnit 0.000100 INCH
 Layers 2
 Layer[0] Back signal
 Layer[15] Front signal
-TrackWidth 276
-TrackClearence 118
+TrackWidth 394
+TrackClearence 157
 ZoneClearence 200
 TrackMinWidth 80
 DrawSegmWidth 150
@@ -55,11 +55,11 @@ TextPcbSize 600 800
 EdgeModWidth 150
 TextModSize 600 600
 TextModWidth 120
-PadSize 1181 1181
-PadDrill 1181
+PadSize 827 827
+PadDrill 400
 Pad2MaskClearance 100
 AuxiliaryAxisOrg 37000 20700
-PcbPlotParams (pcbplotparams (layerselection 3178497) (usegerberextensions true) (excludeedgelayer true) (linewidth 60) (plotframeref false) (viasonmask false) (mode 1) (useauxorigin false) (hpglpennumber 1) (hpglpenspeed 20) (hpglpendiameter 15) (hpglpenoverlay 0) (pscolor true) (psnegative false) (psa4output false) (plotreference true) (plotvalue true) (plotothertext true) (plotinvisibletext false) (padsonsilk false) (subtractmaskfromsilk false) (outputformat 1) (mirror false) (drillshape 1) (scaleselection 1) (outputdirectory ""))
+PcbPlotParams (pcbplotparams (layerselection 268435457) (usegerberextensions true) (excludeedgelayer true) (linewidth 60) (plotframeref false) (viasonmask false) (mode 1) (useauxorigin false) (hpglpennumber 1) (hpglpenspeed 20) (hpglpendiameter 15) (hpglpenoverlay 0) (pscolor true) (psnegative false) (psa4output false) (plotreference true) (plotvalue true) (plotothertext true) (plotinvisibletext false) (padsonsilk false) (subtractmaskfromsilk false) (outputformat 1) (mirror false) (drillshape 1) (scaleselection 1) (outputdirectory ""))
 $EndSETUP
 
 $EQUIPOT
@@ -85,8 +85,8 @@ $EndEQUIPOT
 $NCLASS
 Name "Default"
 Desc "This is the default net class."
-Clearance 118
-TrackWidth 276
+Clearance 157
+TrackWidth 394
 ViaDia 350
 ViaDrill 250
 uViaDia 200
@@ -98,7 +98,7 @@ AddNet "N-000003"
 AddNet "N-000004"
 $EndNCLASS
 $MODULE PIN_ARRAY_3X1
-Po 33500 18500 1800 15 4EB00C68 4EB006E5 ~~
+Po 33500 18500 1800 15 4EB153A8 4EB006E5 ~~
 Li PIN_ARRAY_3X1
 Cd Connecteur 3 pins
 Kw CONN DEV
@@ -113,21 +113,21 @@ DS 1500 -500 1500 500 60 21
 DS 1500 500 -1500 500 60 21
 DS -500 -500 -500 500 60 21
 $PAD
-Sh "1" R 787 787 0 0 1800
+Sh "1" C 827 827 0 0 1800
 Dr 400 0 0
 At STD N 00E0FFFF
 Ne 2 "N-000002"
 Po -1000 0
 $EndPAD
 $PAD
-Sh "2" C 787 787 0 0 1800
+Sh "2" C 827 827 0 0 1800
 Dr 400 0 0
 At STD N 00E0FFFF
 Ne 1 "N-000001"
 Po 0 0
 $EndPAD
 $PAD
-Sh "3" C 787 787 0 0 1800
+Sh "3" C 827 827 0 0 1800
 Dr 400 0 0
 At STD N 00E0FFFF
 Ne 3 "N-000003"
@@ -269,61 +269,77 @@ Po 0 0
 $EndPAD
 $EndMODULE  elpin
 $DRAWSEGMENT
-Po 0 36466 14589 30808 14589 150
+Po 0 36266 14584 31012 14584 150
 De 28 0 900 0 0
 $EndDRAWSEGMENT
 $DRAWSEGMENT
-Po 0 36466 26308 36466 14589 150
+Po 0 36266 26306 36266 14584 150
 De 28 0 900 0 0
 $EndDRAWSEGMENT
 $DRAWSEGMENT
-Po 0 30807 26308 36466 26308 150
+Po 0 31012 26306 36266 26306 150
 De 28 0 900 0 0
 $EndDRAWSEGMENT
 $DRAWSEGMENT
-Po 0 30807 14602 30807 26308 150
+Po 0 31012 14594 31012 26306 150
 De 28 0 900 0 0
 $EndDRAWSEGMENT
 $TRACK
-Po 0 33500 18500 33500 19100 276 -1
-De 0 0 1 0 400000
-Po 0 33000 19600 33000 20000 276 -1
+Po 0 33030 19970 33000 20000 394 -1
 De 0 0 1 0 800000
-Po 0 33500 19100 33000 19600 276 -1
+Po 0 33030 19380 33030 19970 394 -1
 De 0 0 1 0 0
-Po 0 34000 21000 34000 22900 276 -1
+Po 0 33500 18910 33030 19380 394 -1
+De 0 0 1 0 0
+Po 0 33500 18500 33500 18910 394 -1
+De 0 0 1 0 400000
+Po 0 33500 18910 33540 18950 787 -1
+De 0 0 1 0 0
+Po 0 33000 20000 33000 19380 394 -1
+De 0 0 1 0 400000
+Po 0 33280 18720 33500 18500 394 -1
+De 0 0 1 0 800000
+Po 0 33280 19100 33280 18720 394 -1
+De 0 0 1 0 0
+Po 0 33000 19380 33280 19100 394 -1
+De 0 0 1 0 0
+Po 0 35346 18500 35728 18882 433 -1
+De 0 0 2 0 0
+Po 0 34500 18500 35346 18500 787 -1
 De 0 0 2 0 400000
-Po 0 34500 19200 34500 18500 276 -1
-De 0 0 2 0 800000
-Po 0 35700 20400 34500 19200 276 -1
+Po 0 35728 18882 35728 22179 433 -1
 De 0 0 2 0 0
-Po 0 35700 23000 35700 20400 276 -1
+Po 0 34000 21000 34000 22894 394 -1
+De 0 0 2 0 400000
+Po 0 35728 22802 35728 22179 394 -1
 De 0 0 2 0 0
-Po 0 35400 23300 35700 23000 276 -1
+Po 0 35308 23222 35728 22802 394 -1
 De 0 0 2 0 0
-Po 0 34400 23300 35400 23300 276 -1
+Po 0 34328 23222 35308 23222 394 -1
 De 0 0 2 0 0
-Po 0 34000 22900 34400 23300 276 -1
+Po 0 34000 22894 34328 23222 394 -1
 De 0 0 2 0 0
-Po 0 33000 21000 32068 21000 276 -1
+Po 0 32500 18500 32320 18500 787 -1
 De 0 0 3 0 400000
-Po 0 32068 21000 32000 20932 276 -1
+Po 0 32320 18500 32000 18820 787 -1
 De 0 0 3 0 0
-Po 0 33000 21000 32406 21000 276 -1
+Po 0 33000 21000 32326 21000 394 -1
 De 0 0 3 0 400000
-Po 0 32000 22500 32000 21406 276 -1
-De 0 0 3 0 400000
-Po 0 32000 21406 32000 20932 276 -1
+Po 0 32326 21000 32000 20674 394 -1
 De 0 0 3 0 0
-Po 0 32000 20932 32000 19000 276 -1
+Po 0 32000 18820 32000 20674 394 -1
 De 0 0 3 0 0
-Po 0 32000 19000 32500 18500 276 -1
+Po 0 32000 20674 32000 22500 394 -1
 De 0 0 3 0 800000
-Po 0 35000 22500 35000 20900 276 -1
+Po 0 32320 18500 32000 18820 394 -1
+De 0 0 3 0 0
+Po 0 34000 20000 34246 20000 394 -1
 De 0 0 4 0 400000
-Po 0 34100 20000 34000 20000 276 -1
+Po 0 34778 22278 35000 22500 394 -1
 De 0 0 4 0 800000
-Po 0 35000 20900 34100 20000 276 -1
+Po 0 34778 20532 34778 22278 394 -1
+De 0 0 4 0 0
+Po 0 34246 20000 34778 20532 394 -1
 De 0 0 4 0 0
 $EndTRACK
 $ZONE
