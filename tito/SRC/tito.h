@@ -55,6 +55,10 @@ void startup (void);
 #define SetBit(Byte,Bit)	 (Byte |= (1<<Bit))
 #define	ClearBit(Byte,Bit)	 (Byte &= (~(1<<Bit)))
 #define IsBitSet(Byte,Bit)	 ( (Byte & (1<<Bit)) ? 1 : 0 )
+
+#define SENSOR_IZQUIERDA	IsBitSet(PIN_SENSOR_1, SENSOR_1_NUMBER)
+#define SENSOR_MEDIO		IsBitSet(PIN_SENSOR_2, SENSOR_2_NUMBER)
+#define SENSOR_DERECHA		IsBitSet(PIN_SENSOR_3, SENSOR_3_NUMBER)
 /*
 #define concat(a,b)		a ## b
 #define def_port_reg(name)	concat(PORT,name)
