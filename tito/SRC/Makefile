@@ -8,5 +8,8 @@ tito.hex: tito.c tito.h lib/lib_pwm.c lib/lib_pwm.h
 program: tito.hex
 	sudo avrdude -c usbtiny -p m8 -F -U f:w:tito.hex:i
 
+program_ns: tito.hex
+	avrdude -c usbtiny -p m8 -F -U f:w:tito.hex:i
+
 clean:
 	rm  *.bin *.hex
