@@ -10,64 +10,63 @@
 typedef struct {
     int st;
     int ev;
-    int (*fn)(void *);
+    int st_new;
 } tTransition;
 
 /**
  handlers de eventos
  */
-static int st_en_linea () {
-    printf("st_en_linea \n");
-    return ST_EN_LINEA;
-};
+int manejar_estado(int estado) {
+    #define FACTOR 1 // coeficiente de disminuición de velocidad
+    switch (estado) {
+        case ST_EN_LINEA:
+            printf("ST_EN_LINEA \n");
+            break;
 
-static int st_yendose_poco_por_derecha () {
-    printf("st_yendose_poco_por_derecha \n");
-    return ST_YENDOSE_POCO_POR_DERECHA;
-};
-static int st_yendose_mucho_por_derecha () {
-    printf("st_yendose_mucho_por_derecha \n");
-    return ST_YENDOSE_MUCHO_POR_DERECHA;
-};
-static int st_afuera_por_derecha () {
-    printf("st_afuera_por_derecha \n");
-    return ST_AFUERA_POR_DERECHA;
-};
-static int st_volviendo_por_derecha () {
-    printf("st_volviendo_por_derecha \n");
-    return ST_VOLVIENDO_POR_DERECHA;
-};
-static int st_volvio_por_derecha () {
-    printf("st_volvio_por_derecha \n");
-    return ST_VOLVIO_POR_DERECHA;
-};
 
-static int st_yendose_poco_por_izquierda () {
-    printf("st_yendose_poco_por_izquierda \n");
-    return ST_YENDOSE_POCO_POR_IZQUIERDA;
-};
-static int st_yendose_mucho_por_izquierda () {
-    printf("st_yendose_mucho_por_izquierda \n");
-    return ST_YENDOSE_MUCHO_POR_IZQUIERDA;
-};
-static int st_afuera_por_izquierda () {
-    printf("st_afuera_por_izquierda \n");
-    return ST_AFUERA_POR_IZQUIERDA;
-};
-static int st_volviendo_por_izquierda () {
-    printf("st_volviendo_por_izquierda \n");
-    return ST_VOLVIENDO_POR_IZQUIERDA;
-};
-static int st_volvio_por_izquierda () {
-    printf("st_volvio_por_izquierda \n");
-    return ST_VOLVIO_POR_IZQUIERDA;
-};
+        case ST_YENDOSE_POCO_POR_DERECHA:
+            printf("ST_YENDOSE_POCO_POR_DERECHA \n");
+            break;
 
-static int mantener_estado (int estado_actual) {
-	// esto permite que un estado se llame a sí mismo
-	printf("mantiene estado \n");
-	return estado_actual;
-};
+        case ST_YENDOSE_MUCHO_POR_DERECHA:
+            printf("ST_YENDOSE_MUCHO_POR_DERECHA \n");
+            break;
+
+        case ST_AFUERA_POR_DERECHA:
+            printf("ST_AFUERA_POR_DERECHA \n");
+            break;
+
+        case ST_VOLVIENDO_POR_DERECHA:
+            printf("ST_VOLVIENDO_POR_DERECHA \n");
+            break;
+
+        case ST_VOLVIO_POR_DERECHA:
+            printf("ST_VOLVIO_POR_DERECHA \n");
+            break;
+
+
+        case ST_YENDOSE_POCO_POR_IZQUIERDA:
+            printf("ST_YENDOSE_POCO_POR_IZQUIERDA \n");
+            break;
+
+        case ST_YENDOSE_MUCHO_POR_IZQUIERDA:
+            printf("ST_YENDOSE_MUCHO_POR_IZQUIERDA \n");
+            break;
+
+        case ST_AFUERA_POR_IZQUIERDA:
+            printf("ST_AFUERA_POR_IZQUIERDA \n");
+            break;
+
+        case ST_VOLVIENDO_POR_IZQUIERDA:
+            printf("ST_VOLVIENDO_POR_IZQUIERDA \n");
+            break;
+
+        case ST_VOLVIO_POR_IZQUIERDA:
+            printf("ST_VOLVIO_POR_IZQUIERDA \n");
+            break;
+    }
+    return estado;
+}
 
 /**
  Función principal para la fsm, se encarga de devolver
@@ -76,7 +75,7 @@ static int mantener_estado (int estado_actual) {
  esta función sería la responsable de manejarla.
 */
 int obtener_evento(void) {
-	return obtener_estado_sensores();
+    return obtener_estado_sensores();
 }
 
 /**
@@ -84,85 +83,111 @@ int obtener_evento(void) {
 */
 int main() {
 
-	int i = 0;
+    int i = 0;
 
-	// declaro "state" y "event" en vez de "estado" y "evento"
-	// porque se distinguen más entre sí
-	int state = ST_EN_LINEA;
-	int event = EV_CUALQUIERA;
+    // declaro "state" y "event" en vez de "estado" y "evento"
+    // porque se distinguen más entre sí
+    int state = ST_EN_LINEA;
+    int event = EV_CUALQUIERA;
+    printf("sizeof int: %i \n", sizeof(int));
 
-	// acá se definen las transiciones de la fsm:
-	// esencialmente esto ES la fsm
-	tTransition trans[] = {
-		{ST_EN_LINEA, EV_SENSORES_BNN, &st_yendose_mucho_por_derecha},
-		{ST_EN_LINEA, EV_SENSORES_BBN, &st_yendose_poco_por_derecha},
-		{ST_EN_LINEA, EV_SENSORES_NNB, &st_yendose_mucho_por_izquierda},
-		{ST_EN_LINEA, EV_SENSORES_NBB, &st_yendose_poco_por_izquierda},
-		{ST_EN_LINEA, EV_CUALQUIERA, &st_en_linea},
 
-		{ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_NBN, &st_en_linea},
-		{ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_BNN, &st_yendose_mucho_por_derecha},
-		{ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_BBN, &st_volvio_por_derecha},
-		{ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NNN, &st_afuera_por_derecha},
-		{ST_AFUERA_POR_DERECHA, EV_SENSORES_BNN, &st_volviendo_por_derecha},
-		{ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NBN, &st_en_linea},
-		{ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_BBN, &st_volvio_por_derecha},
-		{ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NNN, &st_afuera_por_derecha},
-		{ST_VOLVIO_POR_DERECHA, EV_SENSORES_NBN, &st_en_linea},
-		{ST_VOLVIO_POR_DERECHA, EV_SENSORES_BNN, &st_yendose_mucho_por_derecha},
+    // acá se definen las transiciones de la fsm:
+    // esencialmente esto ES la fsm
+    tTransition trans[] = {
+        {ST_EN_LINEA, EV_SENSORES_BNN, ST_YENDOSE_MUCHO_POR_DERECHA},
+        {ST_EN_LINEA, EV_SENSORES_BBN, ST_YENDOSE_POCO_POR_DERECHA},
+        {ST_EN_LINEA, EV_SENSORES_NNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
+        {ST_EN_LINEA, EV_SENSORES_NBB, ST_YENDOSE_POCO_POR_IZQUIERDA},
 
-		{ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NBN, &st_en_linea},
-		{ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NNB, &st_yendose_mucho_por_izquierda},
-		{ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NBB, &st_volvio_por_izquierda},
-		{ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNN, &st_afuera_por_izquierda},
-		{ST_AFUERA_POR_IZQUIERDA, EV_SENSORES_NNB, &st_volviendo_por_izquierda},
-		{ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NBN, &st_en_linea},
-		{ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NBB, &st_volvio_por_izquierda},
-		{ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNN, &st_afuera_por_izquierda},
-		{ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NBN, &st_en_linea},
-		{ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NNB, &st_yendose_mucho_por_izquierda},
+        {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_NBN, ST_EN_LINEA},
+        {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_BNN, ST_YENDOSE_MUCHO_POR_DERECHA},
+        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_BBN, ST_VOLVIO_POR_DERECHA},
+        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NNN, ST_AFUERA_POR_DERECHA},
+        {ST_AFUERA_POR_DERECHA, EV_SENSORES_BNN, ST_VOLVIENDO_POR_DERECHA},
+        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NBN, ST_EN_LINEA},
+        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_BBN, ST_VOLVIO_POR_DERECHA},
+        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NNN, ST_AFUERA_POR_DERECHA},
+        {ST_VOLVIO_POR_DERECHA, EV_SENSORES_NBN, ST_EN_LINEA},
+        {ST_VOLVIO_POR_DERECHA, EV_SENSORES_BNN, ST_YENDOSE_MUCHO_POR_DERECHA},
 
-		{ST_CUALQUIERA, EV_CUALQUIERA, (void *)&mantener_estado} // transición default
-	};
-	#define TRANS_COUNT (sizeof(trans)/sizeof(*trans))
+        {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NBN, ST_EN_LINEA},
+        {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
+        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NBB, ST_VOLVIO_POR_IZQUIERDA},
+        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNN, ST_AFUERA_POR_IZQUIERDA},
+        {ST_AFUERA_POR_IZQUIERDA, EV_SENSORES_NNB, ST_VOLVIENDO_POR_IZQUIERDA},
+        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NBN, ST_EN_LINEA},
+        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NBB, ST_VOLVIO_POR_IZQUIERDA},
+        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNN, ST_AFUERA_POR_IZQUIERDA},
+        {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NBN, ST_EN_LINEA},
+        {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
 
-	// Ciclo principal de la fsm:
-	// no debería cambiarse, idealmente
-	while (1) { // si se quiere que la fsm termine, se usa (state != ST_FIN)
-		event = obtener_evento(); // obtiene el evento a procesar
-		/* debug */ if (event != VALOR_INVALIDO) { /* debug */
-		// cicla por todas las transiciones, y busca la que coincida con el
-		// estado y evento actuales
-		for (i = 0; i < TRANS_COUNT; i++) {
-			if ((state == trans[i].st) || (ST_CUALQUIERA == trans[i].st)) {
-				if ((event == trans[i].ev) || (EV_CUALQUIERA == trans[i].ev)) {
-					// llama a la función encargada de manejar el evento,
-					// y devolver el nuevo estado
-					state = (trans[i].fn)((void *) state);
-					break;
-				}
-			}
-		}
-		/* debug */ } /* debug */
-	}
-	return 1;
+        {ST_MAX, EV_CUALQUIERA, ST_MAX} // transición máxima
+    };
+    #define TRANS_COUNT (sizeof(trans)/sizeof(*trans))
+    #define len(array) (sizeof(array)/sizeof(*array))
+
+    int trans_count = 0;
+    printf("trans[0] = %i \n", trans[0].st);
+    printf("ST_MAX = %i \n", ST_MAX);
+    for (i = 0; ; i++) {
+        printf("i = %i \n", i);
+        trans_count = i + 1;
+        if (ST_MAX == trans[i].st) {
+            break;
+        }
+    }
+    printf("trans_count = %i \n", trans_count);
+    printf("len(trans) = %i \n", len(trans));
+
+
+    printf("ST_EN_LINEA \n");
+    // Ciclo principal de la fsm:
+    // no debería cambiarse, idealmente
+    while (1) { // si se quiere que la fsm termine, se usa (state != ST_FIN)
+        event = obtener_evento(); // obtiene el evento a procesar
+        //printf("evento %i \n", event);
+        /* debug */ if (event != VALOR_INVALIDO) { /* debug */
+        // cicla por todas las transiciones, y busca la que coincida con el
+        // estado y evento actuales
+        for (i = 0; i < len(trans); i++) {
+            printf("i = %i, st = %i, ev = %i, st_new = %i \n", i, trans[i].st, trans[i].ev, trans[i].st_new);
+            if ((state == trans[i].st) && (event == trans[i].ev)) {
+                    // llama a la función encargada de
+                    // manejar el estado actual y devolver el nuevo estado
+                    printf("state %i \n", trans[i].st);
+                    printf("event %i \n", trans[i].ev);
+                    printf("state new %i \n", trans[i].st_new);
+                    state = manejar_estado(trans[i].st_new);
+                    printf("state output %i \n", state);
+                    break;
+            }
+        }
+        if (i > 24) {
+            printf("desbordamiento \n");
+        }
+
+        /* debug */ } /* debug */
+    }
+    return 1;
 }
 
 int obtener_estado_sensores(void) {
-	int c = 0;
+    int c = 0;
 
-	// obtengo caracteres del input
-	c = getchar();
+    printf("\ningrese nuevo estado(0-8):");
+    // obtengo caracteres del input
+    c = getchar();
 
-	// si es un número,
-	// entonces devuelvo el número, calculado como
-	// (valor_ascii - valor_ascii_numero_0)
-	// si no, devuelvo -1
-	if (c >= ASCII_0 && c <= ASCII_9) {
-		return c - ASCII_0;
-	} else {
-		return VALOR_INVALIDO;
-	}
+    // si es un número,
+    // entonces devuelvo el número, calculado como
+    // (valor_ascii - valor_ascii_numero_0)
+    // si no, devuelvo -1
+    if (c >= ASCII_0 && c <= ASCII_9) {
+        return c - ASCII_0;
+    } else {
+        return VALOR_INVALIDO;
+    }
 }
 
 
