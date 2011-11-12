@@ -29,8 +29,8 @@ typedef enum estados {
 } estados_t;
 // (los sensores se componen como:
 //  CURVA | S_IZQ | S_CEN | S_DER )
-/*typedef enum eventos {
-    EV_CUALQUIERA = 8,
+typedef enum eventos {
+    EV_CUALQUIERA = 16,
 
     EV_SENSORES_NNNN = 0,
     EV_SENSORES_NNNB = 1,
@@ -48,18 +48,6 @@ typedef enum estados {
     EV_SENSORES_BBNB = 13,
     EV_SENSORES_BBBN = 14,
     EV_SENSORES_BBBB = 15
-} eventos_t;*/
-
-typedef enum eventos {
-    EV_CUALQUIERA = 8,
-    EV_SENSORES_NNN = 0,
-    EV_SENSORES_NNB = 1,
-    EV_SENSORES_NBN = 2,
-    EV_SENSORES_NBB = 3,
-    EV_SENSORES_BNN = 4,
-    EV_SENSORES_BNB = 5,
-    EV_SENSORES_BBN = 6,
-    EV_SENSORES_BBB = 7,
 } eventos_t;
 
 #define PORT_LED_1_NAME      C
@@ -118,7 +106,8 @@ typedef enum eventos {
 
 #define SetBit(Byte,Bit)       (Byte |= (1<<Bit))
 #define ClearBit(Byte,Bit)     (Byte &= (~(1<<Bit)))
-#define IsBitSet(Byte,Bit)     ((Byte>>Bit) & 1)
+#define IsBitSet(Byte,Bit)     ((Byte&(1<<Bit)) ? 0 : 1)
+//#define IsBitSet(Byte,Bit)     ((Byte>>Bit) & 1)
 
 #define SENSOR_IZQUIERDA    IsBitSet(PIN_SENSOR_1, SENSOR_1_NUMBER)
 #define SENSOR_CENTRO        IsBitSet(PIN_SENSOR_2, SENSOR_2_NUMBER)
@@ -132,7 +121,7 @@ typedef enum eventos {
 
 #define len(array) (sizeof(array) / sizeof(*array))
 
-#define ESTADO_SENSORES ((SENSOR_IZQUIERDA << 2) | (SENSOR_CENTRO << 1) | (SENSOR_DERECHA))
+#define ESTADO_SENSORES ((SENSOR_CURVA << 3) | (SENSOR_IZQUIERDA << 2) | (SENSOR_CENTRO << 1) | (SENSOR_DERECHA))
 
 /*
 #define concat(a,b)        a ## b
