@@ -5,7 +5,6 @@
  Prototipos
 */
 void startup (void);
-uint16_t obtener_evento(void);
 
 /**
  estados y eventos para la fsm
@@ -30,7 +29,7 @@ typedef enum estados {
 } estados_t;
 // (los sensores se componen como:
 //  CURVA | S_IZQ | S_CEN | S_DER )
-typedef enum eventos {
+/*typedef enum eventos {
     EV_CUALQUIERA = 8,
 
     EV_SENSORES_NNNN = 0,
@@ -49,6 +48,18 @@ typedef enum eventos {
     EV_SENSORES_BBNB = 13,
     EV_SENSORES_BBBN = 14,
     EV_SENSORES_BBBB = 15
+} eventos_t;*/
+
+typedef enum eventos {
+    EV_CUALQUIERA = 8,
+    EV_SENSORES_NNN = 0,
+    EV_SENSORES_NNB = 1,
+    EV_SENSORES_NBN = 2,
+    EV_SENSORES_NBB = 3,
+    EV_SENSORES_BNN = 4,
+    EV_SENSORES_BNB = 5,
+    EV_SENSORES_BBN = 6,
+    EV_SENSORES_BBB = 7,
 } eventos_t;
 
 #define PORT_LED_1_NAME      C
@@ -105,8 +116,8 @@ typedef enum eventos {
 #define PIN_BOTON         def_pin_reg(PORT_BOTON_NAME)
 #define DDR_BOTON            def_ddr_reg(PORT_BOTON_NAME)
 
-#define SetBit(Byte,Bit)     (Byte |= (1<<Bit))
-#define    ClearBit(Byte,Bit)     (Byte &= (~(1<<Bit)))
+#define SetBit(Byte,Bit)       (Byte |= (1<<Bit))
+#define ClearBit(Byte,Bit)     (Byte &= (~(1<<Bit)))
 #define IsBitSet(Byte,Bit)     ((Byte>>Bit) & 1)
 
 #define SENSOR_IZQUIERDA    IsBitSet(PIN_SENSOR_1, SENSOR_1_NUMBER)
@@ -117,9 +128,11 @@ typedef enum eventos {
 #define BOTON_APRETADO         (!(PINB&(1<<PB0)))
 #define BOTON_NO_APRETADO     (PINB&(1<<PB0))
 
-#define FACTOR 0.8 // coeficiente de disminuición de velocidad
+#define FACTOR 1 // coeficiente de disminuición de velocidad
 
 #define len(array) (sizeof(array) / sizeof(*array))
+
+#define ESTADO_SENSORES ((SENSOR_IZQUIERDA << 2) | (SENSOR_CENTRO << 1) | (SENSOR_DERECHA))
 
 /*
 #define concat(a,b)        a ## b
