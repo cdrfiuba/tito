@@ -38,18 +38,18 @@ int main() {
     //  CURVA | S_IZQ | S_CEN | S_DER )
     static tTransition trans[] PROGMEM = {
         {ST_EN_LINEA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
-        {ST_EN_LINEA, EV_SENSORES_NBNN, ST_YENDOSE_POCO_POR_DERECHA},
+        {ST_EN_LINEA, EV_SENSORES_BBNN, ST_YENDOSE_POCO_POR_DERECHA},
         {ST_EN_LINEA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
-        {ST_EN_LINEA, EV_SENSORES_NNBN, ST_YENDOSE_POCO_POR_IZQUIERDA},
+        {ST_EN_LINEA, EV_SENSORES_NNBB, ST_YENDOSE_POCO_POR_IZQUIERDA},
 
         {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
         {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
         {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NBBN, ST_VOLVIO_POR_DERECHA},
-        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NBNN, ST_VOLVIO_POR_DERECHA},
+        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_BBNN, ST_VOLVIO_POR_DERECHA},
         {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NNNN, ST_AFUERA_POR_DERECHA},
         {ST_AFUERA_POR_DERECHA, EV_SENSORES_BNNN, ST_VOLVIENDO_POR_DERECHA},
         {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NBNN, ST_VOLVIO_POR_DERECHA},
+        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_BBNN, ST_VOLVIO_POR_DERECHA},
         {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NNNN, ST_AFUERA_POR_DERECHA},
         {ST_VOLVIO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
         {ST_VOLVIO_POR_DERECHA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
@@ -57,11 +57,11 @@ int main() {
         {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
         {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
         {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_VOLVIO_POR_IZQUIERDA},
-        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNBN, ST_VOLVIO_POR_IZQUIERDA},
+        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_VOLVIO_POR_IZQUIERDA},
         {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNNN, ST_AFUERA_POR_IZQUIERDA},
         {ST_AFUERA_POR_IZQUIERDA, EV_SENSORES_NNNB, ST_VOLVIENDO_POR_IZQUIERDA},
         {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNBN, ST_VOLVIO_POR_IZQUIERDA},
+        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_VOLVIO_POR_IZQUIERDA},
         {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNNN, ST_AFUERA_POR_IZQUIERDA},
         {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
         {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
@@ -101,7 +101,7 @@ int main() {
     while (1) {
     
         PWM1_VEL(0);
-        PWM2_VEL(0);
+        PWM2_VEL(COEFICIENTE_DERECHA * 0);
 
         // ciclos para esperar a que arranque cuando
         // se suelta el botón
@@ -115,15 +115,21 @@ int main() {
         _delay_ms(5); //rebote botón
 
         // inicialización estado
+        PWM1_VEL(10 * FACTOR);
+        PWM2_VEL(COEFICIENTE_DERECHA * 10 * FACTOR);
+        _delay_ms(80);
+        PWM1_VEL(30 * FACTOR);
+        PWM2_VEL(COEFICIENTE_DERECHA * 30 * FACTOR);
+        _delay_ms(80);
+        PWM1_VEL(70 * FACTOR);
+        PWM2_VEL(COEFICIENTE_DERECHA * 70 * FACTOR);
+        _delay_ms(80);
         PWM1_VEL(100 * FACTOR);
-        PWM2_VEL(100 * FACTOR);
-
+        PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
+        
         // Ciclo de la fsm
         while (BOTON_NO_APRETADO) {// si se quiere que la fsm termine, se usa (state != ST_FIN)
-            while (1) {
-                PWM1_VEL(100);
-                PWM2_VEL(80);
-            }
+        
             event = ESTADO_SENSORES; // obtiene el evento a procesar
             // cicla por todas las transiciones,
             // y busca la que coincida con el estado y evento actuales
@@ -134,80 +140,83 @@ int main() {
                     state = pgm_read_byte_near(&(trans[i].st_new));
                     switch (state) {
                         case ST_EN_LINEA:
-                            PWM1_VEL(100 * FACTOR);
-                            PWM2_VEL(100 * FACTOR);
+                            PWM1_VEL(100 * FACTOR_ADELANTE);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR_ADELANTE);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
 
                         case ST_YENDOSE_POCO_POR_DERECHA:
-                            PWM1_VEL(95 * FACTOR);
-                            PWM2_VEL(100 * FACTOR);
+                            PWM1_VEL(75 * FACTOR);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_YENDOSE_MUCHO_POR_DERECHA:
-                            PWM1_VEL(85 * FACTOR);
-                            PWM2_VEL(100 * FACTOR);
+                            PWM1_VEL(0 * FACTOR);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 80 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_AFUERA_POR_DERECHA:
-                            PWM1_VEL(50 * FACTOR);
-                            PWM2_VEL(100 * FACTOR);
+                            PWM1_VEL(90 * FACTOR);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
                             mot1_sent(AT);
                             mot2_sent(AD);
                             break;
 
+
                         case ST_VOLVIENDO_POR_DERECHA:
-                            PWM1_VEL(100 * FACTOR);
-                            PWM2_VEL(95 * FACTOR);
+                            PWM1_VEL(80 * FACTOR_ADELANTE);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 80 * FACTOR_ADELANTE);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_VOLVIO_POR_DERECHA:
-                            PWM1_VEL(100 * FACTOR);
-                            PWM2_VEL(98 * FACTOR);
+                            PWM1_VEL(90 * FACTOR_ADELANTE);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 90 * FACTOR_ADELANTE);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
 
+
                         case ST_YENDOSE_POCO_POR_IZQUIERDA:
                             PWM1_VEL(100 * FACTOR);
-                            PWM2_VEL(95 * FACTOR);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 75 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_YENDOSE_MUCHO_POR_IZQUIERDA:
-                            PWM1_VEL(100 * FACTOR);
-                            PWM2_VEL(85 * FACTOR);
+                            PWM1_VEL(80 * FACTOR);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 0 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_AFUERA_POR_IZQUIERDA:
                             PWM1_VEL(100 * FACTOR);
-                            PWM2_VEL(50 * FACTOR);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 90 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AT);
                             break;
 
+
                         case ST_VOLVIENDO_POR_IZQUIERDA:
-                            PWM1_VEL(95 * FACTOR);
-                            PWM2_VEL(100 * FACTOR);
+                            PWM1_VEL(80 * FACTOR_ADELANTE);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 80 * FACTOR_ADELANTE);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_VOLVIO_POR_IZQUIERDA:
-                            PWM1_VEL(98 * FACTOR);
-                            PWM2_VEL(100 * FACTOR);
+                            PWM1_VEL(90 * FACTOR_ADELANTE);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 90 * FACTOR_ADELANTE);
                             mot1_sent(AD);
                             mot2_sent(AD);
                     }
@@ -221,14 +230,14 @@ int main() {
             // está fallando el define len_pgm.
             //if (i > 2) {
             //    PWM1_VEL(0);
-            //    PWM2_VEL(0);
+            //    PWM2_VEL(COEFICIENTE_DERECHA * 0);
             //    _delay_ms(2000);
             //}
         }
 
         // fin de tareas, para poder empezar de nuevo
         PWM1_VEL(0);
-        PWM2_VEL(0);
+        PWM2_VEL(COEFICIENTE_DERECHA * 0);
         _delay_ms(50); //rebote botón
 
         while (BOTON_APRETADO);
@@ -272,4 +281,3 @@ void startup (void) {
     mot2_sent(AD);
 
 }
-
