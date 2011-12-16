@@ -117,14 +117,18 @@ typedef enum eventos {
 #define BOTON_APRETADO         (!(PINB&(1<<PB0)))
 #define BOTON_NO_APRETADO     (PINB&(1<<PB0))
 
-#define FACTOR 0.9 // coeficiente de disminuición de velocidad
-#define FACTOR_ADELANTE 0.8 // coeficiente de disminuición de velocidad
+#define FACTOR 1 // coeficiente de disminuición de velocidad
+#define FACTOR_ADELANTE 1 // coeficiente de disminuición de velocidad
+#define FACTOR_VOLVIENDO 1
+#define FACTOR_VOLVIO 1
+
 
 #define len(array) (sizeof(array) / sizeof(*array))
 
 #define ESTADO_SENSORES ((SENSOR_CURVA << 3) | (SENSOR_IZQUIERDA << 2) | (SENSOR_CENTRO << 1) | (SENSOR_DERECHA))
 
-#define COEFICIENTE_DERECHA 0.7
+#define COEFICIENTE_DERECHA 1
+#define COEFICIENTE_IZQUIERDA 1
 
 /*
 #define concat(a,b)        a ## b

@@ -100,6 +100,20 @@ int main() {
     // ciclo principal del programa
     while (1) {
     
+/*	event = ESTADO_SENSORES;
+	PWM1_VEL(100);
+	PWM2_VEL(100);
+	if (event == EV_SENSORES_NNNB){
+          mot1_sent(AD);
+          mot2_sent(AD);
+		
+	}
+	else
+	{
+        mot1_sent(AT);
+        mot2_sent(AT);
+	}
+*/
         PWM1_VEL(0);
         PWM2_VEL(COEFICIENTE_DERECHA * 0);
 
@@ -140,7 +154,7 @@ int main() {
                     state = pgm_read_byte_near(&(trans[i].st_new));
                     switch (state) {
                         case ST_EN_LINEA:
-                            PWM1_VEL(100 * FACTOR_ADELANTE);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR_ADELANTE);
                             PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR_ADELANTE);
                             mot1_sent(AD);
                             mot2_sent(AD);
@@ -148,21 +162,21 @@ int main() {
 
 
                         case ST_YENDOSE_POCO_POR_DERECHA:
-                            PWM1_VEL(75 * FACTOR);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 75 * FACTOR);
                             PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_YENDOSE_MUCHO_POR_DERECHA:
-                            PWM1_VEL(0 * FACTOR);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 80 * FACTOR);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 30 * FACTOR);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_AFUERA_POR_DERECHA:
-                            PWM1_VEL(90 * FACTOR);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 90 * FACTOR);
                             PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
                             mot1_sent(AT);
                             mot2_sent(AD);
@@ -170,15 +184,15 @@ int main() {
 
 
                         case ST_VOLVIENDO_POR_DERECHA:
-                            PWM1_VEL(80 * FACTOR_ADELANTE);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 80 * FACTOR_ADELANTE);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 80 * FACTOR_VOLVIENDO);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 80 * FACTOR_VOLVIENDO);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_VOLVIO_POR_DERECHA:
-                            PWM1_VEL(90 * FACTOR_ADELANTE);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 90 * FACTOR_ADELANTE);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 90 * FACTOR_VOLVIO);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 90 * FACTOR_VOLVIO);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
@@ -186,21 +200,21 @@ int main() {
 
 
                         case ST_YENDOSE_POCO_POR_IZQUIERDA:
-                            PWM1_VEL(100 * FACTOR);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR);
                             PWM2_VEL(COEFICIENTE_DERECHA * 75 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_YENDOSE_MUCHO_POR_IZQUIERDA:
-                            PWM1_VEL(80 * FACTOR);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 0 * FACTOR);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 30 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_AFUERA_POR_IZQUIERDA:
-                            PWM1_VEL(100 * FACTOR);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR);
                             PWM2_VEL(COEFICIENTE_DERECHA * 90 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AT);
@@ -208,15 +222,15 @@ int main() {
 
 
                         case ST_VOLVIENDO_POR_IZQUIERDA:
-                            PWM1_VEL(80 * FACTOR_ADELANTE);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 80 * FACTOR_ADELANTE);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR_VOLVIENDO);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR_VOLVIENDO);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_VOLVIO_POR_IZQUIERDA:
-                            PWM1_VEL(90 * FACTOR_ADELANTE);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 90 * FACTOR_ADELANTE);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR_VOLVIO);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR_VOLVIO);
                             mot1_sent(AD);
                             mot2_sent(AD);
                     }
