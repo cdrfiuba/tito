@@ -162,21 +162,21 @@ int main() {
 
 
                         case ST_YENDOSE_POCO_POR_DERECHA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 75 * FACTOR);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 60 * FACTOR);
                             PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_YENDOSE_MUCHO_POR_DERECHA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 30 * FACTOR);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 35 * FACTOR);
                             PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_AFUERA_POR_DERECHA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 90 * FACTOR);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 30 * FACTOR);
                             PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
                             mot1_sent(AT);
                             mot2_sent(AD);
@@ -184,38 +184,37 @@ int main() {
 
 
                         case ST_VOLVIENDO_POR_DERECHA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 80 * FACTOR_VOLVIENDO);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 80 * FACTOR_VOLVIENDO);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR_VOLVIENDO);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR_VOLVIENDO);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_VOLVIO_POR_DERECHA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 90 * FACTOR_VOLVIO);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 90 * FACTOR_VOLVIO);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR_VOLVIO);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR_VOLVIO);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
 
-
                         case ST_YENDOSE_POCO_POR_IZQUIERDA:
                             PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 75 * FACTOR);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 60 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_YENDOSE_MUCHO_POR_IZQUIERDA:
                             PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 30 * FACTOR);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 20 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
 
                         case ST_AFUERA_POR_IZQUIERDA:
                             PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 90 * FACTOR);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 30 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AT);
                             break;
@@ -233,9 +232,8 @@ int main() {
                             PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR_VOLVIO);
                             mot1_sent(AD);
                             mot2_sent(AD);
+	                    break;
                     }
-                    
-                    break;
                 }
             }
             // Si llega a superar el límite real de transiciones, el for va a
