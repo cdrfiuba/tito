@@ -39,32 +39,51 @@ int main() {
     static tTransition trans[] PROGMEM = {
         {ST_EN_LINEA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
         {ST_EN_LINEA, EV_SENSORES_BBNN, ST_YENDOSE_POCO_POR_DERECHA},
+        {ST_EN_LINEA, EV_SENSORES_NBNN, ST_YENDOSE_POCO_POR_DERECHA},
         {ST_EN_LINEA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
         {ST_EN_LINEA, EV_SENSORES_NNBB, ST_YENDOSE_POCO_POR_IZQUIERDA},
+        {ST_EN_LINEA, EV_SENSORES_NNBN, ST_YENDOSE_POCO_POR_IZQUIERDA},
+
 
         {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
         {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
+
+        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NNNN, ST_AFUERA_POR_DERECHA},
         {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NBBN, ST_VOLVIO_POR_DERECHA},
         {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_BBNN, ST_VOLVIO_POR_DERECHA},
-        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NNNN, ST_AFUERA_POR_DERECHA},
+        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NBNN, ST_VOLVIO_POR_DERECHA},
+
         {ST_AFUERA_POR_DERECHA, EV_SENSORES_BNNN, ST_VOLVIENDO_POR_DERECHA},
+        {ST_AFUERA_POR_DERECHA, EV_SENSORES_BBNN, ST_VOLVIENDO_POR_DERECHA},
+
         {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_BBNN, ST_VOLVIO_POR_DERECHA},
+        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NBNN, ST_VOLVIO_POR_DERECHA},
+        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_BBNN, ST_YENDOSE_POCO_POR_DERECHA},
         {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NNNN, ST_AFUERA_POR_DERECHA},
+
         {ST_VOLVIO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
         {ST_VOLVIO_POR_DERECHA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
 
+
         {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
         {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
+
         {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_VOLVIO_POR_IZQUIERDA},
+        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNBN, ST_VOLVIO_POR_IZQUIERDA},
         {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_VOLVIO_POR_IZQUIERDA},
         {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNNN, ST_AFUERA_POR_IZQUIERDA},
+
         {ST_AFUERA_POR_IZQUIERDA, EV_SENSORES_NNNB, ST_VOLVIENDO_POR_IZQUIERDA},
+        {ST_AFUERA_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_VOLVIENDO_POR_IZQUIERDA},
+
         {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_VOLVIO_POR_IZQUIERDA},
+        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNBN, ST_VOLVIO_POR_IZQUIERDA},
+        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_YENDOSE_POCO_POR_IZQUIERDA},
         {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNNN, ST_AFUERA_POR_IZQUIERDA},
+
         {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
         {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
+
 
         {ST_MAX, EV_CUALQUIERA, ST_MAX}
     };
@@ -86,13 +105,15 @@ int main() {
     };*/
     
     // obtengo el máximo de transiciones, buscando la última
-    uint16_t trans_count = 0;
+/*    uint16_t trans_count = 0;
     for (i = 0; ; i++) {
         trans_count = i;
         if (ST_MAX == pgm_read_byte_near(&(trans[i].st))) {
             break;
         }
     }
+*/
+
 
     // inicialización motores, leds, botón
     startup();
@@ -148,8 +169,8 @@ int main() {
             // cicla por todas las transiciones,
             // y busca la que coincida con el estado y evento actuales
             // si ninguna coincide, mantiene el estado actual
-            for (i = 0; i < trans_count; i++) {
-                if ((state == pgm_read_byte_near(&(trans[i].st))) && (event == pgm_read_byte_near(&(trans[i].ev)))) {
+            for (i = state ; state == pgm_read_byte_near(&(trans[i].st)) ; i++){
+                if (event == pgm_read_byte_near(&(trans[i].ev))){
                     // maneja el estado actual
                     state = pgm_read_byte_near(&(trans[i].st_new));
                     switch (state) {
@@ -169,7 +190,7 @@ int main() {
                             break;
 
                         case ST_YENDOSE_MUCHO_POR_DERECHA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 35 * FACTOR);
+                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 0 * FACTOR);
                             PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AD);
@@ -207,7 +228,7 @@ int main() {
 
                         case ST_YENDOSE_MUCHO_POR_IZQUIERDA:
                             PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 20 * FACTOR);
+                            PWM2_VEL(COEFICIENTE_DERECHA * 0 * FACTOR);
                             mot1_sent(AD);
                             mot2_sent(AD);
                             break;
