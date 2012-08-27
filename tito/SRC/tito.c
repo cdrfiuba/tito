@@ -6,284 +6,11 @@
 #include "lib/lib_pwm.h"
 #include <avr/pgmspace.h>
 
+void (*funciones[MAX_ESTADOS])();
 
-/**
- estructura para transiciones:
- determina el flujo de la fsm, es decir,
- quÈ eventos est·n permitidos para quÈ estados,
- y cu·l es la funciÛn encargada de manejar ese estado.
-*/
-typedef struct {
-    uint16_t st;
-    uint16_t ev;
-    uint16_t st_new;
-} tTransition;
-
-
-/**
- funciÛn principal
-*/
-int main() {
-
-    uint16_t i = 0;
-
-    // declaro "state" y "event" en vez de "estado" y "evento"
-    // porque se distinguen m·s entre sÌ
-    uint16_t state = ST_EN_LINEA;
-    uint16_t event = EV_CUALQUIERA;
-
-    // ac· se definen las transiciones de la fsm:
-    // esencialmente esto ES la fsm
-    // (los sensores se componen como:
-    //  CURVA | S_IZQ | S_CEN | S_DER )
-    static tTransition trans[] PROGMEM = {
-        {ST_EN_LINEA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
-        {ST_EN_LINEA, EV_SENSORES_BBNN, ST_YENDOSE_POCO_POR_DERECHA},
-        {ST_EN_LINEA, EV_SENSORES_NBNN, ST_YENDOSE_POCO_POR_DERECHA},
-        {ST_EN_LINEA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
-        {ST_EN_LINEA, EV_SENSORES_NNBB, ST_YENDOSE_POCO_POR_IZQUIERDA},
-        {ST_EN_LINEA, EV_SENSORES_NNBN, ST_YENDOSE_POCO_POR_IZQUIERDA},
-
-
-        {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
-
-        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NNNN, ST_AFUERA_POR_DERECHA},
-        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NBBN, ST_VOLVIO_POR_DERECHA},
-        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_BBNN, ST_VOLVIO_POR_DERECHA},
-        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NBNN, ST_VOLVIO_POR_DERECHA},
-
-        {ST_AFUERA_POR_DERECHA, EV_SENSORES_BNNN, ST_VOLVIENDO_POR_DERECHA},
-        {ST_AFUERA_POR_DERECHA, EV_SENSORES_BBNN, ST_VOLVIENDO_POR_DERECHA},
-
-        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NBNN, ST_VOLVIO_POR_DERECHA},
-        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_BBNN, ST_YENDOSE_POCO_POR_DERECHA},
-        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NNNN, ST_AFUERA_POR_DERECHA},
-
-        {ST_VOLVIO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_VOLVIO_POR_DERECHA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
-
-
-        {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
-
-        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_VOLVIO_POR_IZQUIERDA},
-        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNBN, ST_VOLVIO_POR_IZQUIERDA},
-        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_VOLVIO_POR_IZQUIERDA},
-        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNNN, ST_AFUERA_POR_IZQUIERDA},
-
-        {ST_AFUERA_POR_IZQUIERDA, EV_SENSORES_NNNB, ST_VOLVIENDO_POR_IZQUIERDA},
-        {ST_AFUERA_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_VOLVIENDO_POR_IZQUIERDA},
-
-        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNBN, ST_VOLVIO_POR_IZQUIERDA},
-        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_YENDOSE_POCO_POR_IZQUIERDA},
-        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNNN, ST_AFUERA_POR_IZQUIERDA},
-
-        {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
-
-
-        {ST_MAX, EV_CUALQUIERA, ST_MAX}
-    };
-/*    static tTransition trans[] PROGMEM = {
-        {ST_EN_LINEA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
-        {ST_EN_LINEA, EV_SENSORES_NBNN, ST_YENDOSE_POCO_POR_DERECHA},
-        {ST_EN_LINEA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
-        {ST_EN_LINEA, EV_SENSORES_NNBN, ST_YENDOSE_POCO_POR_IZQUIERDA},
-
-        {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
-        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
-
-        {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
-        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
-
-        {ST_MAX, EV_CUALQUIERA, ST_MAX}
-    };*/
-    
-    // obtengo el m·ximo de transiciones, buscando la ˙ltima
-/*    uint16_t trans_count = 0;
-    for (i = 0; ; i++) {
-        trans_count = i;
-        if (ST_MAX == pgm_read_byte_near(&(trans[i].st))) {
-            break;
-        }
-    }
-*/
-
-
-    // inicializaciÛn motores, leds, botÛn
-    startup();
-
-    // ciclo principal del programa
-    while (1) {
-    
-/*	event = ESTADO_SENSORES;
-	PWM1_VEL(100);
-	PWM2_VEL(100);
-	if (event == EV_SENSORES_NNNB){
-          mot1_sent(AD);
-          mot2_sent(AD);
-		
-	}
-	else
-	{
-        mot1_sent(AT);
-        mot2_sent(AT);
-	}
-*/
-        PWM1_VEL(0);
-        PWM2_VEL(COEFICIENTE_DERECHA * 0);
-
-        // ciclos para esperar a que arranque cuando
-        // se suelta el botÛn
-        while (BOTON_NO_APRETADO);
-        _delay_ms(50); //rebote botÛn
-        mot1_sent(AD);
-        mot2_sent(AD);
-        state = ST_EN_LINEA;
-
-        while (BOTON_APRETADO);
-        _delay_ms(5); //rebote botÛn
-
-        // inicializaciÛn estado
-        PWM1_VEL(10 * FACTOR);
-        PWM2_VEL(COEFICIENTE_DERECHA * 10 * FACTOR);
-        _delay_ms(80);
-        PWM1_VEL(30 * FACTOR);
-        PWM2_VEL(COEFICIENTE_DERECHA * 30 * FACTOR);
-        _delay_ms(80);
-        PWM1_VEL(70 * FACTOR);
-        PWM2_VEL(COEFICIENTE_DERECHA * 70 * FACTOR);
-        _delay_ms(80);
-        PWM1_VEL(100 * FACTOR);
-        PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
-        
-        // Ciclo de la fsm
-        while (BOTON_NO_APRETADO) {// si se quiere que la fsm termine, se usa (state != ST_FIN)
-        
-            event = ESTADO_SENSORES; // obtiene el evento a procesar
-            // cicla por todas las transiciones,
-            // y busca la que coincida con el estado y evento actuales
-            // si ninguna coincide, mantiene el estado actual
-            for (i = state ; state == pgm_read_byte_near(&(trans[i].st)) ; i++){
-                if (event == pgm_read_byte_near(&(trans[i].ev))){
-                    // maneja el estado actual
-                    state = pgm_read_byte_near(&(trans[i].st_new));
-                    switch (state) {
-                        case ST_EN_LINEA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR_ADELANTE);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR_ADELANTE);
-                            mot1_sent(AD);
-                            mot2_sent(AD);
-                            break;
-
-
-                        case ST_YENDOSE_POCO_POR_DERECHA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 60 * FACTOR);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
-                            mot1_sent(AD);
-                            mot2_sent(AD);
-                            break;
-
-                        case ST_YENDOSE_MUCHO_POR_DERECHA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 0 * FACTOR);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
-                            mot1_sent(AD);
-                            mot2_sent(AD);
-                            break;
-
-                        case ST_AFUERA_POR_DERECHA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 30 * FACTOR);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
-                            mot1_sent(AT);
-                            mot2_sent(AD);
-                            break;
-
-
-                        case ST_VOLVIENDO_POR_DERECHA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR_VOLVIENDO);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR_VOLVIENDO);
-                            mot1_sent(AD);
-                            mot2_sent(AD);
-                            break;
-
-                        case ST_VOLVIO_POR_DERECHA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR_VOLVIO);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR_VOLVIO);
-                            mot1_sent(AD);
-                            mot2_sent(AD);
-                            break;
-
-
-                        case ST_YENDOSE_POCO_POR_IZQUIERDA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 60 * FACTOR);
-                            mot1_sent(AD);
-                            mot2_sent(AD);
-                            break;
-
-                        case ST_YENDOSE_MUCHO_POR_IZQUIERDA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 0 * FACTOR);
-                            mot1_sent(AD);
-                            mot2_sent(AD);
-                            break;
-
-                        case ST_AFUERA_POR_IZQUIERDA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 30 * FACTOR);
-                            mot1_sent(AD);
-                            mot2_sent(AT);
-                            break;
-
-
-                        case ST_VOLVIENDO_POR_IZQUIERDA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR_VOLVIENDO);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR_VOLVIENDO);
-                            mot1_sent(AD);
-                            mot2_sent(AD);
-                            break;
-
-                        case ST_VOLVIO_POR_IZQUIERDA:
-                            PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR_VOLVIO);
-                            PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR_VOLVIO);
-                            mot1_sent(AD);
-                            mot2_sent(AD);
-	                    break;
-                    }
-                }
-            }
-            // Si llega a superar el lÌmite real de transiciones, el for va a
-            // leer cualquier cosa, y pueden pasar cosas raras.
-            // Esto deberÌa al menos dar un indicio de que pasÛ algo malo, y que
-            // est· fallando el define len_pgm.
-            //if (i > 2) {
-            //    PWM1_VEL(0);
-            //    PWM2_VEL(COEFICIENTE_DERECHA * 0);
-            //    _delay_ms(2000);
-            //}
-        }
-
-        // fin de tareas, para poder empezar de nuevo
-        PWM1_VEL(0);
-        PWM2_VEL(COEFICIENTE_DERECHA * 0);
-        _delay_ms(50); //rebote botÛn
-
-        while (BOTON_APRETADO);
-        _delay_ms(50); //rebote botÛn
-
-    }
-
-    return 1;
-}
-
-void startup (void) {
+void startup () {
 // setear puertos de lectura o escritura,
-// seg˙n corresponda
+// seg√∫n corresponda
 
     // leds
     SetBit (DDR_LED_1, LED_1_NUMBER);
@@ -297,7 +24,7 @@ void startup (void) {
     ClearBit (DDR_SENSOR_3, SENSOR_3_NUMBER);
     ClearBit (DDR_SENSOR_CURVA, SENSOR_CURVA_NUMBER);
 
-    // botÛn
+    // bot√≥n
     ClearBit (DDR_BOTON, BOTON_NUMBER);
     SetBit (PORT_BOTON, BOTON_NUMBER);
 
@@ -309,8 +36,201 @@ void startup (void) {
     // pone el flag global para activar interrupciones
     sei();
 
-    // establezco la direcciÛn de los motores
+    // establezco la direcci√≥n de los motores
     mot1_sent(AD);
     mot2_sent(AD);
 
+}
+
+/*Tabla de Posibles transiciones*/
+ 
+static const uint_8 transiciones[MAX_ESTADOS][MAX_SENSORES] PROGMEM = {
+
+                              /*NNNN NNNB NNBN NNBB NBNN NBNB NBBN NBBB BNNN BNNB BNBN BNBB BBNN BBNB BBBN BBBB*/
+/* En Linea*/                   { ME,YMPI,}, 
+
+/* Yendose Poco por Derecha*/   {, }, 
+ /* Yendose Mucho por Derecha*/ {ST_YENDOSE_MUCHO_POR_DERECHA, },
+/* Afuera por Derecha*/         {ST_AFUERA_POR_DERECHA, }, 
+/* Volviendo por Derecha*/      {ST_VOLVIENDO_POR_DERECHA, }, 
+/* Volvio por Derecha*/         {ST_VOLVIO_POR_DERECHA, }, 
+
+/* Yendose Poco por Izquierda*/ {ST_YENDOSE_POCO_POR_IZQUIERDA, },
+/* Yendose Mucho por Izquierda*/{ST_YENDOSE_MUCHO_POR_IZQUIERDA, }, 
+/* Afuera por Izquierda*/       {ST_AFUERA_POR_IZQUIERDA, }, 
+/* Volviendo por Izquierda*/    {ST_VOLVIENDO_POR_IZQUIERDA, }, 
+/* Volvio por Izquierda*/       {ST_VOLVIO_POR_IZQUIERDA, }  
+};
+
+EL=0,
+YPPD=1,
+YMPD=2,
+APD=3,
+VEPD=4,
+VOPD=5,
+YPPI=6,
+YMPI=7,
+API=8,
+VEPI=9,
+VOPI=10,
+ME=11
+
+ 
+ST_EN_LINEA = 0,
+
+ST_YENDOSE_POCO_POR_DERECHA = 1,
+ST_YENDOSE_MUCHO_POR_DERECHA = 2,
+ST_AFUERA_POR_DERECHA = 3,
+ST_VOLVIENDO_POR_DERECHA = 4,
+ST_VOLVIO_POR_DERECHA = 5,
+
+ST_YENDOSE_POCO_POR_IZQUIERDA = 6,
+ST_YENDOSE_MUCHO_POR_IZQUIERDA = 7,
+ST_AFUERA_POR_IZQUIERDA = 8,
+ST_VOLVIENDO_POR_IZQUIERDA = 9,
+ST_VOLVIO_POR_IZQUIERDA = 10
+
+void st_en_linea () {
+    PWM1_VEL(100);
+    PWM2_VEL(100);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+
+void st_yendose_poco_por_derecha () {
+    PWM1_VEL(60);
+    PWM2_VEL(100);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+void st_yendose_mucho_por_derecha () {
+    PWM1_VEL(0);
+    PWM2_VEL(100);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+void st_afuera_por_derecha () {
+    PWM1_VEL(30);
+    PWM2_VEL(100);
+    mot1_sent(AT);
+    mot2_sent(AD);
+};
+void st_volviendo_por_derecha () {
+    PWM1_VEL(100);
+    PWM2_VEL(100);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+void st_volvio_por_derecha () {
+    PWM1_VEL(100);
+    PWM2_VEL(100);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+
+void st_yendose_poco_por_izquierda () {
+    PWM1_VEL(100);
+    PWM2_VEL(60);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+void st_yendose_mucho_por_izquierda () {
+    PWM1_VEL(100);
+    PWM2_VEL(0);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+void st_afuera_por_izquierda () {
+    PWM1_VEL(100);
+    PWM2_VEL(30);
+    mot1_sent(AD);
+    mot2_sent(AT);
+};
+void st_volviendo_por_izquierda () {
+    PWM1_VEL(100);
+    PWM2_VEL(100);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+void st_volvio_por_izquierda () {
+    PWM1_VEL(100);
+    PWM2_VEL(100);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+
+/**
+ funci√≥n principal
+*/
+int main() {
+    uint_8 estado_actual;
+    uint_8 nuevo_estado;
+    uint_8 estado_sensores;
+    
+    startup();
+    
+    funciones[ST_EN_LINEA] = st_en_linea;
+    
+    funciones[ST_YENDOSE_POCO_POR_DERECHA] = st_yendose_poco_por_derecha;
+    funciones[ST_YENDOSE_MUCHO_POR_DERECHA] = st_yendose_mucho_por_derecha;
+    funciones[ST_AFUERA_POR_DERECHA] = st_afuera_por_derecha;
+    funciones[ST_VOLVIENDO_POR_DERECHA] = st_volviendo_por_derecha;
+    funciones[ST_VOLVIO_POR_DERECHA] = st_volvio_por_derecha;
+
+    funciones[ST_YENDOSE_POCO_POR_IZQUIERDA] = st_yendose_poco_por_izquierda;
+    funciones[ST_YENDOSE_MUCHO_POR_IZQUIERDA] = st_yendose_mucho_por_izquierda;
+    funciones[ST_AFUERA_POR_IZQUIERDA] = st_afuera_por_izquierda;
+    funciones[ST_VOLVIENDO_POR_IZQUIERDA] = st_volviendo_por_izquierda;
+    funciones[ST_VOLVIO_POR_IZQUIERDA] = st_volvio_por_izquierda;
+    
+    estado_actual = ST_EN_LINEA;
+    (*funciones[estado_actual])();
+    
+    while (1) {
+        PWM1_VEL(0);
+        PWM2_VEL(COEFICIENTE_DERECHA * 0);
+
+        // ciclos para esperar a que arranque cuando
+        // se suelta el bot√≥n
+        while (BOTON_NO_APRETADO);
+        _delay_ms(50); //rebote bot√≥n
+        estado_actual = ST_EN_LINEA;
+        (*funciones[estado_actual])();
+        
+
+        while (BOTON_APRETADO);
+        _delay_ms(5); //rebote bot√≥n
+
+        // inicializaci√≥n estado
+        PWM1_VEL(10 * FACTOR);
+        PWM2_VEL(COEFICIENTE_DERECHA * 10 * FACTOR);
+        _delay_ms(80);
+        PWM1_VEL(30 * FACTOR);
+        PWM2_VEL(COEFICIENTE_DERECHA * 30 * FACTOR);
+        _delay_ms(80);
+        PWM1_VEL(70 * FACTOR);
+        PWM2_VEL(COEFICIENTE_DERECHA * 70 * FACTOR);
+        _delay_ms(80);
+        PWM1_VEL(100 * FACTOR);
+        PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
+        
+        while (BOTON_NO_APRETADO) {
+            estado_sensores = ESTADO_SENSORES; // obtiene el evento a procesar
+            if ((nuevo_estado = pgm_read_byte_near(&(transiciones[estado_actual][estado_sensores]))) != MAX_ESTADOS) {
+                estado_actual = nuevo_estado;
+                (*funciones[estado_actual])();
+            } else {
+                continue;
+            }
+        }
+
+        // fin de tareas, para poder empezar de nuevo
+        PWM1_VEL(0);
+        PWM2_VEL(COEFICIENTE_DERECHA * 0);
+        _delay_ms(50); //rebote bot√≥n
+
+        while (BOTON_APRETADO);
+        _delay_ms(50); //rebote bot√≥n
+        
+    }
 }
