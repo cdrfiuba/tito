@@ -75,13 +75,13 @@ void st_yendose_poco_por_derecha () {
     mot2_sent(AD);
 };
 void st_yendose_mucho_por_derecha () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 0);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 30);
     PWM2_VEL(COEFICIENTE_DERECHA * 100);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_afuera_por_derecha () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 30);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 0);
     PWM2_VEL(COEFICIENTE_DERECHA  * 100);
     mot1_sent(AT);
     mot2_sent(AD);
@@ -107,13 +107,13 @@ void st_yendose_poco_por_izquierda () {
 };
 void st_yendose_mucho_por_izquierda () {
     PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-    PWM2_VEL(COEFICIENTE_DERECHA   *   0);
+    PWM2_VEL(COEFICIENTE_DERECHA   *   40);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_afuera_por_izquierda () {
     PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-    PWM2_VEL(COEFICIENTE_DERECHA   *  30);
+    PWM2_VEL(COEFICIENTE_DERECHA   *  0);
     mot1_sent(AD);
     mot2_sent(AT);
 };
@@ -172,17 +172,6 @@ int main() {
 
 
         // inicialización estado
-        PWM1_VEL(COEFICIENTE_IZQUIERDA * 10 * FACTOR);
-        PWM2_VEL(COEFICIENTE_DERECHA * 10 * FACTOR);
-        _delay_ms(80);
-        PWM1_VEL(COEFICIENTE_IZQUIERDA * 30 * FACTOR);
-        PWM2_VEL(COEFICIENTE_DERECHA * 30 * FACTOR);
-        _delay_ms(80);
-        PWM1_VEL(COEFICIENTE_IZQUIERDA * 70 * FACTOR);
-        PWM2_VEL(COEFICIENTE_DERECHA * 70 * FACTOR);
-        _delay_ms(80);
-        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR);
-        PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
         estado_actual = ST_EN_LINEA;
         (*funciones[estado_actual])();
         
