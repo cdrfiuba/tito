@@ -6,7 +6,7 @@
 #include "lib/lib_pwm.h"
 #include <avr/pgmspace.h>
 
-void (*funciones[MAX_ESTADOS])();
+void (*funciones[ST_MAX_ESTADOS])();
 
 void startup () {
 // setear puertos de lectura o escritura,
@@ -43,52 +43,23 @@ void startup () {
 }
 
 /*Tabla de Posibles transiciones*/
- 
-static const uint_8 transiciones[MAX_ESTADOS][MAX_SENSORES] PROGMEM = {
-
+static const int transiciones[ST_MAX_ESTADOS][EV_MAX_SENSORES] PROGMEM = {
                               /*NNNN NNNB NNBN NNBB NBNN NBNB NBBN NBBB BNNN BNNB BNBN BNBB BBNN BBNB BBBN BBBB*/
-/* En Linea*/                   { ME,YMPI,}, 
+/* En Linea*/                   { ME,YMPI,YPPI,YMPI,YPPD,  ME,  ME,  ME,YMPD,  ME,  ME,  ME,YMPD,  ME,  ME,  ME}, 
 
-/* Yendose Poco por Derecha*/   {, }, 
- /* Yendose Mucho por Derecha*/ {ST_YENDOSE_MUCHO_POR_DERECHA, },
-/* Afuera por Derecha*/         {ST_AFUERA_POR_DERECHA, }, 
-/* Volviendo por Derecha*/      {ST_VOLVIENDO_POR_DERECHA, }, 
-/* Volvio por Derecha*/         {ST_VOLVIO_POR_DERECHA, }, 
+/* Yendose Poco por Derecha*/   {APD,  ME,  EL,  ME,  ME,  ME,  EL,  ME,YMPD,  ME,  ME,  ME,YMPD,  ME,  ME,  ME}, 
+/* Yendose Mucho por Derecha*/  {APD,VOPD,VOPD,VOPD,  EL,  ME,VOPD,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME},
+/* Afuera por Derecha*/         { ME,  ME,  ME,  ME,VEPD,  ME,  ME,  ME,VEPD,  ME,  ME,  ME,VEPD,  ME,  ME,  ME}, 
+/* Volviendo por Derecha*/      { ME,  ME,VOPD,  ME,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
+/* Volvio por Derecha*/         { ME,  ME,  EL,  ME,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,YPPD,  ME,  ME,  ME}, 
 
-/* Yendose Poco por Izquierda*/ {ST_YENDOSE_POCO_POR_IZQUIERDA, },
-/* Yendose Mucho por Izquierda*/{ST_YENDOSE_MUCHO_POR_IZQUIERDA, }, 
-/* Afuera por Izquierda*/       {ST_AFUERA_POR_IZQUIERDA, }, 
-/* Volviendo por Izquierda*/    {ST_VOLVIENDO_POR_IZQUIERDA, }, 
-/* Volvio por Izquierda*/       {ST_VOLVIO_POR_IZQUIERDA, }  
+/* Yendose Poco por Izquierda*/ {API,YMPI,  ME,YMPI,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME},
+/* Yendose Mucho por Izquierda*/{API,  ME,  EL,  ME,VOPI,  ME,VOPI,  ME,VOPI,  ME,  ME,  ME,VOPI,  ME,  ME,  ME}, 
+/* Afuera por Izquierda*/       { ME,VEPI,VEPI,VEPI,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
+/* Volviendo por Izquierda*/    { ME,  ME,  EL,  ME,VOPI,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
+/* Volvio por Izquierda*/       { ME,  ME,  EL,YPPI,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}  
 };
 
-EL=0,
-YPPD=1,
-YMPD=2,
-APD=3,
-VEPD=4,
-VOPD=5,
-YPPI=6,
-YMPI=7,
-API=8,
-VEPI=9,
-VOPI=10,
-ME=11
-
- 
-ST_EN_LINEA = 0,
-
-ST_YENDOSE_POCO_POR_DERECHA = 1,
-ST_YENDOSE_MUCHO_POR_DERECHA = 2,
-ST_AFUERA_POR_DERECHA = 3,
-ST_VOLVIENDO_POR_DERECHA = 4,
-ST_VOLVIO_POR_DERECHA = 5,
-
-ST_YENDOSE_POCO_POR_IZQUIERDA = 6,
-ST_YENDOSE_MUCHO_POR_IZQUIERDA = 7,
-ST_AFUERA_POR_IZQUIERDA = 8,
-ST_VOLVIENDO_POR_IZQUIERDA = 9,
-ST_VOLVIO_POR_IZQUIERDA = 10
 
 void st_en_linea () {
     PWM1_VEL(100);
@@ -163,9 +134,9 @@ void st_volvio_por_izquierda () {
  función principal
 */
 int main() {
-    uint_8 estado_actual;
-    uint_8 nuevo_estado;
-    uint_8 estado_sensores;
+    int estado_actual;
+    int nuevo_estado;
+    int estado_sensores;
     
     startup();
     
@@ -188,7 +159,7 @@ int main() {
     
     while (1) {
         PWM1_VEL(0);
-        PWM2_VEL(COEFICIENTE_DERECHA * 0);
+        PWM2_VEL(0);
 
         // ciclos para esperar a que arranque cuando
         // se suelta el botón
@@ -202,21 +173,21 @@ int main() {
         _delay_ms(5); //rebote botón
 
         // inicialización estado
-        PWM1_VEL(10 * FACTOR);
+        PWM1_VEL(COEFICIENTE_IZQUIERDA * 10 * FACTOR);
         PWM2_VEL(COEFICIENTE_DERECHA * 10 * FACTOR);
         _delay_ms(80);
-        PWM1_VEL(30 * FACTOR);
+        PWM1_VEL(COEFICIENTE_IZQUIERDA * 30 * FACTOR);
         PWM2_VEL(COEFICIENTE_DERECHA * 30 * FACTOR);
         _delay_ms(80);
-        PWM1_VEL(70 * FACTOR);
+        PWM1_VEL(COEFICIENTE_IZQUIERDA * 70 * FACTOR);
         PWM2_VEL(COEFICIENTE_DERECHA * 70 * FACTOR);
         _delay_ms(80);
-        PWM1_VEL(100 * FACTOR);
+        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR);
         PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
         
         while (BOTON_NO_APRETADO) {
             estado_sensores = ESTADO_SENSORES; // obtiene el evento a procesar
-            if ((nuevo_estado = pgm_read_byte_near(&(transiciones[estado_actual][estado_sensores]))) != MAX_ESTADOS) {
+            if ((nuevo_estado = pgm_read_byte_near(&(transiciones[estado_actual][estado_sensores]))) != ST_MAX_ESTADOS) {
                 estado_actual = nuevo_estado;
                 (*funciones[estado_actual])();
             } else {
@@ -226,7 +197,7 @@ int main() {
 
         // fin de tareas, para poder empezar de nuevo
         PWM1_VEL(0);
-        PWM2_VEL(COEFICIENTE_DERECHA * 0);
+        PWM2_VEL(0);
         _delay_ms(50); //rebote botón
 
         while (BOTON_APRETADO);

@@ -23,9 +23,28 @@ typedef enum estados {
     ST_YENDOSE_MUCHO_POR_IZQUIERDA = 7,
     ST_AFUERA_POR_IZQUIERDA = 8,
     ST_VOLVIENDO_POR_IZQUIERDA = 9,
-    ST_VOLVIO_POR_IZQUIERDA = 10
+    ST_VOLVIO_POR_IZQUIERDA = 10,
+    
+    ST_MAX_ESTADOS = 11
 
 } estados_t;
+typedef enum estados_resumidos {
+    EL=0,
+
+    YPPD=1,
+    YMPD=2,
+    APD=3,
+    VEPD=4,
+    VOPD=5,
+
+    YPPI=6,
+    YMPI=7,
+    API=8,
+    VEPI=9,
+    VOPI=10,
+
+    ME=11
+} estados_resumidos_t;
 // (los sensores se componen como:
 //  CURVA | S_IZQ | S_CEN | S_DER )
 typedef enum eventos {
@@ -46,7 +65,8 @@ typedef enum eventos {
     EV_SENSORES_BBNN = 12,
     EV_SENSORES_BBNB = 13,
     EV_SENSORES_BBBN = 14,
-    EV_SENSORES_BBBB = 15
+    EV_SENSORES_BBBB = 15,
+    EV_MAX_SENSORES = 16
 } eventos_t;
 
 #define PORT_LED_1_NAME      C
@@ -117,12 +137,6 @@ typedef enum eventos {
 #define BOTON_NO_APRETADO     (PINB&(1<<PB0))
 
 #define FACTOR 1 // coeficiente de disminuición de velocidad
-#define FACTOR_ADELANTE 1 // coeficiente de disminuición de velocidad
-#define FACTOR_VOLVIENDO 1
-#define FACTOR_VOLVIO 1
-
-
-#define len(array) (sizeof(array) / sizeof(*array))
 
 #define ESTADO_SENSORES ((SENSOR_CURVA << 3) | (SENSOR_IZQUIERDA << 2) | (SENSOR_CENTRO << 1) | (SENSOR_DERECHA))
 
