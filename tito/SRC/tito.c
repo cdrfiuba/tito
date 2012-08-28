@@ -50,82 +50,82 @@ static const int transiciones[ST_MAX_ESTADOS][EV_MAX_SENSORES] PROGMEM = {
 /* Yendose Poco por Derecha*/   {APD,  ME,  EL,  ME,  ME,  ME,  EL,  ME,YMPD,  ME,  ME,  ME,YMPD,  ME,  ME,  ME}, 
 /* Yendose Mucho por Derecha*/  {APD,VOPD,VOPD,VOPD,  EL,  ME,VOPD,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME},
 /* Afuera por Derecha*/         { ME,  ME,  ME,  ME,VEPD,  ME,  ME,  ME,VEPD,  ME,  ME,  ME,VEPD,  ME,  ME,  ME}, 
-/* Volviendo por Derecha*/      { ME,  ME,VOPD,  ME,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
+/* Volviendo por Derecha*/      {APD,  ME,VOPD,  ME,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
 /* Volvio por Derecha*/         { ME,  ME,  EL,  ME,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,YPPD,  ME,  ME,  ME}, 
 
 /* Yendose Poco por Izquierda*/ {API,YMPI,  ME,YMPI,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME},
 /* Yendose Mucho por Izquierda*/{API,  ME,  EL,  ME,VOPI,  ME,VOPI,  ME,VOPI,  ME,  ME,  ME,VOPI,  ME,  ME,  ME}, 
 /* Afuera por Izquierda*/       { ME,VEPI,VEPI,VEPI,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
-/* Volviendo por Izquierda*/    { ME,  ME,  EL,  ME,VOPI,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
+/* Volviendo por Izquierda*/    {API,  ME,  EL,  ME,VOPI,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
 /* Volvio por Izquierda*/       { ME,  ME,  EL,YPPI,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}  
 };
 
 
 void st_en_linea () {
-    PWM1_VEL(100);
-    PWM2_VEL(100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 
 void st_yendose_poco_por_derecha () {
-    PWM1_VEL(60);
-    PWM2_VEL(100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 60);
+    PWM2_VEL(COEFICIENTE_DERECHA  * 100);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_yendose_mucho_por_derecha () {
-    PWM1_VEL(0);
-    PWM2_VEL(100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 0);
+    PWM2_VEL(COEFICIENTE_DERECHA * 100);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_afuera_por_derecha () {
-    PWM1_VEL(30);
-    PWM2_VEL(100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 30);
+    PWM2_VEL(COEFICIENTE_DERECHA  * 100);
     mot1_sent(AT);
     mot2_sent(AD);
 };
 void st_volviendo_por_derecha () {
-    PWM1_VEL(100);
-    PWM2_VEL(100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 40);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_volvio_por_derecha () {
-    PWM1_VEL(100);
-    PWM2_VEL(100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_DERECHA   *  80);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 
 void st_yendose_poco_por_izquierda () {
-    PWM1_VEL(100);
-    PWM2_VEL(60);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_DERECHA   *  60);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_yendose_mucho_por_izquierda () {
-    PWM1_VEL(100);
-    PWM2_VEL(0);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_DERECHA   *   0);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_afuera_por_izquierda () {
-    PWM1_VEL(100);
-    PWM2_VEL(30);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_DERECHA   *  30);
     mot1_sent(AD);
     mot2_sent(AT);
 };
 void st_volviendo_por_izquierda () {
-    PWM1_VEL(100);
-    PWM2_VEL(100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 40);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_volvio_por_izquierda () {
-    PWM1_VEL(100);
-    PWM2_VEL(100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  80);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AD);
     mot2_sent(AD);
 };
@@ -165,12 +165,11 @@ int main() {
         // se suelta el botón
         while (BOTON_NO_APRETADO);
         _delay_ms(50); //rebote botón
-        estado_actual = ST_EN_LINEA;
-        (*funciones[estado_actual])();
         
 
         while (BOTON_APRETADO);
         _delay_ms(5); //rebote botón
+
 
         // inicialización estado
         PWM1_VEL(COEFICIENTE_IZQUIERDA * 10 * FACTOR);
@@ -184,6 +183,9 @@ int main() {
         _delay_ms(80);
         PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * FACTOR);
         PWM2_VEL(COEFICIENTE_DERECHA * 100 * FACTOR);
+        estado_actual = ST_EN_LINEA;
+        (*funciones[estado_actual])();
+        
         
         while (BOTON_NO_APRETADO) {
             estado_sensores = ESTADO_SENSORES; // obtiene el evento a procesar
