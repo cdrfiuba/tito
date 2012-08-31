@@ -69,25 +69,25 @@ void st_en_linea () {
 };
 
 void st_yendose_poco_por_derecha () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 60);
-    PWM2_VEL(COEFICIENTE_DERECHA  * 100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_DERECHA  *   80);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_yendose_mucho_por_derecha () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 30);
-    PWM2_VEL(COEFICIENTE_DERECHA * 100);
-    mot1_sent(AD);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  20);
+    PWM2_VEL(COEFICIENTE_DERECHA *   100);
+    mot1_sent(AT);
     mot2_sent(AD);
 };
 void st_afuera_por_derecha () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 0);
-    PWM2_VEL(COEFICIENTE_DERECHA  * 100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  35);
+    PWM2_VEL(COEFICIENTE_DERECHA  *  100);
     mot1_sent(AT);
     mot2_sent(AD);
 };
 void st_volviendo_por_derecha () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 40);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  40);
     PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AD);
     mot2_sent(AD);
@@ -100,26 +100,26 @@ void st_volvio_por_derecha () {
 };
 
 void st_yendose_poco_por_izquierda () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-    PWM2_VEL(COEFICIENTE_DERECHA   *  60);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  80);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_yendose_mucho_por_izquierda () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-    PWM2_VEL(COEFICIENTE_DERECHA   *   40);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  80);
+    PWM2_VEL(COEFICIENTE_DERECHA   *  50);
     mot1_sent(AD);
-    mot2_sent(AD);
+    mot2_sent(AT);
 };
 void st_afuera_por_izquierda () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-    PWM2_VEL(COEFICIENTE_DERECHA   *  0);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  80);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AD);
     mot2_sent(AT);
 };
 void st_volviendo_por_izquierda () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
-    PWM2_VEL(COEFICIENTE_DERECHA   * 40);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_DERECHA   *  40);
     mot1_sent(AD);
     mot2_sent(AD);
 };
@@ -154,9 +154,6 @@ int main() {
     funciones[ST_VOLVIENDO_POR_IZQUIERDA] = st_volviendo_por_izquierda;
     funciones[ST_VOLVIO_POR_IZQUIERDA] = st_volvio_por_izquierda;
     
-    estado_actual = ST_EN_LINEA;
-    (*funciones[estado_actual])();
-    
     while (1) {
         PWM1_VEL(0);
         PWM2_VEL(0);
@@ -170,19 +167,20 @@ int main() {
         while (BOTON_APRETADO);
         _delay_ms(5); //rebote botón
 
-
+        // aceleración inicial gradual
+        PWM1_VEL(50);
+        PWM2_VEL(50);
+        _delay_ms(50);
+        
         // inicialización estado
         estado_actual = ST_EN_LINEA;
         (*funciones[estado_actual])();
-        
         
         while (BOTON_NO_APRETADO) {
             estado_sensores = ESTADO_SENSORES; // obtiene el evento a procesar
             if ((nuevo_estado = pgm_read_byte_near(&(transiciones[estado_actual][estado_sensores]))) != ST_MAX_ESTADOS) {
                 estado_actual = nuevo_estado;
                 (*funciones[estado_actual])();
-            } else {
-                continue;
             }
         }
 
