@@ -106,13 +106,13 @@ void st_yendose_poco_por_izquierda () {
     mot2_sent(AD);
 };
 void st_yendose_mucho_por_izquierda () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  90);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
     PWM2_VEL(COEFICIENTE_DERECHA   *  20);
     mot1_sent(AD);
     mot2_sent(AT);
 };
 void st_afuera_por_izquierda () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  55);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  35);
     PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AD);
     mot2_sent(AT);
