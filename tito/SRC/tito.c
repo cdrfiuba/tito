@@ -70,14 +70,14 @@ void st_en_linea () {
 
 void st_yendose_poco_por_derecha () {
     PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-    PWM2_VEL(COEFICIENTE_DERECHA  *   80);
+    PWM2_VEL(COEFICIENTE_DERECHA  *   70);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_yendose_mucho_por_derecha () {
     PWM1_VEL(COEFICIENTE_IZQUIERDA *  20);
     PWM2_VEL(COEFICIENTE_DERECHA *   100);
-    mot1_sent(AT);
+    mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_afuera_por_derecha () {
@@ -100,7 +100,7 @@ void st_volvio_por_derecha () {
 };
 
 void st_yendose_poco_por_izquierda () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  80);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  70);
     PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AD);
     mot2_sent(AD);
@@ -109,11 +109,11 @@ void st_yendose_mucho_por_izquierda () {
     PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
     PWM2_VEL(COEFICIENTE_DERECHA   *  20);
     mot1_sent(AD);
-    mot2_sent(AT);
+    mot2_sent(AD);
 };
 void st_afuera_por_izquierda () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  35);
-    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 35);
     mot1_sent(AD);
     mot2_sent(AT);
 };

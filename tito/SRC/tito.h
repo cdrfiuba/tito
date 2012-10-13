@@ -140,8 +140,8 @@ typedef enum eventos {
 
 #define ESTADO_SENSORES ((SENSOR_CURVA << 3) | (SENSOR_IZQUIERDA << 2) | (SENSOR_CENTRO << 1) | (SENSOR_DERECHA))
 
-#define COEFICIENTE_DERECHA 0.4
-#define COEFICIENTE_IZQUIERDA 0.4
+#define COEFICIENTE_DERECHA 0.3
+#define COEFICIENTE_IZQUIERDA 0.3
 
 /*
 #define concat(a,b)        a ## b
