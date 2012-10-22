@@ -5,6 +5,7 @@
  Prototipos
 */
 void startup (void);
+//void prueba_frenado(void);
 
 /**
  estados y eventos para la fsm
