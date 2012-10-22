@@ -143,8 +143,8 @@ typedef enum eventos {
 
 #define COEFICIENTE_ESTADO_PROBLEMATICO 0.75
 
-#define COEFICIENTE_DERECHA 0.4
-#define COEFICIENTE_IZQUIERDA 0.4
+#define COEFICIENTE_DERECHA 0.45
+#define COEFICIENTE_IZQUIERDA 0.45
 
 /*
 #define concat(a,b)        a ## b
