@@ -29,15 +29,21 @@ void pwm_config(void){
 	TCCR1B = PWM_TCCR1B; 	
 	ICR1 = PWM_ICR1; 
 
-	OCR1A = 0;
-	OCR1B = 0;
+//	OCR1A = 0;
+//	OCR1B = 0;
 
 	// Activamos la IRQ de OVF
-	TIMSK |= _BV(TOIE1) ;
+	TIMSK |= (_BV(OCIE1B) | _BV(OCIE1A)) ;
 
 	// Apaga los motores
-	mot1_sent(LIBRE);
-	mot2_sent(LIBRE);
+    SetBit(PORT_PWM1,PIN_NUM_PWM1);
+    SetBit(PORT_PWM2,PIN_NUM_PWM2);
+    ClearBit(PORT_MOT1_S1,PORT_NUM_MOT1_S1);
+    ClearBit(PORT_MOT2_S1,PORT_NUM_MOT2_S1);
+    
+    SetBit(PORT_MOT1_S2,PORT_NUM_MOT1_S2);
+    SetBit(PORT_MOT2_S2,PORT_NUM_MOT2_S2);
+    
 }
 
 /*inline void set_vel_motor_1( uint8_t velocidad ){
@@ -50,49 +56,16 @@ void pwm_config(void){
 
 // Sentido de giro del motor 1
 // LIBRE, AD, AT, DET
-inline void mot1_sent(sentido_t sentido){
-	switch(sentido){
-		case LIBRE:
-			PORT_MOT1_S1 &=~ _BV(PORT_NUM_MOT1_S1);
-			PORT_MOT1_S2 &=~ _BV(PORT_NUM_MOT1_S2);
-			break;
-		case AT:
-			PORT_MOT1_S1 |= _BV(PORT_NUM_MOT1_S1);
-			PORT_MOT1_S2 &=~ _BV(PORT_NUM_MOT1_S2);
-			break;
-		case AD:
-			PORT_MOT1_S1 &=~ _BV(PORT_NUM_MOT1_S1);
-			PORT_MOT1_S2 |= _BV(PORT_NUM_MOT1_S2);
-			break;
-		case DET:
-			PORT_MOT1_S1 |= _BV(PORT_NUM_MOT1_S1);
-			PORT_MOT1_S2 |= _BV(PORT_NUM_MOT1_S2);
-			break;
-	}
+inline void mot1_vel(uint16_t velocidad){
+    OCR1A=velocidad;
 }
 
+inline void mot2_vel(uint16_t velocidad){
+    OCR1B=velocidad;
+}
 // Sentido de giro del motor 2
 // LIBRE, AD, AT, DET
-inline void mot2_sent(sentido_t sentido){
-	switch(sentido){
-		case LIBRE:
-			PORT_MOT2_S1 &=~ _BV(PORT_NUM_MOT2_S1);
-			PORT_MOT2_S2 &=~ _BV(PORT_NUM_MOT2_S2);
-			break;
-		case AT:
-			PORT_MOT2_S1 |= _BV(PORT_NUM_MOT2_S1);
-			PORT_MOT2_S2 &=~ _BV(PORT_NUM_MOT2_S2);
-			break;
-		case AD:
-			PORT_MOT2_S1 &=~ _BV(PORT_NUM_MOT2_S1);
-			PORT_MOT2_S2 |= _BV(PORT_NUM_MOT2_S2);
-			break;
-		case DET:
-			PORT_MOT2_S1 |= _BV(PORT_NUM_MOT2_S1);
-			PORT_MOT2_S2 |= _BV(PORT_NUM_MOT2_S2);
-			break;
-	}
-}
+
 
 void pwm_start(void) {
 	TCCR1B |= PRESCALER_PWM_ON;
@@ -102,8 +75,17 @@ void pwm_stop(void) {
 	TCCR1B &=~ PRESCALER_PWM_OFF;
 }
 
-ISR( TIMER1_OVF_vect ) { 
-	OCR1A = vel_motor_1 ;
-	OCR1B = vel_motor_2 ;
+ISR( TIMER1_COMPA_vect ) { 
+    if(IsBitSet(PORT_MOT1_S1,PORT_NUM_MOT1_S1)) ClearBit(PORT_MOT1_S1,PORT_NUM_MOT1_S1);
+    else SetBit(PORT_MOT1_S1,PORT_NUM_MOT1_S1);
+    if(IsBitSet(PORT_MOT1_S2,PORT_NUM_MOT1_S2)) ClearBit(PORT_MOT1_S2,PORT_NUM_MOT1_S2);
+    else SetBit(PORT_MOT1_S2,PORT_NUM_MOT1_S2);
+}
+
+ISR( TIMER1_COMPB_vect ) { 
+    if(IsBitSet(PORT_MOT2_S1,PORT_NUM_MOT2_S1)) ClearBit(PORT_MOT2_S1,PORT_NUM_MOT2_S1);
+    else SetBit(PORT_MOT2_S1,PORT_NUM_MOT2_S1);
+    if(IsBitSet(PORT_MOT2_S2,PORT_NUM_MOT2_S2)) ClearBit(PORT_MOT2_S2,PORT_NUM_MOT2_S2);
+    else SetBit(PORT_MOT2_S2,PORT_NUM_MOT2_S2);
 }
 
