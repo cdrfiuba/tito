@@ -74,32 +74,32 @@ void st_yendose_poco_por_derecha () {
     PWM2_VEL(COEFICIENTE_DERECHA  *  100);
     mot1_sent(AD);
     mot2_sent(AT);
-    _delay_ms (10);  
+    _delay_ms (5);  
 //    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
     PWM2_VEL(COEFICIENTE_DERECHA  *   70);
 //    mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_yendose_mucho_por_derecha () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
-    PWM2_VEL(COEFICIENTE_DERECHA *   100);
+    PWM1_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_IZQUIERDA *  100);
+    PWM2_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_DERECHA *   100);
     mot1_sent(AT);
     mot2_sent(AD);
     _delay_ms (10);
 
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  20);
-//    PWM2_VEL(COEFICIENTE_DERECHA *   100);
+    PWM1_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_IZQUIERDA *  20);
+//    PWM2_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_DERECHA *   100);
     mot1_sent(AD);
 //    mot2_sent(AD);
 };
 void st_afuera_por_derecha () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
-    PWM2_VEL(COEFICIENTE_DERECHA  *  100);
+    PWM1_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_IZQUIERDA *  100);
+    PWM2_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_DERECHA  *  100);
     mot1_sent(AT);
     mot2_sent(AD);
-    _delay_ms (30);
+    _delay_ms (100);
 
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  45);
+    PWM1_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_IZQUIERDA *  45);
 //    PWM2_VEL(COEFICIENTE_DERECHA  *  100);
     mot1_sent(AT);
 //    mot2_sent(AD);
@@ -135,7 +135,7 @@ void st_yendose_poco_por_izquierda () {
     PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AT);
     mot2_sent(AD);
-    _delay_ms (10);
+    _delay_ms (5);
     
     PWM1_VEL(COEFICIENTE_IZQUIERDA *  70);
 //    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
@@ -143,26 +143,26 @@ void st_yendose_poco_por_izquierda () {
 //    mot2_sent(AD);
 };
 void st_yendose_mucho_por_izquierda () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-    PWM2_VEL(COEFICIENTE_DERECHA   *  100);
+    PWM1_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_DERECHA   *  100);
     mot1_sent(AD);
     mot2_sent(AT);
     _delay_ms (10);    
     
-//    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-    PWM2_VEL(COEFICIENTE_DERECHA   *  20);
+//    PWM1_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_DERECHA   *  20);
 //    mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_afuera_por_izquierda () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
-    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
+    PWM1_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_IZQUIERDA *  100);
+    PWM2_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_DERECHA   * 100);
     mot1_sent(AD);
     mot2_sent(AT);
-    _delay_ms (30);    
+    _delay_ms (100);    
     
-//    PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
-    PWM2_VEL(COEFICIENTE_DERECHA   * 35);
+//    PWM1_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_IZQUIERDA *  100);
+    PWM2_VEL(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_DERECHA   * 35);
 //    mot1_sent(AD);
     mot2_sent(AT);
 };
