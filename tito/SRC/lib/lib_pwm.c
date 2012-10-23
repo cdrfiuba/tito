@@ -35,14 +35,14 @@ void pwm_config(void){
 	// Activamos la IRQ de OVF
 	TIMSK |= (_BV(OCIE1B) | _BV(OCIE1A)) ;
 
-	// Apaga los motores
+	// Prende los motores
     SetBit(PORT_PWM1,PIN_NUM_PWM1);
     SetBit(PORT_PWM2,PIN_NUM_PWM2);
-    ClearBit(PORT_MOT1_S1,PORT_NUM_MOT1_S1);
-    ClearBit(PORT_MOT2_S1,PORT_NUM_MOT2_S1);
+    ClearBit(PORT_MOT1_S2,PORT_NUM_MOT1_S2);
+    ClearBit(PORT_MOT2_S2,PORT_NUM_MOT2_S2);
     
-    SetBit(PORT_MOT1_S2,PORT_NUM_MOT1_S2);
-    SetBit(PORT_MOT2_S2,PORT_NUM_MOT2_S2);
+    SetBit(PORT_MOT1_S1,PORT_NUM_MOT1_S1);
+    SetBit(PORT_MOT2_S1,PORT_NUM_MOT2_S1);
     
 }
 
@@ -76,16 +76,23 @@ void pwm_stop(void) {
 }
 
 ISR( TIMER1_COMPA_vect ) { 
-    if(IsBitSet(PORT_MOT1_S1,PORT_NUM_MOT1_S1)) ClearBit(PORT_MOT1_S1,PORT_NUM_MOT1_S1);
-    else SetBit(PORT_MOT1_S1,PORT_NUM_MOT1_S1);
-    if(IsBitSet(PORT_MOT1_S2,PORT_NUM_MOT1_S2)) ClearBit(PORT_MOT1_S2,PORT_NUM_MOT1_S2);
-    else SetBit(PORT_MOT1_S2,PORT_NUM_MOT1_S2);
+    if(IsBitSet(PORT_MOT1_S1,PORT_NUM_MOT1_S1)){
+        ClearBit(PORT_MOT1_S1,PORT_NUM_MOT1_S1);
+        SetBit(PORT_MOT1_S2,PORT_NUM_MOT1_S2);
+    }
+    else{
+        SetBit(PORT_MOT1_S1,PORT_NUM_MOT1_S1);
+        ClearBit(PORT_MOT1_S2,PORT_NUM_MOT1_S2);
+    }
 }
 
 ISR( TIMER1_COMPB_vect ) { 
-    if(IsBitSet(PORT_MOT2_S1,PORT_NUM_MOT2_S1)) ClearBit(PORT_MOT2_S1,PORT_NUM_MOT2_S1);
-    else SetBit(PORT_MOT2_S1,PORT_NUM_MOT2_S1);
-    if(IsBitSet(PORT_MOT2_S2,PORT_NUM_MOT2_S2)) ClearBit(PORT_MOT2_S2,PORT_NUM_MOT2_S2);
-    else SetBit(PORT_MOT2_S2,PORT_NUM_MOT2_S2);
+    if(IsBitSet(PORT_MOT2_S1,PORT_NUM_MOT2_S1)){
+        ClearBit(PORT_MOT2_S1,PORT_NUM_MOT2_S1);
+        SetBit(PORT_MOT2_S2,PORT_NUM_MOT2_S2);
+    }
+    else{
+        SetBit(PORT_MOT2_S1,PORT_NUM_MOT2_S1);
+        ClearBit(PORT_MOT2_S2,PORT_NUM_MOT2_S2);
+    }
 }
-
