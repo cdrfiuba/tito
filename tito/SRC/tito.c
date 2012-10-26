@@ -62,130 +62,130 @@ static const int transiciones[ST_MAX_ESTADOS][EV_MAX_SENSORES] PROGMEM = {
 
 
 void st_en_linea () {
-    mot1_vel(256+COEFICIENTE_DERECHA*244);
-    mot2_vel(256+COEFICIENTE_IZQUIERDA*244);
+    mot1_vel(255+COEFICIENTE_DERECHA*244);
+    mot2_vel(255+COEFICIENTE_IZQUIERDA*244);
      
      
 };
 
 void st_yendose_poco_por_derecha () {
 
-    mot1_vel(256+COEFICIENTE_DERECHA*244);
-    mot2_vel(256-COEFICIENTE_IZQUIERDA*256);
+    mot1_vel(255+COEFICIENTE_DERECHA*244);
+    mot2_vel(255-COEFICIENTE_IZQUIERDA*255);
      
      
     _delay_ms (5);  
 //    mot1_vel(COEFICIENTE_IZQUIERDA * 100);
-    mot2_vel(256+COEFICIENTE_IZQUIERDA*179);
+    mot2_vel(255+COEFICIENTE_IZQUIERDA*179);
 //     
      
 };
 void st_yendose_mucho_por_derecha () {
-    mot1_vel(256-COEFICIENTE_DERECHA*256);
-    mot2_vel(256+COEFICIENTE_IZQUIERDA*244);
+    mot1_vel(255-COEFICIENTE_DERECHA*255);
+    mot2_vel(255+COEFICIENTE_IZQUIERDA*244);
     
      
     _delay_ms (10);
 
-    mot1_vel(256-COEFICIENTE_DERECHA*230);
+    mot1_vel(255-COEFICIENTE_DERECHA*230);
 //    mot2_vel(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_DERECHA *   100);
      
 //     
 };
 void st_afuera_por_derecha () {
-    mot1_vel(256-COEFICIENTE_DERECHA*256);
-    mot2_vel(256+COEFICIENTE_IZQUIERDA*244);
+    mot1_vel(255-COEFICIENTE_DERECHA*255);
+    mot2_vel(255+COEFICIENTE_IZQUIERDA*244);
      
      
     _delay_ms (50);
 
-    mot1_vel(256+COEFICIENTE_DERECHA*166);
+    mot1_vel(255+COEFICIENTE_DERECHA*166);
 //    mot2_vel(COEFICIENTE_DERECHA  *  100);
      
 //     
 
 };
 void st_volviendo_por_derecha () {
-    mot1_vel(256+COEFICIENTE_DERECHA*244);
-    mot2_vel(256+COEFICIENTE_IZQUIERDA*244);
+    mot1_vel(255+COEFICIENTE_DERECHA*244);
+    mot2_vel(255+COEFICIENTE_IZQUIERDA*244);
      
      
     _delay_ms (10);
     
-    mot1_vel(256+COEFICIENTE_DERECHA*102);
+    mot1_vel(255+COEFICIENTE_DERECHA*102);
 //    mot2_vel(COEFICIENTE_DERECHA   * 100);
      
 //     
 };
 void st_volvio_por_derecha () {
-    mot1_vel(256+COEFICIENTE_DERECHA*244);
-    mot2_vel(256-COEFICIENTE_IZQUIERDA*128);
+    mot1_vel(255+COEFICIENTE_DERECHA*244);
+    mot2_vel(255-COEFICIENTE_IZQUIERDA*128);
      
      
     _delay_ms (10);
     
 //    mot1_vel(COEFICIENTE_IZQUIERDA * 100);
-    mot2_vel(256+COEFICIENTE_IZQUIERDA*204);
+    mot2_vel(255+COEFICIENTE_IZQUIERDA*204);
 //     
      
 };
 
 void st_yendose_poco_por_izquierda () {
-    mot1_vel(256-COEFICIENTE_DERECHA*256);
-    mot2_vel(256+COEFICIENTE_IZQUIERDA*244);
+    mot1_vel(255-COEFICIENTE_DERECHA*255);
+    mot2_vel(255+COEFICIENTE_IZQUIERDA*244);
      
      
     _delay_ms (5);
     
-    mot1_vel(256+COEFICIENTE_DERECHA*179);
+    mot1_vel(255+COEFICIENTE_DERECHA*179);
 //    mot2_vel(COEFICIENTE_DERECHA   * 100);
      
 //     
 };
 void st_yendose_mucho_por_izquierda () {
-    mot1_vel(256+COEFICIENTE_DERECHA*144);
-    mot2_vel(256-COEFICIENTE_IZQUIERDA*256);
+    mot1_vel(255+COEFICIENTE_DERECHA*144);
+    mot2_vel(255-COEFICIENTE_IZQUIERDA*255);
      
      
     _delay_ms (10);    
     
 //    mot1_vel(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_IZQUIERDA * 100);
-    mot2_vel(256-COEFICIENTE_IZQUIERDA*230);
+    mot2_vel(255-COEFICIENTE_IZQUIERDA*230);
 //     
      
 };
 void st_afuera_por_izquierda () {
-    mot1_vel(256+COEFICIENTE_DERECHA*244);
-    mot2_vel(256-COEFICIENTE_IZQUIERDA*256);
+    mot1_vel(255+COEFICIENTE_DERECHA*244);
+    mot2_vel(255-COEFICIENTE_IZQUIERDA*255);
      
      
     _delay_ms (50);    
     
 //    mot1_vel(COEFICIENTE_ESTADO_PROBLEMATICO * COEFICIENTE_IZQUIERDA *  100);
-    mot2_vel(256-COEFICIENTE_IZQUIERDA*90);
+    mot2_vel(255-COEFICIENTE_IZQUIERDA*90);
 //     
      
 };
 void st_volviendo_por_izquierda () {
-    mot1_vel(256+COEFICIENTE_DERECHA*244);
-    mot2_vel(256-COEFICIENTE_IZQUIERDA*256);
+    mot1_vel(255+COEFICIENTE_DERECHA*244);
+    mot2_vel(255-COEFICIENTE_IZQUIERDA*255);
      
      
     _delay_ms (10);    
     
 //    mot1_vel(COEFICIENTE_IZQUIERDA * 100);
-    mot2_vel(256+COEFICIENTE_IZQUIERDA*102);
+    mot2_vel(255+COEFICIENTE_IZQUIERDA*102);
 //     
      
 };
 void st_volvio_por_izquierda () {
-    mot1_vel(256+COEFICIENTE_DERECHA*244);
-    mot2_vel(256-COEFICIENTE_IZQUIERDA*256);
+    mot1_vel(255+COEFICIENTE_DERECHA*244);
+    mot2_vel(255-COEFICIENTE_IZQUIERDA*255);
      
      
     _delay_ms (10);    
 
-    mot1_vel(256+COEFICIENTE_DERECHA*104);
+    mot1_vel(255+COEFICIENTE_DERECHA*104);
 //    mot2_vel(COEFICIENTE_DERECHA   * 100);
      
 //     
@@ -198,6 +198,7 @@ int main() {
     int estado_actual;
     int nuevo_estado;
     int estado_sensores;
+    int i;
     
     startup();
     
@@ -216,21 +217,16 @@ int main() {
     funciones[ST_VOLVIO_POR_IZQUIERDA] = st_volvio_por_izquierda;
     
    
-/*    while (1){
-        if (estado_sensores = ESTADO_SENSORES)
-            (*funciones[ST_YENDOSE_MUCHO_POR_DERECHA])();
-        else
-            (*funciones[ST_YENDOSE_MUCHO_POR_IZQUIERDA])();
-        
-        _delay_ms(100);   
-        
+    while (1){
+        for (i=0 ; i<ST_MAX_ESTADOS ; i++){
+            (*funciones[i])();
+            _delay_ms(1000);   
+        }
     }
-*/
+
     
     
     while (1){
-        mot1_vel(256);
-        mot2_vel(256);
 
         // ciclos para esperar a que arranque cuando
         // se suelta el botón
@@ -259,8 +255,8 @@ int main() {
         }
 
         // fin de tareas, para poder empezar de nuevo
-        mot1_vel(256);
-        mot2_vel(256);
+        mot1_vel(255);
+        mot2_vel(255);
         _delay_ms(50); //rebote botón
 
         while (BOTON_APRETADO);

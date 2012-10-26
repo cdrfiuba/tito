@@ -13,15 +13,15 @@
 /*******************************************************
 * Constantes
 *******************************************************/ 
-// COM1A = 00
-// COM1B = 00
+// COM1A = 11
+// COM1B = 11
 // WGM = 8 (para usar un TOP fijo)
 // el "prescaler" en 1 (CS12 = 0 , CS11 =0 , CS10 = 1)
 #define PRESCALER_PWM_OFF	(0<<CS12)|(0<<CS11)|(0<<CS10)
 #define PRESCALER_PWM_ON	(0<<CS12)|(0<<CS11)|(1<<CS10)
 
-#define PWM_TCCR1A (0<<COM1A1)|(0<<COM1A0)|(0<<COM1B1)|(0<<COM1B0)|(1<<WGM11)|(0<<WGM10)
-#define PWM_TCCR1B (0<<WGM13)|(0<<WGM12)|PRESCALER_PWM_OFF
+#define PWM_TCCR1A (1<<COM1A1)|(0<<COM1A0)|(1<<COM1B1)|(0<<COM1B0)|(0<<WGM11)|(0<<WGM10)
+#define PWM_TCCR1B (1<<WGM13)|(0<<WGM12)|PRESCALER_PWM_OFF
 
 #define PWM_FREC 800 // Frecuencia PWM
 #define PWM_ICR1  F_CPU/(2*1*PWM_FREC) // Calcula ICR1
@@ -98,17 +98,12 @@ void pwm_start(void);
 void pwm_stop(void);
 
 // Sentido de giro de los motores
-inline void mot1_vel(uint16_t velocidad);
-inline void mot2_vel(uint16_t velocidad);
+inline void mot1_sent(sentido_t sentido);
+inline void mot2_sent(sentido_t sentido);
 
 /*******************************************************
 * Macros
 *******************************************************/ 
-
-#define SetBit(Byte,Bit)       (Byte |= (1<<Bit))
-#define ClearBit(Byte,Bit)     (Byte &= (~(1<<Bit)))
-#define IsBitSet(Byte,Bit)     ((Byte&(1<<Bit)) ? 1 : 0)
-//#define IsBitSet(Byte,Bit)     ((Byte>>Bit) & 1)
 
 #define concat(a,b)	a ## b
 #define def_port_reg(name)	concat(PORT, name) 
