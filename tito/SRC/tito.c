@@ -74,7 +74,7 @@ void st_yendose_poco_por_derecha () {
     PWM2_VEL(COEFICIENTE_DERECHA  *  50);
     mot1_sent(AD);
     mot2_sent(AT);
-    _delay_ms (10);  
+    _delay_ms (5);  
 //    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
     PWM2_VEL(COEFICIENTE_DERECHA  *   70);
 //    mot1_sent(AD);
@@ -135,7 +135,7 @@ void st_yendose_poco_por_izquierda () {
     PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AT);
     mot2_sent(AD);
-    _delay_ms (10);
+    _delay_ms (5);
     
     PWM1_VEL(COEFICIENTE_IZQUIERDA *  70);
 //    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
