@@ -136,13 +136,13 @@ void st_volvio_por_izquierda () {
 int main() {
     //int estado_actual;
     //int nuevo_estado;
-    unsigned int estado_sensores;
+    unsigned int estado_sensores = 15;
     int proportional = 0;
     int last_proportional = 0;
     int derivative = 0;
     int integral = 0;
     int power_difference = 0;
-    const int max_power = 10;
+    const int max_power = 2;
     
     startup();
     /*
@@ -202,16 +202,24 @@ int main() {
             // 0b0110 --> d06 --> 30 / 2 = 15
             // 0b0011 --> d03 --> 10 / 2 = 05
             // 0b0001 --> d01 --> 00 / 1 = 00
+            
             // 0b0000 --> d00 --> 00 / 1 = 00
             
-            proportional = estado_sensores - 30;
-            derivative = proportional - last_proportional;
-            integral += proportional;
+            proportional = estado_sensores - 15; // entre -15 y 15
+            derivative = proportional - last_proportional; // entre -15 y 15
+
+            // control de overflow
+            if ((proportional > 0 && integral < 113) || (proportional < 0 && integral > -114)) {
+                integral += proportional;
+            }
 
             last_proportional = proportional;
 
             power_difference = proportional / 1 + integral / 15 + derivative * 3 / 2;
-             
+            // -15 + -128 / 15 + 15 * 3 / 2
+            // -15 + -8 + 22
+            // -1
+            
             if (power_difference > max_power) {
                 power_difference = max_power;
             }
