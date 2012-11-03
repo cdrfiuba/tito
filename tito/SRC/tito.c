@@ -6,6 +6,8 @@
 #include "lib/lib_pwm.h"
 #include <avr/pgmspace.h>
 
+void (*funciones[ST_MAX_ESTADOS])();
+
 void startup () {
 // setear puertos de lectura o escritura,
 // según corresponda
@@ -20,7 +22,7 @@ void startup () {
     ClearBit (DDR_SENSOR_1, SENSOR_1_NUMBER);
     ClearBit (DDR_SENSOR_2, SENSOR_2_NUMBER);
     ClearBit (DDR_SENSOR_3, SENSOR_3_NUMBER);
-    ClearBit (DDR_SENSOR_1, SENSOR_1_NUMBER);
+    ClearBit (DDR_SENSOR_CURVA, SENSOR_CURVA_NUMBER);
 
     // botón
     ClearBit (DDR_BOTON, BOTON_NUMBER);
@@ -40,23 +42,205 @@ void startup () {
 
 }
 
+/*Tabla de Posibles transiciones*/
+static const int transiciones[ST_MAX_ESTADOS][EV_MAX_SENSORES] PROGMEM = {
+                              /*NNNN NNNB NNBN NNBB NBNN NBNB NBBN NBBB BNNN BNNB BNBN BNBB BBNN BBNB BBBN BBBB*/
+/* En Linea*/                   { ME,YMPI,YPPI,YMPI,YPPD,  ME,  ME,  ME,YMPD,  ME,  ME,  ME,YMPD,  ME,  ME,  ME}, 
+
+/* Yendose Poco por Derecha*/   {APD,  ME,  EL,  ME,  ME,  ME,  EL,  ME,YMPD,  ME,  ME,  ME,YMPD,  ME,  ME,  ME}, 
+/* Yendose Mucho por Derecha*/  {APD,VOPD,VOPD,VOPD,  EL,  ME,VOPD,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME},
+/* Afuera por Derecha*/         { ME,  ME,  ME,  ME,VEPD,  ME,  ME,  ME,VEPD,  ME,  ME,  ME,VEPD,  ME,  ME,  ME}, 
+/* Volviendo por Derecha*/      {APD,  ME,VOPD,  ME,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
+/* Volvio por Derecha*/         { ME,  ME,  EL,  ME,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,YPPD,  ME,  ME,  ME}, 
+
+/* Yendose Poco por Izquierda*/ {API,YMPI,  ME,YMPI,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME},
+/* Yendose Mucho por Izquierda*/{API,  ME,  EL,  ME,VOPI,  ME,VOPI,  ME,VOPI,  ME,  ME,  ME,VOPI,  ME,  ME,  ME}, 
+/* Afuera por Izquierda*/       { ME,VEPI,VEPI,VEPI,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
+/* Volviendo por Izquierda*/    {API,  ME,  EL,  ME,VOPI,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
+/* Volvio por Izquierda*/       { ME,  ME,  EL,YPPI,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}  
+};
+
+
+void st_en_linea () {
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+
+void st_yendose_poco_por_derecha () {
+    #ifdef ACTIVAR_PROPULSORES_TRASEROS
+        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+        PWM2_VEL(COEFICIENTE_DERECHA  *  50);
+        mot1_sent(AD);
+        mot2_sent(AT);
+        _delay_ms (5);
+    #endif
+          
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_DERECHA  *   70);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+void st_yendose_mucho_por_derecha () {
+    #ifdef ACTIVAR_PROPULSORES_TRASEROS
+        PWM1_VEL(COEFICIENTE_IZQUIERDA *  50);
+        PWM2_VEL(COEFICIENTE_DERECHA *   100);
+        mot1_sent(AT);
+        mot2_sent(AD);
+        _delay_ms (10);
+    #endif
+
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  20);
+    PWM2_VEL(COEFICIENTE_DERECHA *   100);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+void st_afuera_por_derecha () {
+    #ifdef ACTIVAR_PROPULSORES_TRASEROS
+        PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
+        PWM2_VEL(COEFICIENTE_DERECHA  *  100);
+        mot1_sent(AT);
+        mot2_sent(AD);
+        _delay_ms (30);
+    #endif
+
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  45);
+    PWM2_VEL(COEFICIENTE_DERECHA  *  100);
+    mot1_sent(AT);
+    mot2_sent(AD);
+
+};
+void st_volviendo_por_derecha () {
+    #ifdef ACTIVAR_PROPULSORES_TRASEROS
+        PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
+        PWM2_VEL(COEFICIENTE_DERECHA   * 100);
+        mot1_sent(AD);
+        mot2_sent(AD);
+        _delay_ms (10);
+    #endif
+    
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  40);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+void st_volvio_por_derecha () {
+    #ifdef ACTIVAR_PROPULSORES_TRASEROS
+        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+        PWM2_VEL(COEFICIENTE_DERECHA   *  50);
+        mot1_sent(AD);
+        mot2_sent(AT);
+        _delay_ms (10);
+    #endif
+    
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_DERECHA   *  80);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+
+void st_yendose_poco_por_izquierda () {
+    #ifdef ACTIVAR_PROPULSORES_TRASEROS
+        PWM1_VEL(COEFICIENTE_IZQUIERDA *  50);
+        PWM2_VEL(COEFICIENTE_DERECHA   * 100);
+        mot1_sent(AT);
+        mot2_sent(AD);
+        _delay_ms (5);
+    #endif
+    
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  70);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+void st_yendose_mucho_por_izquierda () {
+    #ifdef ACTIVAR_PROPULSORES_TRASEROS
+        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+        PWM2_VEL(COEFICIENTE_DERECHA   *  50);
+        mot1_sent(AD);
+        mot2_sent(AT);
+        _delay_ms (10);    
+    #endif
+    
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_DERECHA   *  20);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+void st_afuera_por_izquierda () {
+    #ifdef ACTIVAR_PROPULSORES_TRASEROS
+        PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
+        PWM2_VEL(COEFICIENTE_DERECHA   * 100);
+        mot1_sent(AD);
+        mot2_sent(AT);
+        _delay_ms (30);
+    #endif
+    
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 35);
+    mot1_sent(AD);
+    mot2_sent(AT);
+};
+void st_volviendo_por_izquierda () {
+    #ifdef ACTIVAR_PROPULSORES_TRASEROS
+        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+        PWM2_VEL(COEFICIENTE_DERECHA   *  100);
+        mot1_sent(AD);
+        mot2_sent(AT);
+        _delay_ms (10);    
+    #endif
+    
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_DERECHA   *  40);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+void st_volvio_por_izquierda () {
+    #ifdef ACTIVAR_PROPULSORES_TRASEROS
+        PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
+        PWM2_VEL(COEFICIENTE_DERECHA   * 100);
+        mot1_sent(AD);
+        mot2_sent(AD);
+        _delay_ms (10);
+    #endif
+
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  80);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
+    mot1_sent(AD);
+    mot2_sent(AD);
+};
+
 /**
  función principal
 */
 int main() {
-    //int estado_actual;
-    //int nuevo_estado;
-    unsigned int estado_sensores = 0;
-    uint16_t acumulador_izquierda = 0;
-    uint16_t acumulador_derecha = 0;
-    int control_acumulador_izquierda = 0;
-    int control_acumulador_derecha = 0;
-    int motor_vel_1 = 0;
-    int motor_vel_2 = 0;
+    int estado_actual;
+    int nuevo_estado;
+    int estado_sensores;
     
     startup();
+    
+    funciones[ST_EN_LINEA] = st_en_linea;
+    
+    funciones[ST_YENDOSE_POCO_POR_DERECHA] = st_yendose_poco_por_derecha;
+    funciones[ST_YENDOSE_MUCHO_POR_DERECHA] = st_yendose_mucho_por_derecha;
+    funciones[ST_AFUERA_POR_DERECHA] = st_afuera_por_derecha;
+    funciones[ST_VOLVIENDO_POR_DERECHA] = st_volviendo_por_derecha;
+    funciones[ST_VOLVIO_POR_DERECHA] = st_volvio_por_derecha;
 
-    while (1) {
+    funciones[ST_YENDOSE_POCO_POR_IZQUIERDA] = st_yendose_poco_por_izquierda;
+    funciones[ST_YENDOSE_MUCHO_POR_IZQUIERDA] = st_yendose_mucho_por_izquierda;
+    funciones[ST_AFUERA_POR_IZQUIERDA] = st_afuera_por_izquierda;
+    funciones[ST_VOLVIENDO_POR_IZQUIERDA] = st_volviendo_por_izquierda;
+    funciones[ST_VOLVIO_POR_IZQUIERDA] = st_volvio_por_izquierda;
+    
+
+    
+    
+    
+    
+    while (1){
         PWM1_VEL(0);
         PWM2_VEL(0);
 
@@ -70,73 +254,20 @@ int main() {
         _delay_ms(5); //rebote botón
 
         // aceleración inicial gradual
-        PWM1_VEL(5);
-        PWM2_VEL(5);
-        _delay_ms(50);
-
-        PWM1_VEL(10);
-        PWM2_VEL(10);
+        PWM1_VEL(50);
+        PWM2_VEL(50);
         _delay_ms(50);
         
+        // inicialización estado
+        estado_actual = ST_EN_LINEA;
+        (*funciones[estado_actual])();
+        
         while (BOTON_NO_APRETADO) {
-            // flags para empezar a acumular
-            if ((SENSOR_4) && (!control_acumulador_izquierda)) {
-                acumulador_izquierda = 0;
-                control_acumulador_izquierda = 1;
-            } else if ((SENSOR_2) && (control_acumulador_izquierda)) {
-                acumulador_izquierda = 0;
-                control_acumulador_izquierda = 0;
+            estado_sensores = ESTADO_SENSORES; // obtiene el evento a procesar
+            if ((nuevo_estado = pgm_read_byte_near(&(transiciones[estado_actual][estado_sensores]))) != ST_MAX_ESTADOS) {
+                estado_actual = nuevo_estado;
+                (*funciones[estado_actual])();
             }
-            if ((SENSOR_1) && (!control_acumulador_derecha)) {
-                acumulador_derecha = 0;
-                control_acumulador_derecha = 1;
-            } else if ((SENSOR_3) && (control_acumulador_derecha)) {
-                acumulador_derecha = 0;
-                control_acumulador_derecha = 0;
-            }
-
-            // término "integrativo" para compensar el proporcional, con control de overflow
-            if ((control_acumulador_izquierda) && (acumulador_izquierda < 0x00FF)) {
-                acumulador_izquierda++;
-                mot1_sent(AD);
-                mot2_sent(AT);
-            } else if ((control_acumulador_derecha) && (acumulador_derecha < 0x00FF)) {
-                acumulador_derecha++;
-                mot1_sent(AT);
-                mot2_sent(AD);
-            }
-            
-            // términos proporcionales
-            estado_sensores = 10;
-            if ((SENSOR_1)) estado_sensores -= 10;
-            if ((SENSOR_2)) estado_sensores += 15;
-            if ((SENSOR_3)) estado_sensores += 30;
-            if ((SENSOR_4)) estado_sensores += 60;
-            //estado_sensores = ((SENSOR_1) * 00 + (SENSOR_2) * 15 + (SENSOR_3) * 30 + (SENSOR_4) * 45) / 
-            //                  ((SENSOR_1) + (SENSOR_2) + (SENSOR_3) + (SENSOR_4));
-            motor_vel_2 = estado_sensores / 2 + acumulador_izquierda / (1 << 2);
-            PWM2_VEL(motor_vel_2);
-
-            estado_sensores = 10;
-            if ((SENSOR_1)) estado_sensores += 60;
-            if ((SENSOR_2)) estado_sensores += 30;
-            if ((SENSOR_3)) estado_sensores += 15;
-            if ((SENSOR_4)) estado_sensores -= 10;
-            //estado_sensores = ((SENSOR_1) * 45 + (SENSOR_2) * 30 + (SENSOR_3) * 15 + (SENSOR_4) * 00) / 
-            //                  ((SENSOR_1) + (SENSOR_2) + (SENSOR_3) + (SENSOR_4));
-            motor_vel_1 = estado_sensores / 2 + acumulador_derecha / (1 << 2);
-            PWM1_VEL(motor_vel_1);
-            
-            /*if (acumulador_derecha == 0x00FF) {
-                PWM1_VEL(40);
-                PWM2_VEL(40);
-            } else {
-                PWM1_VEL(0);
-                PWM2_VEL(0);
-            }*/
-            
-            
-
         }
 
         // fin de tareas, para poder empezar de nuevo
@@ -144,14 +275,29 @@ int main() {
         PWM2_VEL(0);
         _delay_ms(50); //rebote botón
 
-        estado_sensores = 0;
-        acumulador_izquierda = 0;
-        acumulador_derecha = 0;
-        control_acumulador_izquierda = 0;
-        control_acumulador_derecha = 0;
-
         while (BOTON_APRETADO);
         _delay_ms(50); //rebote botón
         
     }
 }
+
+
+/*void prueba_frenado(void){
+    while(1)
+    {   
+        estado_sensores = ESTADO_SENSORES;
+        if(estado_sensores)
+        {   PWM1_VEL(COEFICIENTE_IZQUIERDA * 0);
+            PWM2_VEL(COEFICIENTE_DERECHA   * 0);
+            mot1_sent(AD);
+            mot2_sent(AD);
+        }
+        else
+        {   PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+            PWM2_VEL(COEFICIENTE_DERECHA   * 100);
+            mot1_sent(AD);
+            mot2_sent(AD);
+        } 
+    }
+}*/
+

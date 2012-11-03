@@ -127,20 +127,12 @@ typedef enum eventos {
 #define SetBit(Byte,Bit)       (Byte |= (1<<Bit))
 #define ClearBit(Byte,Bit)     (Byte &= (~(1<<Bit)))
 #define IsBitSet(Byte,Bit)     ((Byte&(1<<Bit)) ? 1 : 0)
-#define IsNotBitSet(Byte,Bit)     ((Byte&(1<<Bit)) ? 0 : 1)
 //#define IsBitSet(Byte,Bit)     ((Byte>>Bit) & 1)
 
 #define SENSOR_IZQUIERDA    IsBitSet(PIN_SENSOR_1, SENSOR_1_NUMBER)
 #define SENSOR_CENTRO        IsBitSet(PIN_SENSOR_2, SENSOR_2_NUMBER)
 #define SENSOR_DERECHA        IsBitSet(PIN_SENSOR_3, SENSOR_3_NUMBER)
 #define SENSOR_CURVA        IsBitSet(PIN_SENSOR_CURVA, SENSOR_CURVA_NUMBER)
-
-#define SENSOR_3        IsBitSet(PIN_SENSOR_1, SENSOR_1_NUMBER)
-#define SENSOR_2        IsBitSet(PIN_SENSOR_2, SENSOR_2_NUMBER)
-#define SENSOR_1        IsBitSet(PIN_SENSOR_3, SENSOR_3_NUMBER)
-#define SENSOR_4        IsBitSet(PIN_SENSOR_CURVA, SENSOR_CURVA_NUMBER)
-
-
 
 #define BOTON_APRETADO         (!(PINB&(1<<PB0)))
 #define BOTON_NO_APRETADO     (PINB&(1<<PB0))
@@ -149,8 +141,9 @@ typedef enum eventos {
 
 #define ESTADO_SENSORES ((SENSOR_CURVA << 3) | (SENSOR_IZQUIERDA << 2) | (SENSOR_CENTRO << 1) | (SENSOR_DERECHA))
 
-#define COEFICIENTE_DERECHA 0.33
-#define COEFICIENTE_IZQUIERDA 0.33
+#define COEFICIENTE_DERECHA 0.22
+#define COEFICIENTE_IZQUIERDA 0.22
+#define ACTIVAR_PROPULSORES_TRASEROS 1
 
 /*
 #define concat(a,b)        a ## b
