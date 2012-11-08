@@ -5,6 +5,7 @@
  Prototipos
 */
 void startup (void);
+//void prueba_frenado(void);
 
 /**
  estados y eventos para la fsm
@@ -23,7 +24,9 @@ typedef enum estados {
     ST_YENDOSE_MUCHO_POR_IZQUIERDA = 7,
     ST_AFUERA_POR_IZQUIERDA = 8,
     ST_VOLVIENDO_POR_IZQUIERDA = 9,
-    ST_VOLVIO_POR_IZQUIERDA = 10
+    ST_VOLVIO_POR_IZQUIERDA = 10,
+    
+    ST_MAX_ESTADOS = 11
 
 } estados_t;
 typedef enum estados_resumidos {
@@ -63,7 +66,8 @@ typedef enum eventos {
     EV_SENSORES_BBNN = 12,
     EV_SENSORES_BBNB = 13,
     EV_SENSORES_BBBN = 14,
-    EV_SENSORES_BBBB = 15
+    EV_SENSORES_BBBB = 15,
+    EV_MAX_SENSORES = 16
 } eventos_t;
 
 #define PORT_LED_1_NAME      C
@@ -137,8 +141,9 @@ typedef enum eventos {
 
 #define ESTADO_SENSORES ((SENSOR_CURVA << 3) | (SENSOR_IZQUIERDA << 2) | (SENSOR_CENTRO << 1) | (SENSOR_DERECHA))
 
-#define COEFICIENTE_DERECHA 1
-#define COEFICIENTE_IZQUIERDA 1
+#define COEFICIENTE_DERECHA 0.22
+#define COEFICIENTE_IZQUIERDA 0.22
+#define ACTIVAR_PROPULSORES_TRASEROS 1
 
 /*
 #define concat(a,b)        a ## b

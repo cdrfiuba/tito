@@ -2,11 +2,14 @@
 #include <avr/interrupt.h>
 #define F_CPU 8000000UL
 #include <util/delay.h>
-#include "tito.h"
+#include "tito_estable.h"
 #include "lib/lib_pwm.h"
 #include <avr/pgmspace.h>
 
 void (*funciones[ST_MAX_ESTADOS])();
+
+volatile uint16_t boost_en_linea_contador;
+volatile int boost_en_linea;
 
 void startup () {
 // setear puertos de lectura o escritura,
@@ -49,21 +52,21 @@ static const int transiciones[ST_MAX_ESTADOS][EV_MAX_SENSORES] PROGMEM = {
 
 /* Yendose Poco por Derecha*/   {APD,  ME,  EL,  ME,  ME,  ME,  EL,  ME,YMPD,  ME,  ME,  ME,YMPD,  ME,  ME,  ME}, 
 /* Yendose Mucho por Derecha*/  {APD,VOPD,VOPD,VOPD,  EL,  ME,VOPD,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME},
-/* Afuera por Derecha*/         { ME,  ME,  ME,  ME,VEPD,  ME,  ME,  ME,VEPD,  ME,  ME,  ME,VEPD,  ME,  ME,  ME}, 
+/* Afuera por Derecha*/         { ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,VEPD,  ME,  ME,  ME,VEPD,  ME,  ME,  ME}, 
 /* Volviendo por Derecha*/      {APD,  ME,VOPD,  ME,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
 /* Volvio por Derecha*/         { ME,  ME,  EL,  ME,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,YPPD,  ME,  ME,  ME}, 
 
 /* Yendose Poco por Izquierda*/ {API,YMPI,  ME,YMPI,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME},
 /* Yendose Mucho por Izquierda*/{API,  ME,  EL,  ME,VOPI,  ME,VOPI,  ME,VOPI,  ME,  ME,  ME,VOPI,  ME,  ME,  ME}, 
-/* Afuera por Izquierda*/       { ME,VEPI,VEPI,VEPI,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
+/* Afuera por Izquierda*/       { ME,VEPI,  ME,VEPI,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
 /* Volviendo por Izquierda*/    {API,  ME,  EL,  ME,VOPI,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}, 
 /* Volvio por Izquierda*/       { ME,  ME,  EL,YPPI,  EL,  ME,  EL,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME,  ME}  
 };
 
 
 void st_en_linea () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * (50 + boost_en_linea));
+    PWM2_VEL(COEFICIENTE_DERECHA   * (50 + boost_en_linea));
     mot1_sent(AD);
     mot2_sent(AD);
 };
@@ -112,14 +115,14 @@ void st_afuera_por_derecha () {
 
 };
 void st_volviendo_por_derecha () {
-    #ifdef ACTIVAR_PROPULSORES_TRASEROS
+/*    #ifdef ACTIVAR_PROPULSORES_TRASEROS
         PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
         PWM2_VEL(COEFICIENTE_DERECHA   * 100);
         mot1_sent(AD);
         mot2_sent(AD);
         _delay_ms (10);
     #endif
-    
+*/    
     PWM1_VEL(COEFICIENTE_IZQUIERDA *  40);
     PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AD);
@@ -183,14 +186,14 @@ void st_afuera_por_izquierda () {
     mot2_sent(AT);
 };
 void st_volviendo_por_izquierda () {
-    #ifdef ACTIVAR_PROPULSORES_TRASEROS
+/*    #ifdef ACTIVAR_PROPULSORES_TRASEROS
         PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
         PWM2_VEL(COEFICIENTE_DERECHA   *  100);
         mot1_sent(AD);
         mot2_sent(AT);
         _delay_ms (10);    
     #endif
-    
+*/    
     PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
     PWM2_VEL(COEFICIENTE_DERECHA   *  40);
     mot1_sent(AD);
@@ -218,6 +221,7 @@ int main() {
     int estado_actual;
     int nuevo_estado;
     int estado_sensores;
+    int estado_sensores_nuevo;
     
     startup();
     
@@ -235,14 +239,12 @@ int main() {
     funciones[ST_VOLVIENDO_POR_IZQUIERDA] = st_volviendo_por_izquierda;
     funciones[ST_VOLVIO_POR_IZQUIERDA] = st_volvio_por_izquierda;
     
-
-    
-    
-    
     
     while (1){
         PWM1_VEL(0);
         PWM2_VEL(0);
+        boost_en_linea_contador = 0;
+        boost_en_linea = 0;
 
         // ciclos para esperar a que arranque cuando
         // se suelta el botón
@@ -260,10 +262,31 @@ int main() {
         
         // inicialización estado
         estado_actual = ST_EN_LINEA;
+        nuevo_estado = ST_EN_LINEA;
         (*funciones[estado_actual])();
         
         while (BOTON_NO_APRETADO) {
-            estado_sensores = ESTADO_SENSORES; // obtiene el evento a procesar
+        
+            estado_sensores = ESTADO_SENSORES;
+            while(1) {
+                estado_sensores_nuevo = ESTADO_SENSORES; // obtiene el evento a procesar
+                if (estado_sensores_nuevo == estado_sensores) {
+                    break;
+                }
+                estado_sensores = estado_sensores_nuevo;
+            }
+
+            // boost "integrativo" para el estado en línea
+            if (estado_actual == ST_EN_LINEA) {
+                boost_en_linea_contador += 1;
+                if ((boost_en_linea = (boost_en_linea_contador >> 4)) > 50) {
+                    boost_en_linea = 50;
+                }
+                (*funciones[estado_actual])();
+            } else {
+                boost_en_linea_contador = 0;
+            }
+            
             if ((nuevo_estado = pgm_read_byte_near(&(transiciones[estado_actual][estado_sensores]))) != ST_MAX_ESTADOS) {
                 estado_actual = nuevo_estado;
                 (*funciones[estado_actual])();
