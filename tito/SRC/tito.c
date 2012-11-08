@@ -2,7 +2,7 @@
 #include <avr/interrupt.h>
 #define F_CPU 8000000UL
 #include <util/delay.h>
-#include "tito_estable.h"
+#include "tito.h"
 #include "lib/lib_pwm.h"
 #include <avr/pgmspace.h>
 
@@ -81,7 +81,7 @@ void st_yendose_poco_por_derecha () {
     #endif
           
     PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-    PWM2_VEL(COEFICIENTE_DERECHA  *   70);
+    PWM2_VEL(COEFICIENTE_DERECHA  *   80);
     mot1_sent(AD);
     mot2_sent(AD);
 };
@@ -94,7 +94,7 @@ void st_yendose_mucho_por_derecha () {
         _delay_ms (10);
     #endif
 
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  20);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  50);
     PWM2_VEL(COEFICIENTE_DERECHA *   100);
     mot1_sent(AD);
     mot2_sent(AD);
@@ -108,7 +108,7 @@ void st_afuera_por_derecha () {
         _delay_ms (30);
     #endif
 
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  45);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  50);
     PWM2_VEL(COEFICIENTE_DERECHA  *  100);
     mot1_sent(AT);
     mot2_sent(AD);
@@ -123,7 +123,7 @@ void st_volviendo_por_derecha () {
         _delay_ms (10);
     #endif
 */    
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  40);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  50);
     PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AD);
     mot2_sent(AD);
@@ -152,7 +152,7 @@ void st_yendose_poco_por_izquierda () {
         _delay_ms (5);
     #endif
     
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  70);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  80);
     PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AD);
     mot2_sent(AD);
@@ -167,7 +167,7 @@ void st_yendose_mucho_por_izquierda () {
     #endif
     
     PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-    PWM2_VEL(COEFICIENTE_DERECHA   *  20);
+    PWM2_VEL(COEFICIENTE_DERECHA   *  50);
     mot1_sent(AD);
     mot2_sent(AD);
 };
@@ -181,7 +181,7 @@ void st_afuera_por_izquierda () {
     #endif
     
     PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
-    PWM2_VEL(COEFICIENTE_DERECHA   * 35);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 50);
     mot1_sent(AD);
     mot2_sent(AT);
 };
@@ -195,7 +195,7 @@ void st_volviendo_por_izquierda () {
     #endif
 */    
     PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-    PWM2_VEL(COEFICIENTE_DERECHA   *  40);
+    PWM2_VEL(COEFICIENTE_DERECHA   *  50);
     mot1_sent(AD);
     mot2_sent(AD);
 };
@@ -279,7 +279,7 @@ int main() {
             // boost "integrativo" para el estado en línea
             if (estado_actual == ST_EN_LINEA) {
                 boost_en_linea_contador += 1;
-                if ((boost_en_linea = (boost_en_linea_contador >> 4)) > 50) {
+                if ((boost_en_linea = (boost_en_linea_contador >> 3)) > 50) {
                     boost_en_linea = 50;
                 }
                 (*funciones[estado_actual])();
