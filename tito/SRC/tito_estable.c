@@ -123,7 +123,7 @@ void st_volviendo_por_derecha () {
         _delay_ms (10);
     #endif
 */    
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  20);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  50);
     PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AD);
     mot2_sent(AD);
