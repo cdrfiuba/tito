@@ -143,6 +143,7 @@ typedef enum eventos {
 
 #define COEFICIENTE_DERECHA 0.35
 #define COEFICIENTE_IZQUIERDA 0.35
+#define BOOST_EN_LINEA 1.5
 #define ACTIVAR_PROPULSORES_TRASEROS 1
 
 /*

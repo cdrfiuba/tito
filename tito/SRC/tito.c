@@ -80,8 +80,8 @@ void st_yendose_poco_por_derecha () {
         _delay_ms (5);
     #endif
           
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-    PWM2_VEL(COEFICIENTE_DERECHA  *   70);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * BOOST_EN_LINEA);
+    PWM2_VEL(COEFICIENTE_DERECHA  *   70 * BOOST_EN_LINEA);
     mot1_sent(AD);
     mot2_sent(AD);
 };
@@ -154,8 +154,8 @@ void st_yendose_poco_por_izquierda () {
         _delay_ms (5);
     #endif
     
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  70);
-    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  70 * BOOST_EN_LINEA);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 100 * BOOST_EN_LINEA);
     mot1_sent(AD);
     mot2_sent(AD);
 };
@@ -285,7 +285,7 @@ int main() {
                 if ((boost_en_linea = (boost_en_linea_contador >> 4)) > 12) {
                     boost_en_linea = 12;
                 }
-                boost_en_linea += 10;
+                boost_en_linea += 15;
                 (*funciones[estado_actual])();
             } else {
                 boost_en_linea_contador = 0;
