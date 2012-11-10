@@ -77,7 +77,7 @@ void st_yendose_poco_por_derecha () {
         PWM2_VEL(1.4 * COEFICIENTE_DERECHA  *  50);
         mot1_sent(AD);
         mot2_sent(AT);
-        _delay_ms (2);
+        _delay_ms (1);
     #endif
           
     PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * 1.8);
@@ -96,7 +96,7 @@ void st_yendose_mucho_por_derecha () {
 
     PWM1_VEL(COEFICIENTE_IZQUIERDA *  10);
     PWM2_VEL(COEFICIENTE_DERECHA *   100);
-    mot1_sent(AD);
+    mot1_sent(AT);
     mot2_sent(AD);
 };
 void st_afuera_por_derecha () {
@@ -149,7 +149,7 @@ void st_yendose_poco_por_izquierda () {
         PWM2_VEL(1.4 * COEFICIENTE_DERECHA   * 100);
         mot1_sent(AT);
         mot2_sent(AD);
-        _delay_ms (2);
+        _delay_ms (1);
     #endif
     
     PWM1_VEL(COEFICIENTE_IZQUIERDA *  90 * 1.8);
@@ -169,7 +169,7 @@ void st_yendose_mucho_por_izquierda () {
     PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
     PWM2_VEL(COEFICIENTE_DERECHA   *  10);
     mot1_sent(AD);
-    mot2_sent(AD);
+    mot2_sent(AT);
 };
 void st_afuera_por_izquierda () {
     #ifdef ACTIVAR_PROPULSORES_TRASEROS
