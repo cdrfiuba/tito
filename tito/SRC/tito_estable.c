@@ -105,21 +105,31 @@ void st_yendose_mucho_por_derecha () {
     #endif
 
     PWM1_VEL(COEFICIENTE_IZQUIERDA *  10);
-    PWM2_VEL(COEFICIENTE_DERECHA *   100);
+    PWM2_VEL(COEFICIENTE_DERECHA *   80);
     mot1_sent(AT);
     mot2_sent(AD);
 };
 void st_afuera_por_derecha () {
     #ifdef ACTIVAR_PROPULSORES_TRASEROS
-        PWM1_VEL(COEFICIENTE_IZQUIERDA *  90);
-        PWM2_VEL(COEFICIENTE_DERECHA  *  100);
+        PWM1_VEL(COEFICIENTE_IZQUIERDA * 40);
+        PWM2_VEL(COEFICIENTE_DERECHA *   100);
         mot1_sent(AT);
         mot2_sent(AD);
-        _delay_ms (15);
+        _delay_ms (5);
+        PWM1_VEL(COEFICIENTE_IZQUIERDA *  70);
+        PWM2_VEL(COEFICIENTE_DERECHA *   100);
+        mot1_sent(AT);
+        mot2_sent(AD);
+        _delay_ms (5);
+        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+        PWM2_VEL(COEFICIENTE_DERECHA *   100);
+        mot1_sent(AT);
+        mot2_sent(AD);
+        _delay_ms (5);
     #endif
 
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  45);
-    PWM2_VEL(COEFICIENTE_DERECHA  *  100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  55);
+    PWM2_VEL(COEFICIENTE_DERECHA  *  80);
     mot1_sent(AT);
     mot2_sent(AD);
 
@@ -186,22 +196,33 @@ void st_yendose_mucho_por_izquierda () {
         _delay_ms (5);    
     #endif
     
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 80);
     PWM2_VEL(COEFICIENTE_DERECHA   *  10);
     mot1_sent(AD);
     mot2_sent(AT);
 };
 void st_afuera_por_izquierda () {
     #ifdef ACTIVAR_PROPULSORES_TRASEROS
+
         PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-        PWM2_VEL(COEFICIENTE_DERECHA   *  90);
+        PWM2_VEL(COEFICIENTE_DERECHA   *  40);
         mot1_sent(AD);
         mot2_sent(AT);
-        _delay_ms (15);
-    #endif
+        _delay_ms (5);    
+        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+        PWM2_VEL(COEFICIENTE_DERECHA   *  70);
+        mot1_sent(AD);
+        mot2_sent(AT);
+        _delay_ms (5);    
+        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+        PWM2_VEL(COEFICIENTE_DERECHA   * 100);
+        mot1_sent(AD);
+        mot2_sent(AT);
+        _delay_ms (5);    
+#endif
     
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-    PWM2_VEL(COEFICIENTE_DERECHA   *  45);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 80);
+    PWM2_VEL(COEFICIENTE_DERECHA   *  55);
     mot1_sent(AD);
     mot2_sent(AT);
 };
