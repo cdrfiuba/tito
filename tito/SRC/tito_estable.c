@@ -65,71 +65,51 @@ static const int transiciones[ST_MAX_ESTADOS][EV_MAX_SENSORES] PROGMEM = {
 
 
 void st_en_linea () {
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * (60 + 0));
-    PWM2_VEL(COEFICIENTE_DERECHA   * (60 + 0));
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * (50 + 0));
+    PWM2_VEL(COEFICIENTE_DERECHA   * (50 + 0));
     mot1_sent(AD);
     mot2_sent(AD);
 };
 
 void st_yendose_poco_por_derecha () {
     #ifdef ACTIVAR_PROPULSORES_TRASEROS
-        PWM1_VEL(1.4 * COEFICIENTE_IZQUIERDA * 100);
-        PWM2_VEL(1.4 * COEFICIENTE_DERECHA  *  50);
+        PWM1_VEL(1.2 * COEFICIENTE_IZQUIERDA * 100);
+        PWM2_VEL(1.2 * COEFICIENTE_DERECHA  *  50);
         mot1_sent(AD);
         mot2_sent(AT);
-        _delay_ms (1);
+        _delay_ms (2);
     #endif
           
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100 * 1.8);
-    PWM2_VEL(COEFICIENTE_DERECHA  *   90 * 1.8);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+    PWM2_VEL(COEFICIENTE_DERECHA  *   85);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_yendose_mucho_por_derecha () {
     #ifdef ACTIVAR_PROPULSORES_TRASEROS
-        PWM1_VEL(COEFICIENTE_IZQUIERDA * 40);
-        PWM2_VEL(COEFICIENTE_DERECHA *   100);
-        mot1_sent(AT);
-        mot2_sent(AD);
-        _delay_ms (5);
         PWM1_VEL(COEFICIENTE_IZQUIERDA *  70);
         PWM2_VEL(COEFICIENTE_DERECHA *   100);
         mot1_sent(AT);
         mot2_sent(AD);
-        _delay_ms (5);
-        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-        PWM2_VEL(COEFICIENTE_DERECHA *   100);
-        mot1_sent(AT);
-        mot2_sent(AD);
-        _delay_ms (5);
+        _delay_ms (10);
     #endif
 
     PWM1_VEL(COEFICIENTE_IZQUIERDA *  10);
-    PWM2_VEL(COEFICIENTE_DERECHA *   80);
-    mot1_sent(AT);
+    PWM2_VEL(COEFICIENTE_DERECHA *   100);
+    mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_afuera_por_derecha () {
     #ifdef ACTIVAR_PROPULSORES_TRASEROS
-        PWM1_VEL(COEFICIENTE_IZQUIERDA * 40);
-        PWM2_VEL(COEFICIENTE_DERECHA *   100);
+        PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
+        PWM2_VEL(COEFICIENTE_DERECHA  *  100);
         mot1_sent(AT);
         mot2_sent(AD);
-        _delay_ms (5);
-        PWM1_VEL(COEFICIENTE_IZQUIERDA *  70);
-        PWM2_VEL(COEFICIENTE_DERECHA *   100);
-        mot1_sent(AT);
-        mot2_sent(AD);
-        _delay_ms (5);
-        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-        PWM2_VEL(COEFICIENTE_DERECHA *   100);
-        mot1_sent(AT);
-        mot2_sent(AD);
-        _delay_ms (5);
+        _delay_ms (10);
     #endif
 
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  55);
-    PWM2_VEL(COEFICIENTE_DERECHA  *  80);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  35);
+    PWM2_VEL(COEFICIENTE_DERECHA  *  100);
     mot1_sent(AT);
     mot2_sent(AD);
 
@@ -165,64 +145,43 @@ void st_volvio_por_derecha () {
 
 void st_yendose_poco_por_izquierda () {
     #ifdef ACTIVAR_PROPULSORES_TRASEROS
-        PWM1_VEL(1.4 * COEFICIENTE_IZQUIERDA *  50);
-        PWM2_VEL(1.4 * COEFICIENTE_DERECHA   * 100);
+        PWM1_VEL(1.2 * COEFICIENTE_IZQUIERDA *  50);
+        PWM2_VEL(1.2 * COEFICIENTE_DERECHA   * 100);
         mot1_sent(AT);
         mot2_sent(AD);
-        _delay_ms (1);
+        _delay_ms (2);
     #endif
     
-    PWM1_VEL(COEFICIENTE_IZQUIERDA *  90 * 1.8);
-    PWM2_VEL(COEFICIENTE_DERECHA   * 100 * 1.8);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  85);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 100);
     mot1_sent(AD);
     mot2_sent(AD);
 };
 void st_yendose_mucho_por_izquierda () {
     #ifdef ACTIVAR_PROPULSORES_TRASEROS
         PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-        PWM2_VEL(COEFICIENTE_DERECHA   *  40);
-        mot1_sent(AD);
-        mot2_sent(AT);
-        _delay_ms (5);    
-        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
         PWM2_VEL(COEFICIENTE_DERECHA   *  70);
         mot1_sent(AD);
         mot2_sent(AT);
-        _delay_ms (5);    
-        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-        PWM2_VEL(COEFICIENTE_DERECHA   * 100);
-        mot1_sent(AD);
-        mot2_sent(AT);
-        _delay_ms (5);    
+        _delay_ms (10);    
     #endif
     
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 80);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
     PWM2_VEL(COEFICIENTE_DERECHA   *  10);
     mot1_sent(AD);
-    mot2_sent(AT);
+    mot2_sent(AD);
 };
 void st_afuera_por_izquierda () {
     #ifdef ACTIVAR_PROPULSORES_TRASEROS
-
-        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-        PWM2_VEL(COEFICIENTE_DERECHA   *  40);
-        mot1_sent(AD);
-        mot2_sent(AT);
-        _delay_ms (5);    
-        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
-        PWM2_VEL(COEFICIENTE_DERECHA   *  70);
-        mot1_sent(AD);
-        mot2_sent(AT);
-        _delay_ms (5);    
-        PWM1_VEL(COEFICIENTE_IZQUIERDA * 100);
+        PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
         PWM2_VEL(COEFICIENTE_DERECHA   * 100);
         mot1_sent(AD);
         mot2_sent(AT);
-        _delay_ms (5);    
-#endif
+        _delay_ms (10);
+    #endif
     
-    PWM1_VEL(COEFICIENTE_IZQUIERDA * 80);
-    PWM2_VEL(COEFICIENTE_DERECHA   *  55);
+    PWM1_VEL(COEFICIENTE_IZQUIERDA *  100);
+    PWM2_VEL(COEFICIENTE_DERECHA   * 45);
     mot1_sent(AD);
     mot2_sent(AT);
 };
