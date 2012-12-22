@@ -1,191 +1,326 @@
-# EESchema Netlist Version 1.1 created  Wed 15 Jun 2011 11:36:11 AM ART
+# EESchema Netlist Version 1.1 created  vie 21 dic 2012 19:41:16 ART
 (
- ( /4DA49DB0 C1 C1 100nF
-  ( 1 GND )
-  ( 2 +5V )
+ ( /4DF8B753 $noname  SW1 SW_PUSH_SMALL {Lib=SW_PUSH_SMALL}
+  (    1 /SCK )
+  (    2 GND )
  )
- ( /4DE047FF C1 C2 10nF
-  ( 1 N-000001 )
-  ( 2 GND )
+ ( /4DE047FF $noname  C5 10_nF {Lib=C}
+  (    1 N-000041 )
+  (    2 GND )
  )
- ( /4DCDC288 D3 D1 DIODE
-  ( 1 GND )
-  ( 2 /MOT_1A )
+ ( /4DCDC28D $noname  D6 DIODE {Lib=DIODE}
+  (    1 /MOT_2A )
+  (    2 +BATT )
  )
- ( /4DCDC28A D3 D2 DIODE
-  ( 1 GND )
-  ( 2 /MOT_2A )
+ ( /4DCDC28A $noname  D2 DIODE {Lib=DIODE}
+  (    1 GND )
+  (    2 /MOT_2A )
  )
- ( /4DCDC3AA D3 D3 DIODE
-  ( 1 GND )
-  ( 2 /MOT_3B )
+ ( /4DCDC288 $noname  D1 DIODE {Lib=DIODE}
+  (    1 GND )
+  (    2 /MOT_1A )
  )
- ( /4DCDC3A9 D3 D4 DIODE
-  ( 1 GND )
-  ( 2 /MOT_4B )
+ ( /4DCDC280 $noname  D5 DIODE {Lib=DIODE}
+  (    1 /MOT_1A )
+  (    2 +BATT )
  )
- ( /4DCDC280 D3 D5 DIODE
-  ( 1 /MOT_1A )
-  ( 2 +BATT )
+ ( /4DC49978 $noname  U8 REG_104-5 {Lib=REG_104-5}
+  (    1 N-000040 )
+  (    2 +5V )
+  (    3 GND )
+  (    4 N-000041 )
+  (    5 N-000040 )
  )
- ( /4DCDC28D D3 D6 DIODE
-  ( 1 /MOT_2A )
-  ( 2 +BATT )
+ ( /4DC48B87 $noname  RV3 POT {Lib=POT}
+  (    1 N-000042 )
+  (    2 /SENSOR_3 )
+  (    3 /SENSOR_3 )
  )
- ( /4DCDC3AB D3 D7 DIODE
-  ( 1 /MOT_3B )
-  ( 2 +BATT )
+ ( /4DC48B85 $noname  RV1 POT {Lib=POT}
+  (    1 N-000043 )
+  (    2 /SENSOR_1 )
+  (    3 /SENSOR_1 )
  )
- ( /4DCDC3A8 D3 D8 DIODE
-  ( 1 /MOT_4B )
-  ( 2 +BATT )
+ ( /4DC48B82 $noname  RV4 POT {Lib=POT}
+  (    1 N-000044 )
+  (    2 /SENSOR_4 )
+  (    3 /SENSOR_4 )
  )
- ( /4DA49BD1 DIP-28__300_ELL IC1 ATMEGA8-P
-  ( 1 /RESET )
-  ( 2 /IN_2A )
-  ( 3 /IN_1A )
-  ( 4 /SENSOR_CURVA )
-  ( 5 ? )
-  ( 6 ? )
-  ( 7 +5V )
-  ( 8 GND )
-  ( 9 ? )
-  ( 10 ? )
-  ( 11 /SENSOR_1 )
-  ( 12 /SENSOR_2 )
-  ( 13 /SENSOR_3 )
-  ( 14 /SWITCH )
-  ( 15 /ENABLEA )
-  ( 16 /ENABLEB )
-  ( 17 /MOSI )
-  ( 18 /MISO )
-  ( 19 /SCK )
-  ( 20 +5V )
-  ( 21 +5V )
-  ( 22 GND )
-  ( 23 /LED4 )
-  ( 24 /LED3 )
-  ( 25 /LED2 )
-  ( 26 /LED1 )
-  ( 27 /IN_3B )
-  ( 28 /IN_4B )
+ ( /4DC48B5E $noname  RV2 POT {Lib=POT}
+  (    1 N-000045 )
+  (    2 /SENSOR_2 )
+  (    3 /SENSOR_2 )
  )
- ( /4DBB589A PIN_ARRAY_2X1 P1 CONN_2
-  ( 1 /MOT_2A )
-  ( 2 /MOT_1A )
+ ( /4DBB58A0 $noname  P3 Motor_2 {Lib=CONN_2}
+  (    1 /MOT_4B )
+  (    2 /MOT_3B )
  )
- ( /4DBB58A0 PIN_ARRAY_2X1 P2 CONN_2
-  ( 1 /MOT_4B )
-  ( 2 /MOT_3B )
+ ( /4DBB589A $noname  P2 Motor_1 {Lib=CONN_2}
+  (    1 /MOT_2A )
+  (    2 /MOT_1A )
  )
- ( /4DBB55F5 pin_array_4x2 P3 CONN_4X2
-  ( 1 /SENSOR_3 )
-  ( 2 ? )
-  ( 3 /SENSOR_2 )
-  ( 4 /SENSOR_CURVA )
-  ( 5 /SENSOR_1 )
-  ( 6 +5V )
-  ( 7 GND )
-  ( 8 ? )
+ ( /4DBB5686 $noname  R7 100 {Lib=R}
+  (    1 N-000044 )
+  (    2 GND )
  )
- ( /4DA8E50C bornier2 P4 CONN_2
-  ( 1 GND )
-  ( 2 +BATT )
+ ( /4DA8E50C $noname  P5 Bateria_7,2V {Lib=CONN_2}
+  (    1 GND )
+  (    2 N-000051 )
  )
- ( /4DA49C04 pin_array_3x2 P5 CONN_3X2
-  ( 1 +5V )
-  ( 2 GND )
-  ( 3 /LED1 )
-  ( 4 /LED4 )
-  ( 5 /LED2 )
-  ( 6 /LED3 )
+ ( /4DA8DD43 $noname  U5 L298D {Lib=L298D}
+  (    1 GND )
+  (    2 /MOT_1A )
+  (    3 /MOT_2A )
+  (    4 +BATT )
+  (    5 /IN_1A )
+  (    6 /ENABLEA )
+  (    7 /IN_2A )
+  (    8 GND )
+  (    9 +5V )
+  (   10 /IN_3B )
+  (   11 /ENABLEB )
+  (   12 /IN_4B )
+  (   13 /MOT_3B )
+  (   14 /MOT_4B )
+  (   15 GND )
  )
- ( /4DA49E4D pin_array_3x2 P6 CONN_3X2
-  ( 1 /MISO )
-  ( 2 +5V )
-  ( 3 /SCK )
-  ( 4 /MOSI )
-  ( 5 /RESET )
-  ( 6 GND )
+ ( /4DA4A294 $noname  R6 100 {Lib=R}
+  (    1 N-000042 )
+  (    2 GND )
  )
- ( /4DA4A25D R3 R1 100
-  ( 1 N-000035 )
-  ( 2 GND )
+ ( /4DA4A28D $noname  R5 100 {Lib=R}
+  (    1 N-000045 )
+  (    2 GND )
  )
- ( /4DA4A28D R3 R2 100
-  ( 1 N-000036 )
-  ( 2 GND )
+ ( /4DA4A25D $noname  R4 100 {Lib=R}
+  (    1 N-000043 )
+  (    2 GND )
  )
- ( /4DA4A294 R3 R3 100
-  ( 1 N-000037 )
-  ( 2 GND )
+ ( /4DA49E4D $noname  P6 Programador {Lib=CONN_3X2}
+  (    1 /MISO )
+  (    2 +5V )
+  (    3 /SCK )
+  (    4 /MOSI )
+  (    5 /RESET )
+  (    6 GND )
  )
- ( /4DBB5686 R3 R4 100
-  ( 1 N-000008 )
-  ( 2 GND )
+ ( /4DA49DB0 $noname  C6 100nF {Lib=C}
+  (    1 GND )
+  (    2 +5V )
  )
- ( /4DC48B85 PIN_ARRAY_3X1 RV1 POT
-  ( 1 N-000035 )
-  ( 2 /SENSOR_3 )
-  ( 3 /SENSOR_3 )
+ ( /50A6D37C $noname  SW2 SW_PUSH_SMALL {Lib=SW_PUSH_SMALL}
+  (    1 /RESET )
+  (    2 GND )
  )
- ( /4DC48B5E PIN_ARRAY_3X1 RV2 POT
-  ( 1 N-000036 )
-  ( 2 /SENSOR_2 )
-  ( 3 /SENSOR_2 )
+ ( /50A6D498 $noname  R14 10_K {Lib=R}
+  (    1 +5V )
+  (    2 /RESET )
  )
- ( /4DC48B87 PIN_ARRAY_3X1 RV3 POT
-  ( 1 N-000037 )
-  ( 2 /SENSOR_1 )
-  ( 3 /SENSOR_1 )
+ ( /50A6D90D $noname  C3 100n {Lib=C}
+  (    1 /RESET )
+  (    2 GND )
  )
- ( /4DC48B82 PIN_ARRAY_3X1 RV4 POT
-  ( 1 N-000008 )
-  ( 2 /SENSOR_CURVA )
-  ( 3 /SENSOR_CURVA )
+ ( /50A6DC8A $noname  C4 220_uF {Lib=CAPAPOL}
+  (    1 +5V )
+  (    2 GND )
  )
- ( /4DF8B753 SW_PUSH_SMALL SW1 SW_PUSH_SMALL
-  ( 1 /SWITCH )
-  ( 2 GND )
+ ( /50A6E6BB $noname  P4 Bateria_3,6V {Lib=CONN_2}
+  (    1 N-000040 )
+  (    2 +BATT )
  )
- ( /4DA8DD43 L298D U1 L298D
-  ( 1 GND )
-  ( 2 /MOT_1A )
-  ( 3 /MOT_2A )
-  ( 4 +BATT )
-  ( 5 /IN_1A )
-  ( 6 /ENABLEA )
-  ( 7 /IN_2A )
-  ( 8 GND )
-  ( 9 +5V )
-  ( 10 /IN_3B )
-  ( 11 /ENABLEB )
-  ( 12 /IN_4B )
-  ( 13 /MOT_3B )
-  ( 14 /MOT_4B )
-  ( 15 GND )
+ ( /50A6EFE7 $noname  K2 Jumper_con_doble_posicion {Lib=CONN_3}
+  (    1 N-000040 )
+  (    2 N-000040 )
+  (    3 N-000051 )
  )
- ( /4DC49978 SOT223-5 U2 REG_104-5
-  ( 1 +BATT )
-  ( 2 +5V )
-  ( 3 GND )
-  ( 4 N-000001 )
-  ( 5 +BATT )
+ ( /50A6F7BB $noname  C2 1000_uF {Lib=CAPAPOL}
+  (    1 +BATT )
+  (    2 GND )
+ )
+ ( /50A7025B $noname  C1 100_nF {Lib=C}
+  (    1 +5V )
+  (    2 GND )
+ )
+ ( /50A703EB DIL28  IC1 ATMEGA88-P {Lib=ATMEGA88-P}
+  (    1 /RESET )
+  (    2 /RX )
+  (    3 /TX )
+  (    4 /LED2 )
+  (    5 /SERVO )
+  (    6 /LED3 )
+  (    7 +5V )
+  (    8 GND )
+  (    9 /ENABLEA )
+  (   10 /ENABLEB )
+  (   11 /IN_2A )
+  (   12 /IN_1A )
+  (   13 /LED4 )
+  (   14 /LED1 )
+  (   15 /IN_3B )
+  (   16 /IN_4B )
+  (   17 /MOSI )
+  (   18 /MISO )
+  (   19 /SCK )
+  (   20 +5V )
+  (   21 ? )
+  (   22 GND )
+  (   23 /SENSOR_1 )
+  (   24 /SENSOR_2 )
+  (   25 /SENSOR_3 )
+  (   26 /SENSOR_4 )
+  (   27 /SENSOR_5 )
+  (   28 /SENSOR_6 )
+ )
+ ( /50A70BBD $noname  D9 LED {Lib=LED}
+  (    1 N-000011 )
+  (    2 GND )
+ )
+ ( /50A70BCA $noname  D10 LED {Lib=LED}
+  (    1 N-000012 )
+  (    2 GND )
+ )
+ ( /50A70BD0 $noname  D11 LED {Lib=LED}
+  (    1 N-000013 )
+  (    2 GND )
+ )
+ ( /50A70BD6 $noname  D12 LED {Lib=LED}
+  (    1 N-000014 )
+  (    2 GND )
+ )
+ ( /50A70BDE $noname  R15 R {Lib=R}
+  (    1 /LED1 )
+  (    2 N-000011 )
+ )
+ ( /50A70BEB $noname  R16 R {Lib=R}
+  (    1 /LED2 )
+  (    2 N-000012 )
+ )
+ ( /50A70BF1 $noname  R17 R {Lib=R}
+  (    1 /LED3 )
+  (    2 N-000013 )
+ )
+ ( /50A70BF7 $noname  R18 R {Lib=R}
+  (    1 /LED4 )
+  (    2 N-000014 )
+ )
+ ( /50CBBAFC $noname  U6 CNY70 {Lib=CNY70}
+  (    A N-000015 )
+  (    C +5V )
+  (    E /SENSOR_2 )
+  (    K GND )
+ )
+ ( /50CBCBC0 $noname  R12 R {Lib=R}
+  (    1 N-000015 )
+  (    2 +5V )
+ )
+ ( /50CBD88A $noname  U7 CNY70 {Lib=CNY70}
+  (    A N-000023 )
+  (    C +5V )
+  (    E /SENSOR_4 )
+  (    K GND )
+ )
+ ( /50CBD897 $noname  R13 R {Lib=R}
+  (    1 N-000023 )
+  (    2 +5V )
+ )
+ ( /50CBD8AC $noname  U3 CNY70 {Lib=CNY70}
+  (    A N-000021 )
+  (    C +5V )
+  (    E /SENSOR_1 )
+  (    K GND )
+ )
+ ( /50CBD8B9 $noname  R10 R {Lib=R}
+  (    1 N-000021 )
+  (    2 +5V )
+ )
+ ( /50CBD8CE $noname  U4 CNY70 {Lib=CNY70}
+  (    A N-000006 )
+  (    C +5V )
+  (    E /SENSOR_3 )
+  (    K GND )
+ )
+ ( /50CBD8DB $noname  R11 R {Lib=R}
+  (    1 N-000006 )
+  (    2 +5V )
+ )
+ ( /50CBE541 $noname  D8 DIODE {Lib=DIODE}
+  (    1 /MOT_4B )
+  (    2 +BATT )
+ )
+ ( /50CBE547 $noname  D4 DIODE {Lib=DIODE}
+  (    1 GND )
+  (    2 /MOT_4B )
+ )
+ ( /50CBE54D $noname  D3 DIODE {Lib=DIODE}
+  (    1 GND )
+  (    2 /MOT_3B )
+ )
+ ( /50CBE553 $noname  D7 DIODE {Lib=DIODE}
+  (    1 /MOT_3B )
+  (    2 +BATT )
+ )
+ ( /50CBEDCA $noname  P1 Puerto_Serie {Lib=CONN_4}
+  (    1 GND )
+  (    2 /RX )
+  (    3 /TX )
+  (    4 +5V )
+ )
+ ( /50CBF739 $noname  K1 Servo {Lib=CONN_3}
+  (    1 GND )
+  (    2 /SERVO )
+  (    3 +5V )
+ )
+ ( /50CBFFF7 $noname  U1 CNY70 {Lib=CNY70}
+  (    A N-000039 )
+  (    C +5V )
+  (    E /SENSOR_5 )
+  (    K GND )
+ )
+ ( /50CC0004 $noname  R1 R {Lib=R}
+  (    1 N-000039 )
+  (    2 +5V )
+ )
+ ( /50CC0019 $noname  U2 CNY70 {Lib=CNY70}
+  (    A N-000038 )
+  (    C +5V )
+  (    E /SENSOR_6 )
+  (    K GND )
+ )
+ ( /50CC0026 $noname  R2 R {Lib=R}
+  (    1 N-000038 )
+  (    2 +5V )
+ )
+ ( /50CC0050 $noname  RV5 POT {Lib=POT}
+  (    1 N-000026 )
+  (    2 /SENSOR_5 )
+  (    3 /SENSOR_5 )
+ )
+ ( /50CC0056 $noname  RV6 POT {Lib=POT}
+  (    1 N-000025 )
+  (    2 /SENSOR_6 )
+  (    3 /SENSOR_6 )
+ )
+ ( /50CC005D $noname  R9 100 {Lib=R}
+  (    1 N-000025 )
+  (    2 GND )
+ )
+ ( /50CC0069 $noname  R8 100 {Lib=R}
+  (    1 N-000026 )
+  (    2 GND )
+ )
+ ( /50CC0617 $noname  R3 R {Lib=R}
+  (    1 +5V )
+  (    2 /SCK )
  )
 )
 *
 { Allowed footprints by component:
-$component C1
+$component C5
  SM*
  C?
  C1-1
 $endlist
-$component C2
- SM*
- C?
- C1-1
-$endlist
-$component D1
+$component D6
  D?
  S*
 $endlist
@@ -193,11 +328,7 @@ $component D2
  D?
  S*
 $endlist
-$component D3
- D?
- S*
-$endlist
-$component D4
+$component D1
  D?
  S*
 $endlist
@@ -205,7 +336,169 @@ $component D5
  D?
  S*
 $endlist
-$component D6
+$component R7
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R6
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R5
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R4
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component C6
+ SM*
+ C?
+ C1-1
+$endlist
+$component R14
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component C3
+ SM*
+ C?
+ C1-1
+$endlist
+$component C4
+ CP*
+ SM*
+$endlist
+$component C2
+ CP*
+ SM*
+$endlist
+$component C1
+ SM*
+ C?
+ C1-1
+$endlist
+$component IC1
+ 28DIP-ELL600
+ 28dip600
+$endlist
+$component D9
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component D10
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component D11
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component D12
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component R15
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R16
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R17
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R18
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R12
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R13
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R10
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R11
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component D8
+ D?
+ S*
+$endlist
+$component D4
+ D?
+ S*
+$endlist
+$component D3
  D?
  S*
 $endlist
@@ -213,37 +506,281 @@ $component D7
  D?
  S*
 $endlist
-$component D8
- D?
- S*
-$endlist
-$component IC1
- 28DIP-ELL600
- 28dip600
-$endlist
 $component R1
  R?
  SM0603
  SM0805
  R?-*
+ SM1206
 $endlist
 $component R2
  R?
  SM0603
  SM0805
  R?-*
+ SM1206
+$endlist
+$component R9
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R8
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
 $endlist
 $component R3
  R?
  SM0603
  SM0805
  R?-*
-$endlist
-$component R4
- R?
- SM0603
- SM0805
- R?-*
+ SM1206
 $endlist
 $endfootprintlist
 }
+{ Pin List by Nets
+Net 1 "/MOT_1A" "MOT_1A"
+ P2 2
+ U5 2
+ D1 2
+ D5 1
+Net 2 "/MOT_2A" "MOT_2A"
+ P2 1
+ U5 3
+ D6 1
+ D2 2
+Net 3 "/MOT_4B" "MOT_4B"
+ P3 1
+ D8 1
+ U5 14
+ D4 2
+Net 4 "+5V" "+5V"
+ IC1 20
+ U6 C
+ R12 2
+ IC1 7
+ U7 C
+ R13 2
+ R3 1
+ U8 2
+ U3 C
+ C1 1
+ R10 2
+ C4 1
+ R11 2
+ U4 C
+ P6 2
+ R1 2
+ C6 2
+ R2 2
+ K1 3
+ U5 9
+ U2 C
+ U1 C
+ P1 4
+ R14 1
+Net 5 "/SENSOR 3" "SENSOR 3"
+ RV3 2
+ U4 E
+ IC1 25
+ RV3 3
+Net 6 "" ""
+ U4 A
+ R11 1
+Net 7 "+BATT" "+BATT"
+ D6 2
+ D5 2
+ D7 2
+ D8 2
+ P4 2
+ C2 1
+ U5 4
+Net 8 "GND" "GND"
+ SW1 2
+ R6 2
+ R5 2
+ R4 2
+ D2 1
+ U5 8
+ D1 1
+ U5 15
+ C6 1
+ P6 6
+ C4 2
+ C3 2
+ SW2 2
+ U2 K
+ C1 2
+ C2 2
+ C5 2
+ IC1 22
+ IC1 8
+ D12 2
+ D11 2
+ D10 2
+ D9 2
+ R7 2
+ P5 1
+ U5 1
+ U8 3
+ U4 K
+ P1 1
+ D4 1
+ R9 2
+ D3 1
+ U7 K
+ U3 K
+ K1 1
+ U6 K
+ R8 2
+ U1 K
+Net 9 "/MOT_3B" "MOT_3B"
+ U5 13
+ D3 2
+ D7 1
+ P3 2
+Net 10 "/SENSOR 2" "SENSOR 2"
+ RV2 2
+ RV2 3
+ U6 E
+ IC1 24
+Net 11 "" ""
+ D9 1
+ R15 2
+Net 12 "" ""
+ R16 2
+ D10 1
+Net 13 "" ""
+ R17 2
+ D11 1
+Net 14 "" ""
+ D12 1
+ R18 2
+Net 15 "" ""
+ U6 A
+ R12 1
+Net 16 "/LED1" "LED1"
+ IC1 14
+ R15 1
+Net 17 "/LED2" "LED2"
+ R16 1
+ IC1 4
+Net 18 "/LED3" "LED3"
+ R17 1
+ IC1 6
+Net 19 "/LED4" "LED4"
+ R18 1
+ IC1 13
+Net 20 "/SENSOR 1" "SENSOR 1"
+ RV1 2
+ RV1 3
+ IC1 23
+ U3 E
+Net 21 "" ""
+ R10 1
+ U3 A
+Net 22 "/SENSOR 4" "SENSOR 4"
+ IC1 26
+ U7 E
+ RV4 3
+ RV4 2
+Net 23 "" ""
+ U7 A
+ R13 1
+Net 24 "/SENSOR 6" "SENSOR 6"
+ RV6 3
+ RV6 2
+ IC1 28
+ U2 E
+Net 25 "" ""
+ R9 1
+ RV6 1
+Net 26 "" ""
+ RV5 1
+ R8 1
+Net 27 "/SENSOR 5" "SENSOR 5"
+ IC1 27
+ RV5 2
+ U1 E
+ RV5 3
+Net 29 "/ENABLEA" "ENABLEA"
+ U5 6
+ IC1 9
+Net 30 "/ENABLEB" "ENABLEB"
+ IC1 10
+ U5 11
+Net 31 "/SERVO" "SERVO"
+ IC1 5
+ K1 2
+Net 32 "/IN_1A" "IN_1A"
+ U5 5
+ IC1 12
+Net 33 "/IN_2A" "IN_2A"
+ U5 7
+ IC1 11
+Net 34 "/IN_3B" "IN_3B"
+ IC1 15
+ U5 10
+Net 35 "/IN_4B" "IN_4B"
+ U5 12
+ IC1 16
+Net 36 "/TX" "TX"
+ IC1 3
+ P1 3
+Net 37 "/RX" "RX"
+ IC1 2
+ P1 2
+Net 38 "" ""
+ R2 1
+ U2 A
+Net 39 "" ""
+ R1 1
+ U1 A
+Net 40 "" ""
+ U8 5
+ U8 1
+ K2 1
+ K2 2
+ P4 1
+Net 41 "" ""
+ U8 4
+ C5 1
+Net 42 "" ""
+ RV3 1
+ R6 1
+Net 43 "" ""
+ R4 1
+ RV1 1
+Net 44 "" ""
+ RV4 1
+ R7 1
+Net 45 "" ""
+ R5 1
+ RV2 1
+Net 46 "/RESET" "RESET"
+ P6 5
+ SW2 1
+ R14 2
+ C3 1
+ IC1 1
+Net 47 "/SCK" "SCK"
+ IC1 19
+ P6 3
+ R3 2
+ SW1 1
+Net 48 "/MISO" "MISO"
+ IC1 18
+ P6 1
+Net 49 "/MOSI" "MOSI"
+ IC1 17
+ P6 4
+Net 51 "" ""
+ K2 3
+ P5 2
+}
+#End
