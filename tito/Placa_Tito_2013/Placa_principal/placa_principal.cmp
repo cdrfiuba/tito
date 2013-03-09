@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2012-oct-18)-testing date = vie 22 feb 2013 20:56:06 ART
+Cmp-Mod V01 Created by CvPcb (2011-nov-30)-testing date = vie 08 mar 2013 21:34:40 ART
 
 BeginCmp
 TimeStamp = /50A7025B;
@@ -148,6 +148,20 @@ IdModule  = DIP-28__300_ELL;
 EndCmp
 
 BeginCmp
+TimeStamp = /513A8105;
+Reference = JP1;
+ValeurCmp = JUMPER;
+IdModule  = PIN_ARRAY_2X1;
+EndCmp
+
+BeginCmp
+TimeStamp = /513A7B70;
+Reference = JP2;
+ValeurCmp = JUMPER;
+IdModule  = PIN_ARRAY_2X1;
+EndCmp
+
+BeginCmp
 TimeStamp = /50CBF739;
 Reference = K1;
 ValeurCmp = Servo;
@@ -204,30 +218,37 @@ IdModule  = pin_array_3x2;
 EndCmp
 
 BeginCmp
-TimeStamp = /51280461;
+TimeStamp = /513A79F4;
 Reference = P7;
 ValeurCmp = CONN_1;
 IdModule  = 1pin;
 EndCmp
 
 BeginCmp
-TimeStamp = /512805BC;
+TimeStamp = /513A79E3;
 Reference = P8;
-ValeurCmp = JUMPERS_PARA_PROGRAMAR;
-IdModule  = PIN_ARRAY_2X1;
+ValeurCmp = CONN_1;
+IdModule  = 1pin;
+EndCmp
+
+BeginCmp
+TimeStamp = /513A7A03;
+Reference = P9;
+ValeurCmp = CONN_1;
+IdModule  = 1pin;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CC0004;
 Reference = R1;
-ValeurCmp = R;
+ValeurCmp = R_sensor;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CC0026;
 Reference = R2;
-ValeurCmp = R;
+ValeurCmp = R_sensor;
 IdModule  = R3;
 EndCmp
 
@@ -283,28 +304,28 @@ EndCmp
 BeginCmp
 TimeStamp = /50CBD8B9;
 Reference = R10;
-ValeurCmp = R;
+ValeurCmp = R_sensor;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CBD8DB;
 Reference = R11;
-ValeurCmp = R;
+ValeurCmp = R_sensor;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CBCBC0;
 Reference = R12;
-ValeurCmp = R;
+ValeurCmp = R_sensor;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CBD897;
 Reference = R13;
-ValeurCmp = R;
+ValeurCmp = R_sensor;
 IdModule  = R3;
 EndCmp
 
@@ -318,28 +339,28 @@ EndCmp
 BeginCmp
 TimeStamp = /50A70BDE;
 Reference = R15;
-ValeurCmp = R;
+ValeurCmp = R_led;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50A70BEB;
 Reference = R16;
-ValeurCmp = R;
+ValeurCmp = R_led;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50A70BF1;
 Reference = R17;
-ValeurCmp = R;
+ValeurCmp = R_led;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50A70BF7;
 Reference = R18;
-ValeurCmp = R;
+ValeurCmp = R_led;
 IdModule  = R3;
 EndCmp
 
