@@ -1,16 +1,16 @@
-Cmp-Mod V01 Created by CvPcb (2011-nov-30)-testing date = vie 08 mar 2013 21:34:40 ART
+Cmp-Mod V01 Created by CvPcb (2013-mar-08)-testing date = vie 15 mar 2013 21:20:21 ART
 
 BeginCmp
 TimeStamp = /50A7025B;
 Reference = C1;
-ValeurCmp = 100_nF;
+ValeurCmp = 100 nF;
 IdModule  = C1;
 EndCmp
 
 BeginCmp
 TimeStamp = /50A6F7BB;
 Reference = C2;
-ValeurCmp = 1000_uF;
+ValeurCmp = 1000 uF;
 IdModule  = CP4;
 EndCmp
 
@@ -24,14 +24,14 @@ EndCmp
 BeginCmp
 TimeStamp = /50A6DC8A;
 Reference = C4;
-ValeurCmp = 220_uF;
+ValeurCmp = 220 uF;
 IdModule  = CP4;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DE047FF;
 Reference = C5;
-ValeurCmp = 10_nF;
+ValeurCmp = 10 nF;
 IdModule  = C1;
 EndCmp
 
@@ -171,43 +171,43 @@ EndCmp
 BeginCmp
 TimeStamp = /50A6EFE7;
 Reference = K2;
-ValeurCmp = Jumper_con_doble_posicion;
+ValeurCmp = Jumper con doble posicion;
 IdModule  = PIN_ARRAY_3X1;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CBEDCA;
 Reference = P1;
-ValeurCmp = Puerto_Serie;
-IdModule  = PIN_ARRAY_2X1;
+ValeurCmp = Puerto Serie;
+IdModule  = PIN_ARRAY_4x1;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DBB589A;
 Reference = P2;
-ValeurCmp = Motor_1;
+ValeurCmp = Motor 1;
 IdModule  = PIN_ARRAY_2X1;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DBB58A0;
 Reference = P3;
-ValeurCmp = Motor_2;
-IdModule  = pin_array_4x2;
+ValeurCmp = Motor 2;
+IdModule  = PIN_ARRAY_2X1;
 EndCmp
 
 BeginCmp
 TimeStamp = /50A6E6BB;
 Reference = P4;
-ValeurCmp = Bateria_3,6V;
+ValeurCmp = Bateria 3,6V;
 IdModule  = bornier2;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DA8E50C;
 Reference = P5;
-ValeurCmp = Bateria_7,2V;
-IdModule  = pin_array_3x2;
+ValeurCmp = Bateria 7,2V;
+IdModule  = bornier2;
 EndCmp
 
 BeginCmp
@@ -241,21 +241,21 @@ EndCmp
 BeginCmp
 TimeStamp = /50CC0004;
 Reference = R1;
-ValeurCmp = R_sensor;
+ValeurCmp = R sensor;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CC0026;
 Reference = R2;
-ValeurCmp = R_sensor;
+ValeurCmp = R sensor;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CC0617;
 Reference = R3;
-ValeurCmp = PULL_UP;
+ValeurCmp = PULL UP;
 IdModule  = R3;
 EndCmp
 
@@ -304,70 +304,70 @@ EndCmp
 BeginCmp
 TimeStamp = /50CBD8B9;
 Reference = R10;
-ValeurCmp = R_sensor;
+ValeurCmp = R sensor;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CBD8DB;
 Reference = R11;
-ValeurCmp = R_sensor;
+ValeurCmp = R sensor;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CBCBC0;
 Reference = R12;
-ValeurCmp = R_sensor;
+ValeurCmp = R sensor;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CBD897;
 Reference = R13;
-ValeurCmp = R_sensor;
+ValeurCmp = R sensor;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50A6D498;
 Reference = R14;
-ValeurCmp = 10_K;
+ValeurCmp = 10 K;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50A70BDE;
 Reference = R15;
-ValeurCmp = R_led;
+ValeurCmp = R led;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50A70BEB;
 Reference = R16;
-ValeurCmp = R_led;
+ValeurCmp = R led;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50A70BF1;
 Reference = R17;
-ValeurCmp = R_led;
+ValeurCmp = R led;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50A70BF7;
 Reference = R18;
-ValeurCmp = R_led;
+ValeurCmp = R led;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /51280B09;
 Reference = R19;
-ValeurCmp = PULL_UP;
+ValeurCmp = PULL UP;
 IdModule  = R3;
 EndCmp
 
@@ -414,9 +414,23 @@ IdModule  = PIN_ARRAY_3X1;
 EndCmp
 
 BeginCmp
+TimeStamp = /50CBFFF7;
+Reference = SERVO_U1;
+ValeurCmp = CNY70;
+IdModule  = cny70-4;
+EndCmp
+
+BeginCmp
+TimeStamp = /50CC0019;
+Reference = SERVO_U2;
+ValeurCmp = CNY70;
+IdModule  = cny70-4;
+EndCmp
+
+BeginCmp
 TimeStamp = /4DF8B753;
 Reference = SW1;
-ValeurCmp = SWITCH_COMUN;
+ValeurCmp = SWITCH COMUN;
 IdModule  = SW_PUSH_SMALL;
 EndCmp
 
@@ -430,22 +444,8 @@ EndCmp
 BeginCmp
 TimeStamp = /51280B03;
 Reference = SW3;
-ValeurCmp = BOTON_DE_INTERRUPCION;
+ValeurCmp = BOTON DE INTERRUPCION;
 IdModule  = SW_PUSH_SMALL;
-EndCmp
-
-BeginCmp
-TimeStamp = /50CBFFF7;
-Reference = U1;
-ValeurCmp = CNY70;
-IdModule  = CONN3-INV_SMD;
-EndCmp
-
-BeginCmp
-TimeStamp = /50CC0019;
-Reference = U2;
-ValeurCmp = CNY70;
-IdModule  = cny70-4;
 EndCmp
 
 BeginCmp
