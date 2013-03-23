@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date vie 15 mar 2013 22:01:50 ART
+EESchema Schematic File Version 2  date vie 22 mar 2013 22:05:50 ART
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -40,7 +40,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Tito, el autito más bonito"
-Date "16 mar 2013"
+Date "23 mar 2013"
 Rev "0.3"
 Comp ""
 Comment1 ""

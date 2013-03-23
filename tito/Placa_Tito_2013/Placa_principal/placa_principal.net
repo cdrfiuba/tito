@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /home/alumno/Documentos/tito/tito/Placa_Tito_2013/Placa_principal/placa_principal.sch)
-    (date "vie 15 mar 2013 21:52:21 ART")
+    (date "vie 22 mar 2013 21:27:05 ART")
     (tool "eeschema (2013-mar-08)-testing"))
   (components
     (comp (ref SW1)
