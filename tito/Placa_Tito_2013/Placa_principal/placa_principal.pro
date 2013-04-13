@@ -1,40 +1,7 @@
-update=vie 22 feb 2013 20:55:31 ART
-last_client=cvpcb
+update=vie 12 abr 2013 19:50:07 ART
+last_client=pcbnew
 [general]
 version=1
-[pcbnew]
-version=1
-PadDrlX=600
-PadDimH=1181
-PadDimV=1181
-BoardThickness=630
-SgPcb45=1
-TxtPcbV=800
-TxtPcbH=600
-TxtModV=600
-TxtModH=600
-TxtModW=120
-VEgarde=100
-DrawLar=150
-EdgeLar=150
-TxtLar=120
-MSegLar=150
-LastNetListRead=placa_principal.net
-[pcbnew/libraries]
-LibName1=sockets
-LibName2=connect
-LibName3=discret
-LibName4=pin_array
-LibName5=divers
-LibName6=libcms
-LibName7=display
-LibName8=valves
-LibName9=led
-LibName10=dip_sockets
-LibName11=/home/tulku/Descargas/TITO/L298
-LibName12=/home/alumno/Documentos/tito/SOT223-5
-LibName13=/home/alumno/Documentos/tito/cny70
-LibDir=
 [eeschema]
 version=1
 LibDir=
@@ -83,3 +50,38 @@ version=1
 NetIExt=net
 [cvpcb/libraries]
 EquName1=devcms
+[pcbnew]
+version=1
+LastNetListRead=placa_principal.net
+UseCmpFile=1
+PadDrill="    2,000000"
+PadDrillOvalY="    2,000000"
+PadSizeH="    2,000000"
+PadSizeV="    2,000000"
+PcbTextSizeV="    2,032000"
+PcbTextSizeH="    1,524000"
+PcbTextThickness="    0,304800"
+ModuleTextSizeV="    1,524000"
+ModuleTextSizeH="    1,524000"
+ModuleTextSizeThickness="    0,304800"
+SolderMaskClearance="    0,254000"
+SolderMaskMinWidth="    0,000000"
+DrawSegmentWidth="    0,381000"
+BoardOutlineThickness="    0,381000"
+ModuleOutlineThickness="    0,381000"
+[pcbnew/libraries]
+LibDir=
+LibName1=sockets
+LibName2=connect
+LibName3=discret
+LibName4=pin_array
+LibName5=divers
+LibName6=libcms
+LibName7=display
+LibName8=valves
+LibName9=led
+LibName10=dip_sockets
+LibName11=/home/tulku/Descargas/TITO/L298
+LibName12=/home/alumno/Documentos/tito/SOT223-5
+LibName13=/home/alumno/Documentos/tito/cny70
+LibName14=1pin2mm

@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date vie 22 mar 2013 22:05:50 ART
+EESchema Schematic File Version 2  date vie 12 abr 2013 21:53:35 ART
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -40,7 +40,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Tito, el autito más bonito"
-Date "23 mar 2013"
+Date "12 apr 2013"
 Rev "0.3"
 Comp ""
 Comment1 ""
@@ -59,7 +59,7 @@ F 3 "" H 9300 6950 60  0001 C CNN
 	1    9300 6950
 	1    0    0    -1  
 $EndComp
-Text Label 8750 6650 0    60   ~ 0
+Text Label 7900 6650 2    60   ~ 0
 SWITCH
 $Comp
 L SW_PUSH_SMALL SW1
@@ -2131,4 +2131,17 @@ Text Notes 10150 6100 0    60   ~ 0
 Botones
 Text Notes 2000 2700 0    60   ~ 0
 Motores
+$Comp
+L JUMPER JP3
+U 1 1 516893DD
+P 8450 6650
+F 0 "JP3" H 8450 6800 60  0000 C CNN
+F 1 "JUMPER" H 8450 6570 40  0000 C CNN
+F 2 "" H 8450 6650 60  0001 C CNN
+F 3 "" H 8450 6650 60  0001 C CNN
+	1    8450 6650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8150 6650 7900 6650
 $EndSCHEMATC

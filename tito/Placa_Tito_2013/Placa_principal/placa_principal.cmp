@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-mar-08)-testing date = vie 22 mar 2013 21:26:54 ART
+Cmp-Mod V01 Created by CvPcb (2013-mar-13)-testing date = vie 12 abr 2013 20:30:28 ART
 
 BeginCmp
 TimeStamp = /50A7025B;
@@ -32,7 +32,7 @@ BeginCmp
 TimeStamp = /4DE047FF;
 Reference = C5;
 ValeurCmp = 10 nF;
-IdModule  = C1;
+IdModule  = SM0805;
 EndCmp
 
 BeginCmp
@@ -162,6 +162,13 @@ IdModule  = PIN_ARRAY_2X1;
 EndCmp
 
 BeginCmp
+TimeStamp = /516893DD;
+Reference = JP3;
+ValeurCmp = JUMPER;
+IdModule  = PIN_ARRAY_2X1;
+EndCmp
+
+BeginCmp
 TimeStamp = /50CBF739;
 Reference = K1;
 ValeurCmp = Servo;
@@ -221,21 +228,21 @@ BeginCmp
 TimeStamp = /513A79F4;
 Reference = P7;
 ValeurCmp = CONN_1;
-IdModule  = 1pin;
+IdModule  = 1PIN2mm;
 EndCmp
 
 BeginCmp
 TimeStamp = /513A79E3;
 Reference = P8;
 ValeurCmp = CONN_1;
-IdModule  = 1pin;
+IdModule  = 1PIN2mm;
 EndCmp
 
 BeginCmp
 TimeStamp = /513A7A03;
 Reference = P9;
 ValeurCmp = CONN_1;
-IdModule  = 1pin;
+IdModule  = 1PIN2mm;
 EndCmp
 
 BeginCmp
