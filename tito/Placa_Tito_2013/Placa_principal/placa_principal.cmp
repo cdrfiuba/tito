@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-mar-13)-testing date = vie 12 abr 2013 20:30:28 ART
+Cmp-Mod V01 Created by CvPcb (2013-mar-13)-testing date = vie 19 abr 2013 20:35:59 ART
 
 BeginCmp
 TimeStamp = /50A7025B;
@@ -249,14 +249,14 @@ BeginCmp
 TimeStamp = /50CC0004;
 Reference = R1;
 ValeurCmp = R sensor;
-IdModule  = R1;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CC0026;
 Reference = R2;
 ValeurCmp = R sensor;
-IdModule  = R1;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
@@ -270,28 +270,28 @@ BeginCmp
 TimeStamp = /4DA4A25D;
 Reference = R4;
 ValeurCmp = 100;
-IdModule  = R1;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DA4A28D;
 Reference = R5;
 ValeurCmp = 100;
-IdModule  = R1;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DA4A294;
 Reference = R6;
 ValeurCmp = 100;
-IdModule  = R1;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DBB5686;
 Reference = R7;
 ValeurCmp = 100;
-IdModule  = R1;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
@@ -312,28 +312,28 @@ BeginCmp
 TimeStamp = /50CBD8B9;
 Reference = R10;
 ValeurCmp = R sensor;
-IdModule  = R1;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CBD8DB;
 Reference = R11;
 ValeurCmp = R sensor;
-IdModule  = R1;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CBCBC0;
 Reference = R12;
 ValeurCmp = R sensor;
-IdModule  = R1;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
 TimeStamp = /50CBD897;
 Reference = R13;
 ValeurCmp = R sensor;
-IdModule  = R1;
+IdModule  = R3;
 EndCmp
 
 BeginCmp
@@ -347,28 +347,28 @@ BeginCmp
 TimeStamp = /50A70BDE;
 Reference = R15;
 ValeurCmp = R led;
-IdModule  = R3;
+IdModule  = SM0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /50A70BEB;
 Reference = R16;
 ValeurCmp = R led;
-IdModule  = R3;
+IdModule  = SM0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /50A70BF1;
 Reference = R17;
 ValeurCmp = R led;
-IdModule  = R3;
+IdModule  = SM0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /50A70BF7;
 Reference = R18;
 ValeurCmp = R led;
-IdModule  = R3;
+IdModule  = SM0805;
 EndCmp
 
 BeginCmp

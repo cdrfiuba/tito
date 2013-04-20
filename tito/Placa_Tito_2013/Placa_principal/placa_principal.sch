@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date vie 12 abr 2013 21:53:35 ART
+EESchema Schematic File Version 2  date vie 19 abr 2013 21:08:42 ART
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -40,7 +40,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Tito, el autito más bonito"
-Date "12 apr 2013"
+Date "20 apr 2013"
 Rev "0.3"
 Comp ""
 Comment1 ""
@@ -791,11 +791,11 @@ F 3 "" H 4350 1000 60  0001 C CNN
 $EndComp
 Text Label 9850 3650 3    60   ~ 0
 LED1
-Text Label 10200 3100 3    60   ~ 0
-LED2
 Text Label 10500 3700 3    60   ~ 0
-LED3
+LED2
 Text Label 10800 3700 3    60   ~ 0
+LED3
+Text Label 10200 3100 3    60   ~ 0
 LED4
 $Comp
 L GND #PWR023
@@ -1306,13 +1306,13 @@ F 3 "" H 9100 6050 60  0001 C CNN
 	1    9100 6050
 	1    0    0    -1  
 $EndComp
-Text Label 3150 6050 2    60   ~ 0
-SENSOR 1
-Text Label 3150 6150 2    60   ~ 0
-SENSOR 2
-Text Label 3150 6250 2    60   ~ 0
-SENSOR 3
 Text Label 3150 6350 2    60   ~ 0
+SENSOR 1
+Text Label 3150 6250 2    60   ~ 0
+SENSOR 2
+Text Label 3150 6150 2    60   ~ 0
+SENSOR 3
+Text Label 3150 6050 2    60   ~ 0
 SENSOR 4
 Text Label 3150 6450 2    60   ~ 0
 SENSOR 5
@@ -1324,11 +1324,11 @@ Text Label 3100 5900 2    60   ~ 0
 ENABLEB
 Text Label 2900 5200 2    60   ~ 0
 LED1
-Text Label 3500 5650 2    60   ~ 0
-LED2
 Text Label 2900 7200 2    60   ~ 0
-LED3
+LED2
 Text Label 2900 7500 2    60   ~ 0
+LED3
+Text Label 3500 5650 2    60   ~ 0
 LED4
 $Comp
 L PWR_FLAG #FLG044
