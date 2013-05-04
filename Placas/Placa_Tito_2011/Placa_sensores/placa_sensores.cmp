@@ -1,0 +1,10 @@
+Cmp-Mod V01 Created by CvPCB (2010-00-09 BZR 23xx)-stable date = Fri 09 Sep 2011 09:48:20 PM ART
+
+BeginCmp
+TimeStamp = /4E6AB34B;
+Reference = ??1;
+ValeurCmp = CNY70;
+IdModule  = cny70-4;
+EndCmp
+
+EndListe

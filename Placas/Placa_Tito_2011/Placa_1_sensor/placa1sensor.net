@@ -1,0 +1,28 @@
+# EESchema Netlist Version 1.1 created  Wed 02 Nov 2011 04:36:31 PM ART
+(
+ ( /4EB00261 cny70-4 ??1 CNY70
+  ( A N-000004 )
+  ( C N-000003 )
+  ( E N-000002 )
+  ( K N-000001 )
+ )
+ ( /4EB002AC PIN_ARRAY_3X1 K1 CONN_3
+  ( 1 N-000002 )
+  ( 2 N-000001 )
+  ( 3 N-000003 )
+ )
+ ( /4EB00597 C2 R1 100
+  ( 1 N-000004 )
+  ( 2 N-000003 )
+ )
+)
+*
+{ Allowed footprints by component:
+$component R1
+ R?
+ SM0603
+ SM0805
+ R?-*
+$endlist
+$endfootprintlist
+}
