@@ -33,7 +33,7 @@ void pwm_config(void){
 	OCR1B = 0;
 
 	// Activamos la IRQ de OVF
-	TIMSK |= _BV(TOIE1) ;
+	TIMSK1 |= _BV(TOIE1) ;
 
 	// Apaga los motores
 	mot1_sent(LIBRE);
