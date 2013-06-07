@@ -15,6 +15,10 @@ void startup () {
     SetBit (DDR_LED_3, LED_3_NUMBER);
     SetBit (DDR_LED_4, LED_4_NUMBER);
 
+    // enables de los motores
+    SetBit (DDR_MOTOR_DERECHO_ENABLE,MOTOR_DERECHO_ENABLE_NUMBER);
+    SetBit (DDR_MOTOR_IZQUIERDO_ENABLE,MOTOR_IZQUIERDO_ENABLE_NUMBER);
+
     // sensores
     ClearBit (DDR_SENSOR_1, SENSOR_1_NUMBER);
     ClearBit (DDR_SENSOR_2, SENSOR_2_NUMBER);
@@ -23,10 +27,13 @@ void startup () {
     ClearBit (DDR_SENSOR_5, SENSOR_5_NUMBER);
     ClearBit (DDR_SENSOR_6, SENSOR_6_NUMBER);
 
-    // botón
-    ClearBit (DDR_BOTON, BOTON_NUMBER);
-    SetBit (PORT_BOTON, BOTON_NUMBER);
+    // botón1
+    ClearBit (DDR_BOTON1, BOTON1_NUMBER);
+    SetBit (PORT_BOTON1, BOTON1_NUMBER);
 
+    // botón2
+    ClearBit (DDR_BOTON2, BOTON2_NUMBER);
+    SetBit (PORT_BOTON2, BOTON2_NUMBER);
 
     // PWM
     pwm_config();
@@ -133,6 +140,33 @@ int main() {
     
     startup();
 
+    while(1){
+
+        SetBit (PORT_MOTOR_DERECHO_ENABLE,MOTOR_DERECHO_ENABLE_NUMBER);
+        SetBit (PORT_MOTOR_IZQUIERDO_ENABLE,MOTOR_IZQUIERDO_ENABLE_NUMBER);
+	
+        while (BOTON2_NO_APRETADO);
+        _delay_ms(50); //rebote botón
+	SetBit (PORT_LED_1, LED_1_NUMBER);
+	SetBit (PORT_LED_2, LED_2_NUMBER);
+	SetBit (PORT_LED_3, LED_3_NUMBER);
+	SetBit (PORT_LED_4, LED_4_NUMBER);
+    	_delay_ms(50);
+
+        ClearBit (PORT_MOTOR_DERECHO_ENABLE,MOTOR_DERECHO_ENABLE_NUMBER);
+        ClearBit (PORT_MOTOR_IZQUIERDO_ENABLE,MOTOR_IZQUIERDO_ENABLE_NUMBER);
+
+	while (BOTON2_APRETADO);
+
+	_delay_ms(50); //rebote botón
+	ClearBit (PORT_LED_1, LED_1_NUMBER);
+	ClearBit (PORT_LED_2, LED_2_NUMBER);
+	ClearBit (PORT_LED_3, LED_3_NUMBER);
+	ClearBit (PORT_LED_4, LED_4_NUMBER);
+    	_delay_ms(50);
+    }
+
+
     // acá se definen las transiciones de la fsm:
     // esencialmente esto ES la fsm
     tTransition transiciones[] = {
@@ -206,11 +240,11 @@ int main() {
 
         // ciclos para esperar a que arranque cuando
         // se suelta el botón
-        while (BOTON_NO_APRETADO);
+        while (BOTON1_NO_APRETADO);
         _delay_ms(50); //rebote botón
         
 
-        while (BOTON_APRETADO);
+        while (BOTON1_APRETADO);
         _delay_ms(5); //rebote botón
 
         // aceleración inicial gradual
@@ -221,7 +255,7 @@ int main() {
         // inicialización estado
         estado_actual = ST_EN_LINEA;
         
-        while (BOTON_NO_APRETADO) {
+        while (BOTON1_NO_APRETADO) {
             lectura_sensores = ESTADO_SENSORES;
             /* // relectura de sensores
             while(1) {
@@ -248,7 +282,7 @@ int main() {
         PWM2_VEL(0);
         _delay_ms(50); //rebote botón
 
-        while (BOTON_APRETADO);
+        while (BOTON1_APRETADO);
         _delay_ms(50); //rebote botón
         
     }

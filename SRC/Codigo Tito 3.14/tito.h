@@ -136,11 +136,17 @@ typedef enum tipos_estado {
 #define PIN_SENSOR_6		def_pin_reg(PORT_SENSOR_6_NAME)
 #define DDR_SENSOR_6		def_ddr_reg(PORT_SENSOR_6_NAME)
 
-#define PORT_BOTON_NAME      B
-#define BOTON_NUMBER         4
-#define PORT_BOTON		def_port_reg(PORT_BOTON_NAME)
-#define PIN_BOTON		def_pin_reg(PORT_BOTON_NAME)
-#define DDR_BOTON		def_ddr_reg(PORT_BOTON_NAME)
+#define PORT_BOTON1_NAME      B
+#define BOTON1_NUMBER         5
+#define PORT_BOTON1		def_port_reg(PORT_BOTON1_NAME)
+#define PIN_BOTON1		def_pin_reg(PORT_BOTON1_NAME)
+#define DDR_BOTON1		def_ddr_reg(PORT_BOTON1_NAME)
+
+#define PORT_BOTON2_NAME      PORT_INTERRUPCION_2_NAME
+#define BOTON2_NUMBER         INTERRUPCION_2_NUMBER
+#define PORT_BOTON2		def_port_reg(PORT_BOTON2_NAME)
+#define PIN_BOTON2		def_pin_reg(PORT_BOTON2_NAME)
+#define DDR_BOTON2		def_ddr_reg(PORT_BOTON2_NAME)
 
 #define PORT_INTERRUPCION_1_NAME      D
 #define INTERRUPCION_1_NUMBER         2
@@ -202,9 +208,11 @@ typedef enum tipos_estado {
 #define SENSOR_DERECHA_CENTRO		IsBitSet(PIN_SENSOR_3, SENSOR_3_NUMBER)
 #define SENSOR_DERECHA_AFUERA		IsBitSet(PIN_SENSOR_4, SENSOR_4_NUMBER)
 
-#define BOTON_APRETADO         (!(PIN_BOTON&(1<<BOTON_NUMBER)))
-#define BOTON_NO_APRETADO     (PIN_BOTON&(1<<BOTON_NUMBER))
+#define BOTON1_APRETADO         (!(PIN_BOTON1&(1<<BOTON1_NUMBER)))
+#define BOTON1_NO_APRETADO     (PIN_BOTON1&(1<<BOTON1_NUMBER))
 
+#define BOTON2_APRETADO         (!(PIN_BOTON2&(1<<BOTON2_NUMBER)))
+#define BOTON2_NO_APRETADO     (PIN_BOTON2&(1<<BOTON2_NUMBER))
 /*
 #define concat(a,b)        a ## b
 #define def_port_reg(name)    concat(PORT,name)
