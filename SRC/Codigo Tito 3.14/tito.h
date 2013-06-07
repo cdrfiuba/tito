@@ -48,7 +48,7 @@ typedef enum estados_resumidos {
     ME=11
 } estados_resumidos_t;
 // (los sensores se componen como:
-//  CURVA | S_IZQ | S_CEN | S_DER )
+//  S_IZQ_AFUERA | S_IZQ_CENTRO | S_DER_CENTRO | S_DER_AFUERA )
 typedef enum eventos {
     EV_CUALQUIERA = 16,
 
@@ -70,6 +70,11 @@ typedef enum eventos {
     EV_SENSORES_BBBB = 15,
     EV_MAX_SENSORES = 16
 } eventos_t;
+// PARA 
+typedef enum tipos_estado {
+    TIPO_RECTA = 0,
+    TIPO_CURVA = 1
+} tipos_estado_t;
 
 #define PORT_LED_1_NAME      B
 #define LED_1_NUMBER         0

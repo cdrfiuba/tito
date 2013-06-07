@@ -1,7 +1,7 @@
 all: tito.hex
 
 tito.hex: tito.c tito.h lib/lib_pwm.c lib/lib_pwm.h velocidades.h
-	avr-gcc -O3 -mmcu=atmega88 -Wall -o tito.bin -I/usr/avr/include/ tito.c lib/lib_pwm.c
+	avr-gcc -Os -mcall-prologues -mmcu=atmega88 -Wall -o tito.bin -I/usr/avr/include/ tito.c lib/lib_pwm.c
 	avr-objcopy -j .text -O ihex tito.bin tito.hex
 
 program: tito.hex
