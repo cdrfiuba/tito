@@ -1,6 +1,6 @@
 (export (version D)
   (design
-    (source /home/alumno/Documentos/tito/tito/Placa_Tito_2013/Placa_principal/placa_principal.sch)
+    (source placa_principal.sch)
     (date "vie 26 abr 2013 21:48:38 ART")
     (tool "eeschema (2013-mar-13)-testing"))
   (components
@@ -636,11 +636,11 @@
     (library (logical atmel)
       (uri /usr/share/kicad/library/atmel.lib))
     (library (logical L298)
-      (uri /home/alumno/Documentos/tito/tito/Placa_Tito_2013/Placa_principal/L298.lib))
+      (uri ../../Bibliotecas/L298.lib))
     (library (logical reg_204-5)
-      (uri reg_204-5.lib))
+      (uri ../../Bibliotecas/reg_204-5.lib))
     (library (logical cny70)
-      (uri /home/alumno/Documentos/tito/cny70.lib)))
+      (uri ../../Bibliotecas/cny70.lib)))
   (nets
     (net (code 1) (name /RX)
       (node (ref P1) (pin 2))

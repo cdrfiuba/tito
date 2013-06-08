@@ -1,5 +1,5 @@
-update=vie 03 may 2013 21:10:38 ART
-last_client=cvpcb
+update=07/06/2013 02:56:32
+last_client=eeschema
 [general]
 version=1
 [pcbnew]
@@ -32,13 +32,18 @@ LibName7=display
 LibName8=valves
 LibName9=led
 LibName10=dip_sockets
-LibName11=1pin2mm
-LibName12=/home/alumno/Documentos/tito/Otros/Bibliotecas/elpin
-LibName13=/home/alumno/Documentos/tito/Otros/Bibliotecas/L298
-LibName14=/home/alumno/Documentos/tito/Otros/Bibliotecas/SOT223-5
-LibName15=/home/alumno/Documentos/tito/Otros/Bibliotecas/cny70
-LibName16=/home/alumno/Documentos/tito/Otros/Bibliotecas/1PIN
+LibName11=../../Bibliotecas/1pin2mm
+LibName12=../../Bibliotecas/elpin
+LibName13=../../Bibliotecas/L298
+LibName14=../../Bibliotecas/SOT223-5
+LibName15=../../Bibliotecas/cny70
+LibName16=../../Bibliotecas/1PIN
 LibDir=
+[cvpcb]
+version=1
+NetIExt=net
+[cvpcb/libraries]
+EquName1=devcms
 [eeschema]
 version=1
 LibDir=
@@ -78,13 +83,7 @@ LibName27=opto
 LibName28=atmel
 LibName29=contrib
 LibName30=valves
-LibName31=/home/sebasgm/Escritorio/TITO/L298
-LibName32=7805b
-LibName33=reg_204-5
-LibName34=/home/alumno/Documentos/tito/Otros/Bibliotecas/cny70
-LibName35=/home/alumno/Documentos/tito/Otros/Bibliotecas/L298
-[cvpcb]
-version=1
-NetIExt=net
-[cvpcb/libraries]
-EquName1=devcms
+LibName31=../../Bibliotecas/L298
+LibName32=../../Bibliotecas/7805b
+LibName33=../../Bibliotecas/reg_204-5
+LibName34=../../Bibliotecas/cny70

@@ -1,4 +1,4 @@
-(pcb /home/tulku/src/tito/tito/Placa_principal/placa_principal.dsn
+(pcb placa_principal.dsn
   (parser
     (string_quote ")
     (space_in_quoted_tokens on)
