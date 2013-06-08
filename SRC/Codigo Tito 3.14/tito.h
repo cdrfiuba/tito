@@ -172,4 +172,10 @@ typedef enum tipos_estado {
 #define BOTON2_APRETADO         (!(PIN_BOTON2&(1<<BOTON2_NUMBER)))
 #define BOTON2_NO_APRETADO     (PIN_BOTON2&(1<<BOTON2_NUMBER))
 
+// la velocidad va de -100 a 100
+#define motor1_velocidad(vel)         OCR1A = (vel * 1.28 + 127) * COEFICIENTE_IZQUIERDA
+#define motor2_velocidad(vel)         OCR0A = (vel * 1.28 + 127) * COEFICIENTE_DERECHA
+
+#define CANCELAR_INERCIA(us_ad, us_at) motor1_velocidad(100);_delay_us(us_ad);motor1_velocidad(-100);_delay_us(us_at);
+
 #endif

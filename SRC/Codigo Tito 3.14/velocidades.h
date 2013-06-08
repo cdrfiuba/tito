@@ -5,10 +5,11 @@
 
 #define ESTADO_SENSORES ((SENSOR_IZQUIERDA_AFUERA << 3) | (SENSOR_IZQUIERDA_CENTRO << 2) | (SENSOR_DERECHA_CENTRO << 1) | (SENSOR_DERECHA_AFUERA))
 
-#define COEFICIENTE_DERECHA 0.5
-#define COEFICIENTE_IZQUIERDA 0.5
-#define ACTIVAR_PROPULSORES_TRASEROS 1
-#define USAR_FRENOS(us_ad, us_at) PWM1_VEL(100);PWM2_VEL(100);mot1_sent(AD);mot2_sent(AD);_delay_us(us_ad);mot1_sent(AT);mot2_sent(AT);_delay_us(us_at);
+// las velocidades van de -100 a 100, determinado en tito.h
+
+#define COEFICIENTE_DERECHA FACTOR * 0.5
+#define COEFICIENTE_IZQUIERDA FACTOR * 0.5
+#define USAR_CANCELACION_DE_INERCIA 1
 
 /*	EN LINEA	*/
 #define VELOCIDAD_IZQUIERDA_EL		60

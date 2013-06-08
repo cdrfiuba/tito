@@ -39,10 +39,6 @@ void startup () {
     // pone el flag global para activar interrupciones
     sei();
 
-    // establezco la dirección de los motores
-    //mot1_sent(AD);
-    //mot2_sent(AD);
-
 }
 
 typedef struct {
@@ -54,76 +50,54 @@ typedef struct {
 
     
 inline void manejar_estado(int estado) {
-/*    switch (estado) {
+    switch (estado) {
         case ST_EN_LINEA:
-            PWM1_VEL(COEFICIENTE_IZQUIERDA	*	VELOCIDAD_IZQUIERDA_EL);
-            PWM2_VEL(COEFICIENTE_DERECHA	*	VELOCIDAD_DERECHA_EL);
-            mot1_sent(AD);
-            mot2_sent(AD);
+            motor1_velocidad(VELOCIDAD_IZQUIERDA_EL);
+            motor2_velocidad(VELOCIDAD_DERECHA_EL);
             break;
 
         case ST_YENDOSE_POCO_POR_DERECHA:
-            PWM1_VEL(COEFICIENTE_IZQUIERDA	*	VELOCIDAD_IZQUIERDA_YPPD);
-            PWM2_VEL(COEFICIENTE_DERECHA	*	VELOCIDAD_DERECHA_YPPD);
-            mot1_sent(AD);
-            mot2_sent(AD);
+            motor1_velocidad(VELOCIDAD_IZQUIERDA_YPPD);
+            motor2_velocidad(VELOCIDAD_DERECHA_YPPD);
             break;
         case ST_YENDOSE_MUCHO_POR_DERECHA:
-            PWM1_VEL(COEFICIENTE_IZQUIERDA	*	VELOCIDAD_IZQUIERDA_YMPD);
-            PWM2_VEL(COEFICIENTE_DERECHA	*	VELOCIDAD_DERECHA_YMPD);
-            mot1_sent(AD);
-            mot2_sent(AD);
+            motor1_velocidad(VELOCIDAD_IZQUIERDA_YMPD);
+            motor2_velocidad(VELOCIDAD_DERECHA_YMPD);
             break;
         case ST_AFUERA_POR_DERECHA:
-            PWM1_VEL(COEFICIENTE_IZQUIERDA	*	VELOCIDAD_IZQUIERDA_APD);
-            PWM2_VEL(COEFICIENTE_DERECHA	*	VELOCIDAD_DERECHA_APD);
-            mot1_sent(AD);
-            mot2_sent(AD);
+            motor1_velocidad(VELOCIDAD_IZQUIERDA_APD);
+            motor2_velocidad(VELOCIDAD_DERECHA_APD);
             break;
         case ST_VOLVIENDO_POR_DERECHA:
-            PWM1_VEL(COEFICIENTE_IZQUIERDA	*	VELOCIDAD_IZQUIERDA_VEPD);
-            PWM2_VEL(COEFICIENTE_DERECHA	*	VELOCIDAD_DERECHA_VEPD);
-            mot1_sent(AD);
-            mot2_sent(AD);
+            motor1_velocidad(VELOCIDAD_IZQUIERDA_VEPD);
+            motor2_velocidad(VELOCIDAD_DERECHA_VEPD);
             break;
         case ST_VOLVIO_POR_DERECHA:
-            PWM1_VEL(COEFICIENTE_IZQUIERDA	*	VELOCIDAD_IZQUIERDA_VOPD);
-            PWM2_VEL(COEFICIENTE_DERECHA	*	VELOCIDAD_DERECHA_VOPD);
-            mot1_sent(AD);
-            mot2_sent(AD);
+            motor1_velocidad(VELOCIDAD_IZQUIERDA_VOPD);
+            motor2_velocidad(VELOCIDAD_DERECHA_VOPD);
             break;
 
         case ST_YENDOSE_POCO_POR_IZQUIERDA:
-            PWM1_VEL(COEFICIENTE_IZQUIERDA	*	VELOCIDAD_IZQUIERDA_YPPI);
-            PWM2_VEL(COEFICIENTE_DERECHA	*	VELOCIDAD_DERECHA_YPPI);
-            mot1_sent(AD);
-            mot2_sent(AD);
+            motor1_velocidad(VELOCIDAD_IZQUIERDA_YPPI);
+            motor2_velocidad(VELOCIDAD_DERECHA_YPPI);
             break;
         case ST_YENDOSE_MUCHO_POR_IZQUIERDA:
-            PWM1_VEL(COEFICIENTE_IZQUIERDA	*	VELOCIDAD_IZQUIERDA_YMPI);
-            PWM2_VEL(COEFICIENTE_DERECHA	*	VELOCIDAD_DERECHA_YMPI);
-            mot1_sent(AD);
-            mot2_sent(AD);
+            motor1_velocidad(VELOCIDAD_IZQUIERDA_YMPI);
+            motor2_velocidad(VELOCIDAD_DERECHA_YMPI);
             break;
         case ST_AFUERA_POR_IZQUIERDA:
-            PWM1_VEL(COEFICIENTE_IZQUIERDA	*	VELOCIDAD_IZQUIERDA_API);
-            PWM2_VEL(COEFICIENTE_DERECHA	*	VELOCIDAD_DERECHA_API);
-            mot1_sent(AD);
-            mot2_sent(AD);
+            motor1_velocidad(VELOCIDAD_IZQUIERDA_API);
+            motor2_velocidad(VELOCIDAD_DERECHA_API);
             break;
         case ST_VOLVIENDO_POR_IZQUIERDA:
-            PWM1_VEL(COEFICIENTE_IZQUIERDA	*	VELOCIDAD_IZQUIERDA_VEPI);
-            PWM2_VEL(COEFICIENTE_DERECHA	*	VELOCIDAD_DERECHA_VEPI);
-            mot1_sent(AD);
-            mot2_sent(AD);
+            motor1_velocidad(VELOCIDAD_IZQUIERDA_VEPI);
+            motor2_velocidad(VELOCIDAD_DERECHA_VEPI);
             break;
         case ST_VOLVIO_POR_IZQUIERDA:
-            PWM1_VEL(COEFICIENTE_IZQUIERDA	*	VELOCIDAD_IZQUIERDA_VOPI);
-            PWM2_VEL(COEFICIENTE_DERECHA	*	VELOCIDAD_DERECHA_VOPI);
-            mot1_sent(AD);
-            mot2_sent(AD);
+            motor1_velocidad(VELOCIDAD_IZQUIERDA_VOPI);
+            motor2_velocidad(VELOCIDAD_DERECHA_VOPI);
             break;
-    }*/
+    }
 }
     
 /**
@@ -136,62 +110,42 @@ int main() {
     int lectura_sensores = EV_CUALQUIERA;
     
     startup();
-    SetBit (PORT_MOTOR_DERECHO_ENABLE,MOTOR_DERECHO_ENABLE_NUMBER);
-    SetBit (PORT_MOTOR_IZQUIERDO_ENABLE,MOTOR_IZQUIERDO_ENABLE_NUMBER);
-
-    while(1){
-
-        if(SENSOR_IZQUIERDA_CENTRO)
+    SetBit (PORT_MOTOR_DERECHO_ENABLE, MOTOR_DERECHO_ENABLE_NUMBER);
+    SetBit (PORT_MOTOR_IZQUIERDO_ENABLE, MOTOR_IZQUIERDO_ENABLE_NUMBER);
+    
+    while (1) {
+        if (SENSOR_IZQUIERDA_CENTRO)
 	        SetBit (PORT_LED_1, LED_1_NUMBER);
         else
-          ClearBit (PORT_LED_1, LED_1_NUMBER);
-        if(SENSOR_IZQUIERDA_AFUERA)
+            ClearBit (PORT_LED_1, LED_1_NUMBER);
+        if (SENSOR_IZQUIERDA_AFUERA)
 	        SetBit (PORT_LED_2, LED_2_NUMBER);
         else
-          ClearBit (PORT_LED_2, LED_2_NUMBER);
-        if(SENSOR_DERECHA_AFUERA)
+            ClearBit (PORT_LED_2, LED_2_NUMBER);
+        if (SENSOR_DERECHA_AFUERA)
 	        SetBit (PORT_LED_3, LED_3_NUMBER);
         else
-          ClearBit (PORT_LED_3, LED_3_NUMBER);
-        if(SENSOR_DERECHA_CENTRO)
+            ClearBit (PORT_LED_3, LED_3_NUMBER);
+        if (SENSOR_DERECHA_CENTRO)
 	        SetBit (PORT_LED_4, LED_4_NUMBER);
         else
-          ClearBit (PORT_LED_4, LED_4_NUMBER);
+            ClearBit (PORT_LED_4, LED_4_NUMBER);
     }
-
-    while(1){
-	      SetBit (PORT_LED_1, LED_1_NUMBER);
+    
+    while (1) {
+        SetBit (PORT_LED_1, LED_1_NUMBER);
         
-        OCR1A = 148;
-        OCR0A = 148;
+        motor1_velocidad(60);
+        motor2_velocidad(60);
         _delay_ms(2000);
+
         ClearBit (PORT_LED_1, LED_1_NUMBER);
 
-        OCR1A = 100;
-        OCR0A = 100;
+        motor1_velocidad(-60);
+        motor2_velocidad(-60);
         _delay_ms(2000);
-    
-	  /*
-        while (BOTON2_NO_APRETADO);
-        _delay_ms(50); //rebote botón
-	SetBit (PORT_LED_2, LED_2_NUMBER);
-	SetBit (PORT_LED_3, LED_3_NUMBER);
-	SetBit (PORT_LED_4, LED_4_NUMBER);
-    	_delay_ms(50);
-
-        ClearBit (PORT_MOTOR_DERECHO_ENABLE,MOTOR_DERECHO_ENABLE_NUMBER);
-        ClearBit (PORT_MOTOR_IZQUIERDO_ENABLE,MOTOR_IZQUIERDO_ENABLE_NUMBER);
-
-	while (BOTON2_APRETADO);
-
-	_delay_ms(50); //rebote botón
-	ClearBit (PORT_LED_1, LED_1_NUMBER);
-	ClearBit (PORT_LED_2, LED_2_NUMBER);
-	ClearBit (PORT_LED_3, LED_3_NUMBER);
-	ClearBit (PORT_LED_4, LED_4_NUMBER);
-    	_delay_ms(50);*/
     }
-
+    
 
     // acá se definen las transiciones de la fsm:
     // esencialmente esto ES la fsm
@@ -260,9 +214,9 @@ int main() {
     }
     
     
-    while (1){
-//        PWM1_VEL(0);
-//        PWM2_VEL(0);
+    while (1) {
+       motor1_velocidad(0);
+       motor2_velocidad(0);
 
         // ciclos para esperar a que arranque cuando
         // se suelta el botón
@@ -274,8 +228,8 @@ int main() {
         _delay_ms(5); //rebote botón
 
         // aceleración inicial gradual
-//        PWM1_VEL(50);
-//        PWM2_VEL(50);
+       motor1_velocidad(50);
+       motor2_velocidad(50);
         _delay_ms(50);
         
         // inicialización estado
@@ -304,8 +258,8 @@ int main() {
         }
 
         // fin de tareas, para poder empezar de nuevo
-//        PWM1_VEL(0);
-//        PWM2_VEL(0);
+       motor1_velocidad(0);
+       motor2_velocidad(0);
         _delay_ms(50); //rebote botón
 
         while (BOTON1_APRETADO);
