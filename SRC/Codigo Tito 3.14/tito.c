@@ -15,9 +15,7 @@ void startup () {
     SetBit (DDR_LED_3, LED_3_NUMBER);
     SetBit (DDR_LED_4, LED_4_NUMBER);
 
-    // enables de los motores
-    SetBit (DDR_MOTOR_DERECHO_ENABLE,MOTOR_DERECHO_ENABLE_NUMBER);
-    SetBit (DDR_MOTOR_IZQUIERDO_ENABLE,MOTOR_IZQUIERDO_ENABLE_NUMBER);
+
 
     // sensores
     ClearBit (DDR_SENSOR_1, SENSOR_1_NUMBER);

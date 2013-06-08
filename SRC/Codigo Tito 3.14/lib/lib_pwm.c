@@ -6,9 +6,10 @@
 
 void pwm_config(void){
 	// Configuramos los puertos como salidas en cero
-	DDR_PWM1 |= _BV(PIN_NUM_PWM1);
-	DDR_PWM2 |= _BV(PIN_NUM_PWM2);
-
+	// enables de los motores
+	SetBit (DDR_MOTOR_DERECHO_ENABLE,MOTOR_DERECHO_ENABLE_NUMBER);
+	SetBit (DDR_MOTOR_IZQUIERDO_ENABLE,MOTOR_IZQUIERDO_ENABLE_NUMBER);	
+	
 	PORT_PWM1 &=~ _BV(PIN_NUM_PWM1);
 	PORT_PWM2 &=~ _BV(PIN_NUM_PWM2);
 
@@ -96,14 +97,21 @@ inline void mot2_sent(sentido_t sentido){
 
 void pwm_start(void) {
 	TCCR1B |= PRESCALER_PWM_ON;
+	TCCR0B |= PRESCALER_PWM_ON;
 }
 
 void pwm_stop(void) {
 	TCCR1B &=~ PRESCALER_PWM_OFF;
+	TCCR0B &=~ PRESCALER_PWM_OFF;
+}
+
+ISR( TIMER0_OVF_vect ) { 
+	OCR0A = vel_motor_1_1 ;
+	OCR0B = vel_motor_1_2 ;
 }
 
 ISR( TIMER1_OVF_vect ) { 
-	OCR1A = vel_motor_1 ;
-	OCR1B = vel_motor_2 ;
+	OCR1A = vel_motor_2_1 ;
+	OCR1B = vel_motor_2_2 ;
 }
 
