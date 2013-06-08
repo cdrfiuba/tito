@@ -10,6 +10,45 @@
 #ifndef __PWM_H__
 #define __PWM_H__
 
+#define PORT_MOTOR_DERECHO_1_NAME      B
+#define MOTOR_DERECHO_1_NUMBER         1
+#define PORT_MOTOR_DERECHO_1		def_port_reg(PORT_MOTOR_DERECHO_1_NAME)
+#define PIN_MOTOR_DERECHO_1			def_pin_reg(PORT_MOTOR_DERECHO_1_NAME)
+#define DDR_MOTOR_DERECHO_1			def_ddr_reg(PORT_MOTOR_DERECHO_1_NAME)
+
+#define PORT_MOTOR_DERECHO_2_NAME      B
+#define MOTOR_DERECHO_2_NUMBER         2
+#define PORT_MOTOR_DERECHO_2		def_port_reg(PORT_MOTOR_DERECHO_2_NAME)
+#define PIN_MOTOR_DERECHO_2			def_pin_reg(PORT_MOTOR_DERECHO_2_NAME)
+#define DDR_MOTOR_DERECHO_2			def_ddr_reg(PORT_MOTOR_DERECHO_2_NAME)
+
+#define PORT_MOTOR_DERECHO_ENABLE_NAME      B
+#define MOTOR_DERECHO_ENABLE_NUMBER         7
+#define PORT_MOTOR_DERECHO_ENABLE		def_port_reg(PORT_MOTOR_DERECHO_ENABLE_NAME)
+#define PIN_MOTOR_DERECHO_ENABLE		def_pin_reg(PORT_MOTOR_DERECHO_ENABLE_NAME)
+#define DDR_MOTOR_DERECHO_ENABLE		def_ddr_reg(PORT_MOTOR_DERECHO_ENABLE_NAME)
+
+#define PORT_MOTOR_IZQUIERDO_1_NAME      D
+#define MOTOR_IZQUIERDO_1_NUMBER         6
+#define PORT_MOTOR_IZQUIERDO_1		def_port_reg(PORT_MOTOR_IZQUIERDO_1_NAME)
+#define PIN_MOTOR_IZQUIERDO_1		def_pin_reg(PORT_MOTOR_IZQUIERDO_1_NAME)
+#define DDR_MOTOR_IZQUIERDO_1		def_ddr_reg(PORT_MOTOR_IZQUIERDO_1_NAME)
+
+#define PORT_MOTOR_IZQUIERDO_2_NAME      D
+#define MOTOR_IZQUIERDO_2_NUMBER         5
+#define PORT_MOTOR_IZQUIERDO_2		def_port_reg(PORT_MOTOR_IZQUIERDO_2_NAME)
+#define PIN_MOTOR_IZQUIERDO_2		def_pin_reg(PORT_MOTOR_IZQUIERDO_2_NAME)
+#define DDR_MOTOR_IZQUIERDO_2		def_ddr_reg(PORT_MOTOR_IZQUIERDO_2_NAME)
+
+#define PORT_MOTOR_IZQUIERDO_ENABLE_NAME      B
+#define MOTOR_IZQUIERDO_ENABLE_NUMBER         6
+#define PORT_MOTOR_IZQUIERDO_ENABLE		def_port_reg(PORT_MOTOR_IZQUIERDO_ENABLE_NAME)
+#define PIN_MOTOR_IZQUIERDO_ENABLE		def_pin_reg(PORT_MOTOR_IZQUIERDO_ENABLE_NAME)
+#define DDR_MOTOR_IZQUIERDO_ENABLE		def_ddr_reg(PORT_MOTOR_IZQUIERDO_ENABLE_NAME)
+
+
+
+
 /*******************************************************
 * Constantes
 *******************************************************/ 
@@ -17,62 +56,21 @@
 // COM1B = 11
 // WGM = 8 (para usar un TOP fijo)
 // el "prescaler" en 1 (CS12 = 0 , CS11 =0 , CS10 = 1)
-#define PRESCALER_PWM_OFF	(0<<CS12)|(0<<CS11)|(0<<CS10)
+#define PRESCALER_PWM_OFF	~((1<<CS12)|(1<<CS11)|(1<<CS10))
 #define PRESCALER_PWM_ON	(0<<CS12)|(0<<CS11)|(1<<CS10)
 
-#define PWM_TCCR1A (1<<COM1A1)|(0<<COM1A0)|(1<<COM1B1)|(0<<COM1B0)|(1<<WGM11)|(1<<WGM10)
-#define PWM_TCCR1B (1<<WGM13)|(0<<WGM12)|PRESCALER_PWM_OFF
+#define PWM_TCCR1A (1<<COM1A1)|(0<<COM1A0)|(0<<COM1B1)|(1<<COM1B0)|(0<<WGM11)|(1<<WGM10)
+#define PWM_TCCR1B (0<<WGM13)|(0<<WGM12)|PRESCALER_PWM_OFF
 
-#define PWM_TCCR0A (1<<COM0A1)|(0<<COM0A0)|(1<<COM0B1)|(0<<COM0B0)|(0<<WGM01)|(1<<WGM00)
-#define PWM_TCCR0B (0<<FOC0A)|(0<<FOC0B)|(1<<WGM12)|PRESCALER_PWM_OFF
+#define PWM_TCCR0A (1<<COM0A1)|(0<<COM0A0)|(0<<COM0B1)|(1<<COM0B0)|(0<<WGM01)|(1<<WGM00)
+#define PWM_TCCR0B (0<<FOC0A)|(0<<FOC0B)|(0<<WGM02)|PRESCALER_PWM_OFF
 
-#define PWM_FREC 800 // Frecuencia PWM
-#define PWM_ICR1  F_CPU/(2*1*PWM_FREC) // Calcula ICR1
+//#define PWM_FREC 800 // Frecuencia PWM
+//#define PWM_ICR1  F_CPU/(2*1*PWM_FREC) // Calcula ICR1
 
 // Macros para setear la vel de los motores: 0% - 100%
-#define PWM1_VEL(velocidad) (vel_motor_1 = velocidad*PWM_ICR1/100)
-#define PWM2_VEL(velocidad) (vel_motor_2 = velocidad*PWM_ICR1/100)
-
-#define PORT_NAME_PWM1 B
-#define PIN_NUM_PWM1 1	//M
-
-#define PORT_PWM1 def_port_reg(PORT_NAME_PWM1)
-#define PIN_PWM1 def_pin_reg(PORT_NAME_PWM1)
-#define DDR_PWM1 def_ddr_reg(PORT_NAME_PWM1)
-
-#define PORT_NAME_PWM2 B
-#define PIN_NUM_PWM2 2	//M
-
-#define PORT_PWM2 def_port_reg(PORT_NAME_PWM2)
-#define PIN_PWM2 def_pin_reg(PORT_NAME_PWM2)
-#define DDR_PWM2 def_ddr_reg(PORT_NAME_PWM2)
-
-// PINES DE SENTIDO DE GIRO
-#define PORT_NAME_MOT1_S1 D
-#define PORT_NAME_MOT1_S2 D
-#define PORT_NAME_MOT2_S1 C	//M
-#define PORT_NAME_MOT2_S2 C	//M
-
-#define PORT_NUM_MOT1_S1 1
-#define PORT_NUM_MOT1_S2 0	//M
-#define PORT_NUM_MOT2_S1 4	//M
-#define PORT_NUM_MOT2_S2 5	//M
-
-#define PORT_MOT1_S1 def_port_reg(PORT_NAME_MOT1_S1)
-#define PIN_MOT1_S1 def_pin_reg(PORT_NAME_MOT1_S1)
-#define DDR_MOT1_S1 def_ddr_reg(PORT_NAME_MOT1_S1)
-
-#define PORT_MOT1_S2 def_port_reg(PORT_NAME_MOT1_S2)
-#define PIN_MOT1_S2 def_pin_reg(PORT_NAME_MOT1_S2)
-#define DDR_MOT1_S2 def_ddr_reg(PORT_NAME_MOT1_S2)
-
-#define PORT_MOT2_S1 def_port_reg(PORT_NAME_MOT2_S1)
-#define PIN_MOT2_S1 def_pin_reg(PORT_NAME_MOT2_S1)
-#define DDR_MOT2_S1 def_ddr_reg(PORT_NAME_MOT2_S1)
-
-#define PORT_MOT2_S2 def_port_reg(PORT_NAME_MOT2_S2)
-#define PIN_MOT2_S2 def_pin_reg(PORT_NAME_MOT2_S2)
-#define DDR_MOT2_S2 def_ddr_reg(PORT_NAME_MOT2_S2)
+//#define PWM1_VEL(velocidad) (vel_motor_1 = velocidad*PWM_ICR1/100)
+//#define PWM2_VEL(velocidad) (vel_motor_2 = velocidad*PWM_ICR1/100)
 
 /*******************************************************
 * Tipos
@@ -107,10 +105,5 @@ inline void mot2_sent(sentido_t sentido);
 /*******************************************************
 * Macros
 *******************************************************/ 
-
-#define concat(a,b)	a ## b
-#define def_port_reg(name)	concat(PORT, name) 
-#define def_pin_reg(name)	concat(PIN, name) 
-#define def_ddr_reg(name)	concat(DDR, name) 
 
 #endif

@@ -4,6 +4,7 @@
 #include <util/delay.h>
 #include "tito.h"
 #include "lib/lib_pwm.h"
+#include "lib/common.h"
 
 void startup () {
 // setear puertos de lectura o escritura,
@@ -39,8 +40,8 @@ void startup () {
     sei();
 
     // establezco la dirección de los motores
-    mot1_sent(AD);
-    mot2_sent(AD);
+    //mot1_sent(AD);
+    //mot2_sent(AD);
 
 }
 
@@ -53,7 +54,7 @@ typedef struct {
 
     
 inline void manejar_estado(int estado) {
-    switch (estado) {
+/*    switch (estado) {
         case ST_EN_LINEA:
             PWM1_VEL(COEFICIENTE_IZQUIERDA	*	VELOCIDAD_IZQUIERDA_EL);
             PWM2_VEL(COEFICIENTE_DERECHA	*	VELOCIDAD_DERECHA_EL);
@@ -122,7 +123,7 @@ inline void manejar_estado(int estado) {
             mot1_sent(AD);
             mot2_sent(AD);
             break;
-    }
+    }*/
 }
     
 /**
@@ -135,15 +136,44 @@ int main() {
     int lectura_sensores = EV_CUALQUIERA;
     
     startup();
+    SetBit (PORT_MOTOR_DERECHO_ENABLE,MOTOR_DERECHO_ENABLE_NUMBER);
+    SetBit (PORT_MOTOR_IZQUIERDO_ENABLE,MOTOR_IZQUIERDO_ENABLE_NUMBER);
 
     while(1){
 
-        SetBit (PORT_MOTOR_DERECHO_ENABLE,MOTOR_DERECHO_ENABLE_NUMBER);
-        SetBit (PORT_MOTOR_IZQUIERDO_ENABLE,MOTOR_IZQUIERDO_ENABLE_NUMBER);
-	
+        if(SENSOR_IZQUIERDA_CENTRO)
+	        SetBit (PORT_LED_1, LED_1_NUMBER);
+        else
+          ClearBit (PORT_LED_1, LED_1_NUMBER);
+        if(SENSOR_IZQUIERDA_AFUERA)
+	        SetBit (PORT_LED_2, LED_2_NUMBER);
+        else
+          ClearBit (PORT_LED_2, LED_2_NUMBER);
+        if(SENSOR_DERECHA_AFUERA)
+	        SetBit (PORT_LED_3, LED_3_NUMBER);
+        else
+          ClearBit (PORT_LED_3, LED_3_NUMBER);
+        if(SENSOR_DERECHA_CENTRO)
+	        SetBit (PORT_LED_4, LED_4_NUMBER);
+        else
+          ClearBit (PORT_LED_4, LED_4_NUMBER);
+    }
+
+    while(1){
+	      SetBit (PORT_LED_1, LED_1_NUMBER);
+        
+        OCR1A = 148;
+        OCR0A = 148;
+        _delay_ms(2000);
+        ClearBit (PORT_LED_1, LED_1_NUMBER);
+
+        OCR1A = 100;
+        OCR0A = 100;
+        _delay_ms(2000);
+    
+	  /*
         while (BOTON2_NO_APRETADO);
         _delay_ms(50); //rebote botón
-	SetBit (PORT_LED_1, LED_1_NUMBER);
 	SetBit (PORT_LED_2, LED_2_NUMBER);
 	SetBit (PORT_LED_3, LED_3_NUMBER);
 	SetBit (PORT_LED_4, LED_4_NUMBER);
@@ -159,7 +189,7 @@ int main() {
 	ClearBit (PORT_LED_2, LED_2_NUMBER);
 	ClearBit (PORT_LED_3, LED_3_NUMBER);
 	ClearBit (PORT_LED_4, LED_4_NUMBER);
-    	_delay_ms(50);
+    	_delay_ms(50);*/
     }
 
 
@@ -231,8 +261,8 @@ int main() {
     
     
     while (1){
-        PWM1_VEL(0);
-        PWM2_VEL(0);
+//        PWM1_VEL(0);
+//        PWM2_VEL(0);
 
         // ciclos para esperar a que arranque cuando
         // se suelta el botón
@@ -244,8 +274,8 @@ int main() {
         _delay_ms(5); //rebote botón
 
         // aceleración inicial gradual
-        PWM1_VEL(50);
-        PWM2_VEL(50);
+//        PWM1_VEL(50);
+//        PWM2_VEL(50);
         _delay_ms(50);
         
         // inicialización estado
@@ -274,8 +304,8 @@ int main() {
         }
 
         // fin de tareas, para poder empezar de nuevo
-        PWM1_VEL(0);
-        PWM2_VEL(0);
+//        PWM1_VEL(0);
+//        PWM2_VEL(0);
         _delay_ms(50); //rebote botón
 
         while (BOTON1_APRETADO);

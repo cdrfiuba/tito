@@ -1,6 +1,7 @@
 #ifndef HEADER_TITO
 #define HEADER_TITO
 
+#include "lib/common.h"
 #include "velocidades.h"
 /**
  Prototipos
@@ -160,49 +161,6 @@ typedef enum tipos_estado {
 #define PIN_INTERRUPCION_2		def_pin_reg(PORT_INTERRUPCION_2_NAME)
 #define DDR_INTERRUPCION_2		def_ddr_reg(PORT_INTERRUPCION_2_NAME)
 
-#define PORT_MOTOR_DERECHO_1_NAME      B
-#define MOTOR_DERECHO_1_NUMBER         1
-#define PORT_MOTOR_DERECHO_1		def_port_reg(PORT_MOTOR_DERECHO_1_NAME)
-#define PIN_MOTOR_DERECHO_1			def_pin_reg(PORT_MOTOR_DERECHO_1_NAME)
-#define DDR_MOTOR_DERECHO_1			def_ddr_reg(PORT_MOTOR_DERECHO_1_NAME)
-
-#define PORT_MOTOR_DERECHO_2_NAME      B
-#define MOTOR_DERECHO_2_NUMBER         2
-#define PORT_MOTOR_DERECHO_2		def_port_reg(PORT_MOTOR_DERECHO_2_NAME)
-#define PIN_MOTOR_DERECHO_2			def_pin_reg(PORT_MOTOR_DERECHO_2_NAME)
-#define DDR_MOTOR_DERECHO_2			def_ddr_reg(PORT_MOTOR_DERECHO_2_NAME)
-
-#define PORT_MOTOR_DERECHO_ENABLE_NAME      B
-#define MOTOR_DERECHO_ENABLE_NUMBER         7
-#define PORT_MOTOR_DERECHO_ENABLE		def_port_reg(PORT_MOTOR_DERECHO_ENABLE_NAME)
-#define PIN_MOTOR_DERECHO_ENABLE		def_pin_reg(PORT_MOTOR_DERECHO_ENABLE_NAME)
-#define DDR_MOTOR_DERECHO_ENABLE		def_ddr_reg(PORT_MOTOR_DERECHO_ENABLE_NAME)
-
-#define PORT_MOTOR_IZQUIERDO_1_NAME      D
-#define MOTOR_IZQUIERDO_1_NUMBER         6
-#define PORT_MOTOR_IZQUIERDO_1		def_port_reg(PORT_MOTOR_IZQUIERDO_1_NAME)
-#define PIN_MOTOR_IZQUIERDO_1		def_pin_reg(PORT_MOTOR_IZQUIERDO_1_NAME)
-#define DDR_MOTOR_IZQUIERDO_1		def_ddr_reg(PORT_MOTOR_IZQUIERDO_1_NAME)
-
-#define PORT_MOTOR_IZQUIERDO_2_NAME      D
-#define MOTOR_IZQUIERDO_2_NUMBER         5
-#define PORT_MOTOR_IZQUIERDO_2		def_port_reg(PORT_MOTOR_IZQUIERDO_2_NAME)
-#define PIN_MOTOR_IZQUIERDO_2		def_pin_reg(PORT_MOTOR_IZQUIERDO_2_NAME)
-#define DDR_MOTOR_IZQUIERDO_2		def_ddr_reg(PORT_MOTOR_IZQUIERDO_2_NAME)
-
-#define PORT_MOTOR_IZQUIERDO_ENABLE_NAME      B
-#define MOTOR_IZQUIERDO_ENABLE_NUMBER         6
-#define PORT_MOTOR_IZQUIERDO_ENABLE		def_port_reg(PORT_MOTOR_IZQUIERDO_ENABLE_NAME)
-#define PIN_MOTOR_IZQUIERDO_ENABLE		def_pin_reg(PORT_MOTOR_IZQUIERDO_ENABLE_NAME)
-#define DDR_MOTOR_IZQUIERDO_ENABLE		def_ddr_reg(PORT_MOTOR_IZQUIERDO_ENABLE_NAME)
-
-
-
-#define SetBit(Byte,Bit)		(Byte |= (1<<Bit))
-#define ClearBit(Byte,Bit)		(Byte &= (~(1<<Bit)))
-#define IsBitSet(Byte,Bit)		((Byte&(1<<Bit)) ? 1 : 0)
-//#define IsBitSet(Byte,Bit)	((Byte>>Bit) & 1)
-
 #define SENSOR_IZQUIERDA_AFUERA		IsBitSet(PIN_SENSOR_1, SENSOR_1_NUMBER)
 #define SENSOR_IZQUIERDA_CENTRO		IsBitSet(PIN_SENSOR_2, SENSOR_2_NUMBER)
 #define SENSOR_DERECHA_CENTRO		IsBitSet(PIN_SENSOR_3, SENSOR_3_NUMBER)
@@ -213,10 +171,5 @@ typedef enum tipos_estado {
 
 #define BOTON2_APRETADO         (!(PIN_BOTON2&(1<<BOTON2_NUMBER)))
 #define BOTON2_NO_APRETADO     (PIN_BOTON2&(1<<BOTON2_NUMBER))
-/*
-#define concat(a,b)        a ## b
-#define def_port_reg(name)    concat(PORT,name)
-#define def_pin_reg(name)    concat(PIN,name)
-#define def_ddr_reg(name)    concat(DDR,name)
-*/
+
 #endif

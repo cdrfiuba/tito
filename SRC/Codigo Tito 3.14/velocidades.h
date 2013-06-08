@@ -1,3 +1,6 @@
+#ifndef _VELOCIDADES_H_
+#define _VELOCIDADES_H_
+
 #define FACTOR 1 // coeficiente de disminuición de velocidad
 
 #define ESTADO_SENSORES ((SENSOR_IZQUIERDA_AFUERA << 3) | (SENSOR_IZQUIERDA_CENTRO << 2) | (SENSOR_DERECHA_CENTRO << 1) | (SENSOR_DERECHA_AFUERA))
@@ -56,3 +59,4 @@
 
 
 
+#endif
