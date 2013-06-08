@@ -15,8 +15,6 @@ void startup () {
     SetBit (DDR_LED_3, LED_3_NUMBER);
     SetBit (DDR_LED_4, LED_4_NUMBER);
 
-
-
     // sensores
     ClearBit (DDR_SENSOR_1, SENSOR_1_NUMBER);
     ClearBit (DDR_SENSOR_2, SENSOR_2_NUMBER);
