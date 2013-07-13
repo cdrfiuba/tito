@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2013-mar-13)-testing date = vie 26 abr 2013 21:48:53 ART
+Cmp-Mod V01 Created by CvPcb (2013-mar-13)-testing date = vie 12 jul 2013 20:46:04 ART
 
 BeginCmp
 TimeStamp = /50A7025B;
@@ -288,14 +288,14 @@ IdModule  = 1PIN2mm;
 EndCmp
 
 BeginCmp
-TimeStamp = /50CC0004;
+TimeStamp = /51E09EE7;
 Reference = R1;
 ValeurCmp = R sensor;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
-TimeStamp = /50CC0026;
+TimeStamp = /51E09F0C;
 Reference = R2;
 ValeurCmp = R sensor;
 IdModule  = R3;
@@ -351,28 +351,28 @@ IdModule  = R1;
 EndCmp
 
 BeginCmp
-TimeStamp = /50CBD8B9;
+TimeStamp = /51E0978B;
 Reference = R10;
 ValeurCmp = R sensor;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
-TimeStamp = /50CBD8DB;
+TimeStamp = /51E09E78;
 Reference = R11;
 ValeurCmp = R sensor;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
-TimeStamp = /50CBCBC0;
+TimeStamp = /51E09E9D;
 Reference = R12;
 ValeurCmp = R sensor;
 IdModule  = R3;
 EndCmp
 
 BeginCmp
-TimeStamp = /50CBD897;
+TimeStamp = /51E09EC2;
 Reference = R13;
 ValeurCmp = R sensor;
 IdModule  = R3;
@@ -463,17 +463,17 @@ IdModule  = PIN_ARRAY_3X1;
 EndCmp
 
 BeginCmp
-TimeStamp = /50CBFFF7;
+TimeStamp = /51E09EE1;
 Reference = SERVO_U1;
-ValeurCmp = CNY70;
-IdModule  = cny70-4;
+ValeurCmp = TCRT1000;
+IdModule  = TCRT1000;
 EndCmp
 
 BeginCmp
-TimeStamp = /50CC0019;
+TimeStamp = /51E09F06;
 Reference = SERVO_U2;
-ValeurCmp = CNY70;
-IdModule  = cny70-4;
+ValeurCmp = TCRT1000;
+IdModule  = TCRT1000;
 EndCmp
 
 BeginCmp
@@ -498,17 +498,17 @@ IdModule  = SW_PUSH_SMALL;
 EndCmp
 
 BeginCmp
-TimeStamp = /50CBD8AC;
+TimeStamp = /51E0962A;
 Reference = U3;
-ValeurCmp = CNY70;
-IdModule  = cny70-4;
+ValeurCmp = TCRT1000;
+IdModule  = TCRT1000;
 EndCmp
 
 BeginCmp
-TimeStamp = /50CBD8CE;
+TimeStamp = /51E09E72;
 Reference = U4;
-ValeurCmp = CNY70;
-IdModule  = cny70-4;
+ValeurCmp = TCRT1000;
+IdModule  = TCRT1000;
 EndCmp
 
 BeginCmp
@@ -519,17 +519,17 @@ IdModule  = L298D;
 EndCmp
 
 BeginCmp
-TimeStamp = /50CBBAFC;
+TimeStamp = /51E09E97;
 Reference = U6;
-ValeurCmp = CNY70;
-IdModule  = cny70-4;
+ValeurCmp = TCRT1000;
+IdModule  = TCRT1000;
 EndCmp
 
 BeginCmp
-TimeStamp = /50CBD88A;
+TimeStamp = /51E09EBC;
 Reference = U7;
-ValeurCmp = CNY70;
-IdModule  = cny70-4;
+ValeurCmp = TCRT1000;
+IdModule  = TCRT1000;
 EndCmp
 
 BeginCmp

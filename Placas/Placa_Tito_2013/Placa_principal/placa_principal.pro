@@ -1,4 +1,4 @@
-update=vie 12 jul 2013 20:26:57 ART
+update=vie 12 jul 2013 20:47:16 ART
 last_client=pcbnew
 [general]
 version=1
@@ -54,7 +54,7 @@ LibName35=../../Bibliotecas/tcrt1000
 [pcbnew]
 version=1
 LastNetListRead=placa_principal.net
-UseCmpFile=1
+UseCmpFile=0
 PadDrill="    3,048000"
 PadDrillOvalY="    3,048000"
 PadSizeH="    3,048000"
