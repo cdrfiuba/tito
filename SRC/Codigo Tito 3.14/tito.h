@@ -1,6 +1,7 @@
 #ifndef HEADER_TITO
 #define HEADER_TITO
 
+#include "lib/motores.h"
 #include "lib/common.h"
 #include "velocidades.h"
 /**

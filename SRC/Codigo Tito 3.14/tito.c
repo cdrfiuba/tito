@@ -3,7 +3,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "tito.h"
-#include "lib/lib_pwm.h"
+#include "lib/motores.h"
 #include "lib/common.h"
 
 void startup () {
@@ -32,9 +32,8 @@ void startup () {
     ClearBit (DDR_BOTON2, BOTON2_NUMBER);
     SetBit (PORT_BOTON2, BOTON2_NUMBER);
 
-    // PWM
+    // configuración de PWMs en motores.h
     pwm_config();
-    pwm_start();
 
     // pone el flag global para activar interrupciones
     sei();
@@ -110,10 +109,7 @@ int main() {
     int lectura_sensores = EV_CUALQUIERA;
     
     startup();
-    SetBit (PORT_MOTOR_DERECHO_ENABLE, MOTOR_DERECHO_ENABLE_NUMBER);
-    SetBit (PORT_MOTOR_IZQUIERDO_ENABLE, MOTOR_IZQUIERDO_ENABLE_NUMBER);
-    ClearBit (PORT_SENSOR_4, SENSOR_4_NUMBER);
-    while (1) {
+    /*while (1) {
         if (SENSOR_IZQUIERDA_CENTRO)
 	        SetBit (PORT_LED_1, LED_1_NUMBER);
         else
@@ -130,20 +126,20 @@ int main() {
 	        SetBit (PORT_LED_4, LED_4_NUMBER);
         else
             ClearBit (PORT_LED_4, LED_4_NUMBER);
-    }
+    }*/
     
     while (1) {
         SetBit (PORT_LED_1, LED_1_NUMBER);
         
-        motor1_velocidad(60);
-        motor2_velocidad(60);
-        _delay_ms(2000);
+        OCR0A = 0;
+        OCR0B = 0;
+        _delay_ms(500);
 
         ClearBit (PORT_LED_1, LED_1_NUMBER);
 
-        motor1_velocidad(-60);
-        motor2_velocidad(-60);
-        _delay_ms(2000);
+        OCR0A = 128;
+        OCR0B = 128;
+        _delay_ms(500);
     }
     
 
