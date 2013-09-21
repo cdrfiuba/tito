@@ -39,5 +39,8 @@
 
 
 void pwm_config(void);
+void pwm_on(void);
+void pwm_off(void);
+
 
 #endif

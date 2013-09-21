@@ -78,26 +78,26 @@ typedef enum tipos_estado {
     TIPO_CURVA = 1
 } tipos_estado_t;
 
-#define PORT_LED_1_NAME      B
-#define LED_1_NUMBER         0
+#define PORT_LED_1_NAME      D
+#define LED_1_NUMBER         4
 #define PORT_LED_1		def_port_reg(PORT_LED_1_NAME)
 #define PIN_LED_1		def_pin_reg(PORT_LED_1_NAME)
 #define DDR_LED_1		def_ddr_reg(PORT_LED_1_NAME)
 
-#define PORT_LED_2_NAME      D
-#define LED_2_NUMBER         4
+#define PORT_LED_2_NAME      D 
+#define LED_2_NUMBER         7
 #define PORT_LED_2		def_port_reg(PORT_LED_2_NAME)
 #define PIN_LED_2		def_pin_reg(PORT_LED_2_NAME)
 #define DDR_LED_2		def_ddr_reg(PORT_LED_2_NAME)
 
-#define PORT_LED_3_NAME      D
-#define LED_3_NUMBER         7
+#define PORT_LED_3_NAME      B     //conectado al programador
+#define LED_3_NUMBER         4
 #define PORT_LED_3		def_port_reg(PORT_LED_3_NAME)
 #define PIN_LED_3		def_pin_reg(PORT_LED_3_NAME)
 #define DDR_LED_3		def_ddr_reg(PORT_LED_3_NAME)
 
 #define PORT_LED_4_NAME      B
-#define LED_4_NUMBER         4
+#define LED_4_NUMBER         0
 #define PORT_LED_4		def_port_reg(PORT_LED_4_NAME)
 #define PIN_LED_4		def_pin_reg(PORT_LED_4_NAME)
 #define DDR_LED_4		def_ddr_reg(PORT_LED_4_NAME)

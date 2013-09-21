@@ -1,4 +1,4 @@
-#define F_CPU 8000000UL
+//#define F_CPU 8000000UL
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
@@ -36,7 +36,7 @@ void startup () {
     pwm_config();
 
     // pone el flag global para activar interrupciones
-    sei();
+    //sei();
 
 }
 
@@ -127,19 +127,21 @@ int main() {
         else
             ClearBit (PORT_LED_4, LED_4_NUMBER);
     }*/
-    
+    pwm_on();
     while (1) {
         SetBit (PORT_LED_1, LED_1_NUMBER);
         
-        OCR0A = 0;
-        OCR0B = 0;
-        _delay_ms(500);
-
+        OCR0A = 50;
+        OCR0B = 50;
+        
+        _delay_ms(1000);
+        
         ClearBit (PORT_LED_1, LED_1_NUMBER);
 
-        OCR0A = 128;
-        OCR0B = 128;
-        _delay_ms(500);
+        OCR0A = 180;
+        OCR0B = 180;
+        _delay_ms(1000);
+
     }
     
 

@@ -13,8 +13,9 @@ void pwm_config(void) {
     // Un PWM se configura en Set OCxn when up-counting, Clear OCxn when down-counting, mientras que el otro se configura al revés, Set OCxn when down-counting, Clear OCxn when up-counting. Esto permite que ambos PWM estén siempre negados entre sí.
     // El Clock Select va sin prescaler para que el PWM sea lo más rápido y responsivo posible. Poner el prescaler implica prender el timer.
     TCCR0A = (1 << COM0A1) | (0 << COM0A0) | (1 << COM0B1) | (1 << COM0B0) | (0 << WGM01) | (1 << WGM00);
-    TCCR0B = (0 << FOC0A) | (0 << FOC0B) | (1 << WGM02) | (0 << CS02) | (0 << CS01) | (1 << CS00);
-
+    TCCR0B = (0 << FOC0A) | (0 << FOC0B) | (0 << WGM02) | (0 << CS02) | (0 << CS01) | (0 << CS00);
+    //TIMSK0 = (1<< OCIE0B) |(1<< OCIE0B) | (1<<TOIE0);
+    
     // configura los puertos como salida
 	SetBit (DDR_MOTOR_DERECHO_ENABLE, MOTOR_DERECHO_ENABLE_NUMBER);
 	SetBit (DDR_MOTOR_IZQUIERDO_ENABLE, MOTOR_IZQUIERDO_ENABLE_NUMBER); 
@@ -27,6 +28,12 @@ void pwm_config(void) {
     // habilita los ENABLE de los motores, que deben ir siempre en 1
     SetBit (PORT_MOTOR_DERECHO_ENABLE, MOTOR_DERECHO_ENABLE_NUMBER);
     SetBit (PORT_MOTOR_IZQUIERDO_ENABLE, MOTOR_IZQUIERDO_ENABLE_NUMBER);
+}
 
+void pwm_on(void) {
+    TCCR0B |= (0 << CS02) | (1 << CS01) | (0 << CS00);
+}
 
+void pwm_off(void) {
+    TCCR0B &= ~((1 << CS02) | (1 << CS01) | (1 << CS00));
 }
