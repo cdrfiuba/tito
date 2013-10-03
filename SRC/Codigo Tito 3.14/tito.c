@@ -245,7 +245,7 @@ int main() {
     }
     
     while (1) {
-        pwm_off();
+        motores_off();
 
         // ciclos para esperar a que arranque cuando
         // se suelta el botón
@@ -258,13 +258,35 @@ int main() {
         // aceleración inicial gradual
         motor1_velocidad(50);
         motor2_velocidad(50);
-        pwm_on();
+        motores_on();
         _delay_ms(50);
         
         // inicialización estado
         estado_actual = ST_EN_LINEA;
         
         while (BOTON1_NO_APRETADO) {
+	    
+    
+            if (SENSOR_IZQUIERDA_AFUERA)
+                SetBit (PORT_LED_1, LED_1_NUMBER);
+            else
+                ClearBit (PORT_LED_1, LED_1_NUMBER);
+            
+            if (SENSOR_IZQUIERDA_CENTRO)
+                SetBit (PORT_LED_2, LED_2_NUMBER);
+            else
+                ClearBit (PORT_LED_2, LED_2_NUMBER);
+    
+            if (SENSOR_DERECHA_CENTRO)
+                SetBit (PORT_LED_3, LED_3_NUMBER);
+            else
+                ClearBit (PORT_LED_3, LED_3_NUMBER);
+            
+            if (SENSOR_DERECHA_AFUERA)
+                SetBit (PORT_LED_4, LED_4_NUMBER);
+            else
+                ClearBit (PORT_LED_4, LED_4_NUMBER);
+    
             lectura_sensores = ESTADO_SENSORES;
             // // relectura de sensores
             // while(1) {
@@ -287,7 +309,7 @@ int main() {
         }
 
         // fin de tareas, para poder empezar de nuevo
-        pwm_off();
+        motores_off();
         _delay_ms(50); //rebote botón
 
         while (BOTON1_APRETADO);

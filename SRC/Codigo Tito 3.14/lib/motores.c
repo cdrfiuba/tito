@@ -34,6 +34,7 @@ void pwm_config(void) {
     SetBit (PORT_MOTOR_IZQUIERDO_ENABLE, MOTOR_IZQUIERDO_ENABLE_NUMBER);
 }
 
+
 inline void pwm_on(void) {
     TCCR0B |= (0 << CS02) | (1 << CS01) | (0 << CS00);
     TCCR1B |= (0 << CS12) | (1 << CS11) | (0 << CS10);
@@ -42,4 +43,16 @@ inline void pwm_on(void) {
 inline void pwm_off(void) {
     TCCR0B &= ~((1 << CS02) | (1 << CS01) | (1 << CS00));
     TCCR1B &= ~((1 << CS12) | (1 << CS11) | (1 << CS10));
+}
+
+inline void motores_on(void) {
+    pwm_on();
+    SetBit (PORT_MOTOR_DERECHO_ENABLE, MOTOR_DERECHO_ENABLE_NUMBER);
+    SetBit (PORT_MOTOR_IZQUIERDO_ENABLE, MOTOR_IZQUIERDO_ENABLE_NUMBER);
+}
+
+inline void motores_off(void) {
+    pwm_off();
+    ClearBit (PORT_MOTOR_DERECHO_ENABLE, MOTOR_DERECHO_ENABLE_NUMBER);
+    ClearBit (PORT_MOTOR_IZQUIERDO_ENABLE, MOTOR_IZQUIERDO_ENABLE_NUMBER);
 }

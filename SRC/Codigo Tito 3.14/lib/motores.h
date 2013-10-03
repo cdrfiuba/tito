@@ -41,6 +41,8 @@
 void pwm_config(void);
 void pwm_on(void);
 void pwm_off(void);
+void motores_on(void);
+void motores_off(void);
 
 
 #endif
