@@ -236,7 +236,45 @@ int main() {
         _delay_ms(50); //rebote botón
 
     }*/
+    uint8_t sensores[MAX_SENSORES];
+
+    sensores [0] = 100;
+    sensores [1] = 150;
+    sensores [2] = 150;
+    sensores [3] = 100;
+
+
+    SetBit (PORT_LED_1, LED_1_NUMBER); 
+    configurar_sensores();
+    _delay_ms (500);
+    ClearBit (PORT_LED_1, LED_1_NUMBER);
+
+
+    while(1){
+
+
+            if (sensores[0] > 128)
+                SetBit (PORT_LED_1, LED_1_NUMBER);
+            else
+                ClearBit (PORT_LED_1, LED_1_NUMBER);
+            
+            if (sensores[1] > 128)
+                SetBit (PORT_LED_2, LED_2_NUMBER);
+            else
+                ClearBit (PORT_LED_2, LED_2_NUMBER);
     
+            if (sensores[2] > 128)
+                SetBit (PORT_LED_3, LED_3_NUMBER);
+            else
+                ClearBit (PORT_LED_3, LED_3_NUMBER);
+            
+            if (sensores[3] > 128)
+                SetBit (PORT_LED_4, LED_4_NUMBER);
+            else
+                ClearBit (PORT_LED_4, LED_4_NUMBER);
+        obtener_sensores(sensores);
+    }
+ 
     for (i = 0; ; i++) {
         trans_count = i + 1;
         if (ST_MAX_ESTADOS == transiciones[i].estado) {

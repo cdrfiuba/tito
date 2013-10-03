@@ -10,6 +10,41 @@
 */
 void startup (void);
 
+inline void setear_conversor(uint8_t sensor){
+    ADMUX &= ~((1 << MUX3) | (1 << MUX2) | (1 << MUX1) | (1 << MUX0)); 
+    ADMUX |= sensor; 
+}
+
+#define CONVIRTIENDO ADSC
+#define LEER_CONVERSION ADCH
+
+void configurar_sensores(void){
+
+    ADMUX = ( (0 << REFS1) | (1 << REFS0) | (1 << ADLAR) | (0 << MUX3) | (0 << MUX2) | (0 << MUX1) | (0 << MUX0) );
+    ADCSRA = ( (1 << ADEN) | (1 << ADSC) | (1 << ADATE) | (1 << ADIE)  | (0 << ADPS2) | (0 << ADPS1)| (0 << ADPS0) );
+    ADCSRB = (  (0 << ADTS2) | (0 << ADTS1) | (0 << ADTS0) | (0 << ACME) );
+
+}
+
+#define MAX_SENSORES 4
+#define apagar_adc() (ADCSRA &= ~(1 << ADSC))
+#define prender_adc() (ADCSRA |= (1 << ADSC))
+
+
+inline void obtener_sensores(uint8_t *sensores){
+    uint8_t i;
+    apagar_adc();    
+
+    for (i = 0; i < MAX_SENSORES ; i++){
+        setear_conversor (i);
+        prender_adc();
+        //while(CONVIRTIENDO);
+        sensores[i] = LEER_CONVERSION;
+        apagar_adc();        
+    } 
+}
+
+
 /**
  estados y eventos para la fsm
 */
