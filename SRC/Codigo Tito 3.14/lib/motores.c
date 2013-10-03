@@ -15,7 +15,11 @@ void pwm_config(void) {
     TCCR0A = (1 << COM0A1) | (0 << COM0A0) | (1 << COM0B1) | (1 << COM0B0) | (0 << WGM01) | (1 << WGM00);
     TCCR0B = (0 << FOC0A) | (0 << FOC0B) | (0 << WGM02) | (0 << CS02) | (0 << CS01) | (0 << CS00);
     //TIMSK0 = (1<< OCIE0B) |(1<< OCIE0B) | (1<<TOIE0);
-    
+
+    TCCR1A = (1 << COM1A1) | (0 << COM1A0) | (1 << COM1B1) | (1 << COM1B0) | (0 << WGM11) | (1 << WGM10);
+    TCCR1B = (0 << ICNC1) | (0 << ICES1) | (0 << WGM13) | (0 << WGM12) | (0 << CS12) | (0 << CS11) | (0 << CS10);
+    TCCR1C = (0 << FOC1A) | (0 << FOC1B); 
+ 
     // configura los puertos como salida
 	SetBit (DDR_MOTOR_DERECHO_ENABLE, MOTOR_DERECHO_ENABLE_NUMBER);
 	SetBit (DDR_MOTOR_IZQUIERDO_ENABLE, MOTOR_IZQUIERDO_ENABLE_NUMBER); 
@@ -32,8 +36,11 @@ void pwm_config(void) {
 
 void pwm_on(void) {
     TCCR0B |= (0 << CS02) | (1 << CS01) | (0 << CS00);
+    TCCR1B |= (0 << CS12) | (1 << CS11) | (0 << CS10);
+
 }
 
 void pwm_off(void) {
     TCCR0B &= ~((1 << CS02) | (1 << CS01) | (1 << CS00));
+    TCCR1B &= ~((1 << CS12) | (1 << CS11) | (1 << CS10));
 }

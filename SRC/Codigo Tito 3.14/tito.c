@@ -35,6 +35,12 @@ void startup () {
     // configuración de PWMs en motores.h
     pwm_config();
 
+    // uno de los motores usa un timer de 16 bits,
+    // pero se usa como si fuera de 8, por lo que la
+    // parte alta del registro de 16 bits va en 0
+    OCR1AH = 0;
+    OCR1BH = 0;
+
     // pone el flag global para activar interrupciones
     //sei();
 
@@ -110,39 +116,76 @@ int main() {
     
     startup();
     /*while (1) {
-        if (SENSOR_IZQUIERDA_CENTRO)
-	        SetBit (PORT_LED_1, LED_1_NUMBER);
+        if (SENSOR_IZQUIERDA_AFUERA)
+            SetBit (PORT_LED_1, LED_1_NUMBER);
         else
             ClearBit (PORT_LED_1, LED_1_NUMBER);
-        if (SENSOR_IZQUIERDA_AFUERA)
-	        SetBit (PORT_LED_2, LED_2_NUMBER);
+        
+        if (SENSOR_IZQUIERDA_CENTRO)
+            SetBit (PORT_LED_2, LED_2_NUMBER);
         else
             ClearBit (PORT_LED_2, LED_2_NUMBER);
-        if (SENSOR_DERECHA_AFUERA)
-	        SetBit (PORT_LED_3, LED_3_NUMBER);
+
+        if (SENSOR_DERECHA_CENTRO)
+            SetBit (PORT_LED_3, LED_3_NUMBER);
         else
             ClearBit (PORT_LED_3, LED_3_NUMBER);
-        if (SENSOR_DERECHA_CENTRO)
-	        SetBit (PORT_LED_4, LED_4_NUMBER);
+        
+        if (SENSOR_DERECHA_AFUERA)
+            SetBit (PORT_LED_4, LED_4_NUMBER);
         else
             ClearBit (PORT_LED_4, LED_4_NUMBER);
     }*/
-    pwm_on();
-    while (1) {
-        SetBit (PORT_LED_1, LED_1_NUMBER);
-        
-        OCR0A = 50;
-        OCR0B = 50;
-        
-        _delay_ms(1000);
-        
-        ClearBit (PORT_LED_1, LED_1_NUMBER);
 
-        OCR0A = 180;
-        OCR0B = 180;
-        _delay_ms(1000);
+    /*while (1) {
+        while (BOTON1_NO_APRETADO);
+        _delay_ms(50); //rebote botón
+        
+        while (BOTON1_APRETADO);
+        _delay_ms(5); //rebote botón
 
-    }
+        while (BOTON1_NO_APRETADO) {
+
+            pwm_on();
+
+            SetBit (PORT_LED_1, LED_1_NUMBER);
+
+	    motor1_velocidad(100);
+            motor2_velocidad(100);
+        
+            //OCR0A = 50;
+            //OCR0B = 50;
+        
+            //OCR1AL = 50;
+            //OCR1BL = 50;
+            //OCR1AH = 0;
+            //OCR1BH = 0;
+
+            _delay_ms(1000);
+           
+            ClearBit (PORT_LED_1, LED_1_NUMBER);
+
+            motor1_velocidad(-100);
+            motor2_velocidad(-100);
+
+            //OCR0A = 180;
+            //OCR0B = 180;
+
+            //OCR1AL = 180;
+            //OCR1BL = 180;
+            //OCR1AH = 0;
+            //OCR1BH = 0;
+
+            _delay_ms(1000);
+
+        }
+
+        pwm_off();        
+
+        while (BOTON1_APRETADO);
+        _delay_ms(50); //rebote botón
+
+    }*/
     
 
     // acá se definen las transiciones de la fsm:
@@ -210,9 +253,14 @@ int main() {
             break;
         }
     }
-    
-    
+
     while (1) {
+	motor1_velocidad(100);
+        motor2_velocidad(100);
+    }
+    
+    
+    /*while (1) {
        motor1_velocidad(0);
        motor2_velocidad(0);
 
@@ -235,14 +283,14 @@ int main() {
         
         while (BOTON1_NO_APRETADO) {
             lectura_sensores = ESTADO_SENSORES;
-            /* // relectura de sensores
-            while(1) {
-                lectura_sensores_nuevo = ESTADO_SENSORES;
-                if (lectura_sensores_nuevo == lectura_sensores) {
-                    break;
-                }
-                lectura_sensores = lectura_sensores_nuevo;
-            }*/
+            // relectura de sensores
+            //while(1) {
+            //    lectura_sensores_nuevo = ESTADO_SENSORES;
+            //    if (lectura_sensores_nuevo == lectura_sensores) {
+            //        break;
+            //    }
+            //    lectura_sensores = lectura_sensores_nuevo;
+            //}
 
             // cicla por todas las transiciones, y busca la que coincida con
             // el estado y evento actuales
@@ -263,6 +311,6 @@ int main() {
         while (BOTON1_APRETADO);
         _delay_ms(50); //rebote botón
         
-    }
+    }*/
 }
 
