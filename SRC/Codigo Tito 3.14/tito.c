@@ -6,6 +6,64 @@
 #include "lib/motores.h"
 #include "lib/common.h"
 
+// acá se definen las transiciones de la fsm:
+// esencialmente esto ES la fsm
+static const tTransition transiciones[] = {
+    {ST_EN_LINEA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
+    {ST_EN_LINEA, EV_SENSORES_NNBN, ST_YENDOSE_POCO_POR_IZQUIERDA},
+    {ST_EN_LINEA, EV_SENSORES_NNBB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
+    {ST_EN_LINEA, EV_SENSORES_NBNN, ST_YENDOSE_POCO_POR_DERECHA},
+    {ST_EN_LINEA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
+    {ST_EN_LINEA, EV_SENSORES_BBNN, ST_YENDOSE_MUCHO_POR_DERECHA},
+    //{ST_EN_LINEA, EV_CUALQUIERA, ST_MAX_ESTADOS}, // para determinar que no hay más posibilidades en este estado
+
+    {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_NNNN, ST_AFUERA_POR_DERECHA},
+    {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_NNBN, ST_EN_LINEA},
+    {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
+    {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
+    {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_BBNN, ST_YENDOSE_MUCHO_POR_DERECHA},
+    {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NNNN, ST_AFUERA_POR_DERECHA},
+    {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NNNB, ST_VOLVIO_POR_DERECHA},
+    {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NNBN, ST_VOLVIO_POR_DERECHA},
+    {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NNBB, ST_VOLVIO_POR_DERECHA},
+    {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NBNN, ST_EN_LINEA},
+    {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NBBN, ST_VOLVIO_POR_DERECHA},
+    {ST_AFUERA_POR_DERECHA, EV_SENSORES_BNNN, ST_VOLVIENDO_POR_DERECHA},
+    {ST_AFUERA_POR_DERECHA, EV_SENSORES_BBNN, ST_VOLVIENDO_POR_DERECHA},
+    {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NNNN, ST_AFUERA_POR_DERECHA},
+    {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NNBN, ST_VOLVIO_POR_DERECHA},
+    {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NBNN, ST_EN_LINEA},
+    {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
+    {ST_VOLVIO_POR_DERECHA, EV_SENSORES_NNBN, ST_EN_LINEA},
+    {ST_VOLVIO_POR_DERECHA, EV_SENSORES_NBNN, ST_EN_LINEA},
+    {ST_VOLVIO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
+    {ST_VOLVIO_POR_DERECHA, EV_SENSORES_BBNN, ST_YENDOSE_POCO_POR_DERECHA},
+
+    {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NNNN, ST_AFUERA_POR_IZQUIERDA},
+    {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NBNN, ST_EN_LINEA},
+    {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
+    {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
+    {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
+    {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNNN, ST_AFUERA_POR_IZQUIERDA},
+    {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_BNNN, ST_VOLVIO_POR_IZQUIERDA},
+    {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NBNN, ST_VOLVIO_POR_IZQUIERDA},
+    {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_BBNN, ST_VOLVIO_POR_IZQUIERDA},
+    {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNBN, ST_EN_LINEA},
+    {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_VOLVIO_POR_IZQUIERDA},
+    {ST_AFUERA_POR_IZQUIERDA, EV_SENSORES_NNNB, ST_VOLVIENDO_POR_IZQUIERDA},
+    {ST_AFUERA_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_VOLVIENDO_POR_IZQUIERDA},
+    {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNNN, ST_AFUERA_POR_IZQUIERDA},
+    {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NBNN, ST_VOLVIO_POR_IZQUIERDA},
+    {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNBN, ST_EN_LINEA},
+    {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
+    {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NBNN, ST_EN_LINEA},
+    {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NNBN, ST_EN_LINEA},
+    {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
+    {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_YENDOSE_POCO_POR_IZQUIERDA},   
+    
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS} // transición máxima
+};
+
 void startup () {
 // setear puertos de lectura o escritura,
 // según corresponda
@@ -45,14 +103,6 @@ void startup () {
     //sei();
 
 }
-
-typedef struct {
-    int estado;
-    int sensores;
-    int estado_nuevo;
-    //int tipo_estado; //RECTA o CURVA
-} tTransition;
-
     
 inline void manejar_estado(int estado) {
     switch (estado) {
@@ -109,10 +159,10 @@ inline void manejar_estado(int estado) {
  función principal
 */
 int main() {
-    int i = 0;
-    int trans_count = 0;
-    int estado_actual = ST_EN_LINEA;
-    int lectura_sensores = EV_CUALQUIERA;
+    uint8_t i = 0;
+    uint8_t trans_count = 0;
+    uint8_t estado_actual = ST_EN_LINEA;
+    uint8_t lectura_sensores = EV_CUALQUIERA;
     
     startup();
     /*while (1) {
@@ -187,95 +237,28 @@ int main() {
 
     }*/
     
-
-    // acá se definen las transiciones de la fsm:
-    // esencialmente esto ES la fsm
-    tTransition transiciones[] = {
-        {ST_EN_LINEA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
-        {ST_EN_LINEA, EV_SENSORES_NNBN, ST_YENDOSE_POCO_POR_IZQUIERDA},
-        {ST_EN_LINEA, EV_SENSORES_NNBB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
-        {ST_EN_LINEA, EV_SENSORES_NBNN, ST_YENDOSE_POCO_POR_DERECHA},
-        {ST_EN_LINEA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
-        {ST_EN_LINEA, EV_SENSORES_BBNN, ST_YENDOSE_MUCHO_POR_DERECHA},
-        //{ST_EN_LINEA, EV_CUALQUIREA, ST_MAX_ESTADOS}, // para determinar que no hay más posibilidades en este estado
-
-        {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_NNNN, ST_AFUERA_POR_DERECHA},
-        {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_NNBN, ST_EN_LINEA},
-        {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_BNNN, ST_YENDOSE_MUCHO_POR_DERECHA},
-        {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_BBNN, ST_YENDOSE_MUCHO_POR_DERECHA},
-        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NNNN, ST_AFUERA_POR_DERECHA},
-        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NNNB, ST_VOLVIO_POR_DERECHA},
-        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NNBN, ST_VOLVIO_POR_DERECHA},
-        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NNBB, ST_VOLVIO_POR_DERECHA},
-        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NBNN, ST_EN_LINEA},
-        {ST_YENDOSE_MUCHO_POR_DERECHA, EV_SENSORES_NBBN, ST_VOLVIO_POR_DERECHA},
-        {ST_AFUERA_POR_DERECHA, EV_SENSORES_BNNN, ST_VOLVIENDO_POR_DERECHA},
-        {ST_AFUERA_POR_DERECHA, EV_SENSORES_BBNN, ST_VOLVIENDO_POR_DERECHA},
-        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NNNN, ST_AFUERA_POR_DERECHA},
-        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NNBN, ST_VOLVIO_POR_DERECHA},
-        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NBNN, ST_EN_LINEA},
-        {ST_VOLVIENDO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_VOLVIO_POR_DERECHA, EV_SENSORES_NNBN, ST_EN_LINEA},
-        {ST_VOLVIO_POR_DERECHA, EV_SENSORES_NBNN, ST_EN_LINEA},
-        {ST_VOLVIO_POR_DERECHA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_VOLVIO_POR_DERECHA, EV_SENSORES_BBNN, ST_YENDOSE_POCO_POR_DERECHA},
-
-        {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NNNN, ST_AFUERA_POR_IZQUIERDA},
-        {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NBNN, ST_EN_LINEA},
-        {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
-        {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
-        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNNN, ST_AFUERA_POR_IZQUIERDA},
-        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_BNNN, ST_VOLVIO_POR_IZQUIERDA},
-        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NBNN, ST_VOLVIO_POR_IZQUIERDA},
-        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_BBNN, ST_VOLVIO_POR_IZQUIERDA},
-        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NNBN, ST_EN_LINEA},
-        {ST_YENDOSE_MUCHO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_VOLVIO_POR_IZQUIERDA},
-        {ST_AFUERA_POR_IZQUIERDA, EV_SENSORES_NNNB, ST_VOLVIENDO_POR_IZQUIERDA},
-        {ST_AFUERA_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_VOLVIENDO_POR_IZQUIERDA},
-        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNNN, ST_AFUERA_POR_IZQUIERDA},
-        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NBNN, ST_VOLVIO_POR_IZQUIERDA},
-        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NNBN, ST_EN_LINEA},
-        {ST_VOLVIENDO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NBNN, ST_EN_LINEA},
-        {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NNBN, ST_EN_LINEA},
-        {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NBBN, ST_EN_LINEA},
-        {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_YENDOSE_POCO_POR_IZQUIERDA},   
-        
-        {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS} // transición máxima
-    };
-
-        
     for (i = 0; ; i++) {
         trans_count = i + 1;
         if (ST_MAX_ESTADOS == transiciones[i].estado) {
             break;
         }
     }
-
+    
     while (1) {
-	motor1_velocidad(100);
-        motor2_velocidad(100);
-    }
-    
-    
-    /*while (1) {
-       motor1_velocidad(0);
-       motor2_velocidad(0);
+        pwm_off();
 
         // ciclos para esperar a que arranque cuando
         // se suelta el botón
         while (BOTON1_NO_APRETADO);
         _delay_ms(50); //rebote botón
-        
 
         while (BOTON1_APRETADO);
         _delay_ms(5); //rebote botón
 
         // aceleración inicial gradual
-       motor1_velocidad(50);
-       motor2_velocidad(50);
+        motor1_velocidad(50);
+        motor2_velocidad(50);
+        pwm_on();
         _delay_ms(50);
         
         // inicialización estado
@@ -283,14 +266,14 @@ int main() {
         
         while (BOTON1_NO_APRETADO) {
             lectura_sensores = ESTADO_SENSORES;
-            // relectura de sensores
-            //while(1) {
-            //    lectura_sensores_nuevo = ESTADO_SENSORES;
-            //    if (lectura_sensores_nuevo == lectura_sensores) {
-            //        break;
-            //    }
-            //    lectura_sensores = lectura_sensores_nuevo;
-            //}
+            // // relectura de sensores
+            // while(1) {
+               // lectura_sensores_nuevo = ESTADO_SENSORES;
+               // if (lectura_sensores_nuevo == lectura_sensores) {
+                   // break;
+               // }
+               // lectura_sensores = lectura_sensores_nuevo;
+            // }
 
             // cicla por todas las transiciones, y busca la que coincida con
             // el estado y evento actuales
@@ -304,13 +287,12 @@ int main() {
         }
 
         // fin de tareas, para poder empezar de nuevo
-       motor1_velocidad(0);
-       motor2_velocidad(0);
+        pwm_off();
         _delay_ms(50); //rebote botón
 
         while (BOTON1_APRETADO);
         _delay_ms(50); //rebote botón
         
-    }*/
+    }
 }
 

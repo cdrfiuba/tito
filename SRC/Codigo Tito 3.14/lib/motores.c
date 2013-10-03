@@ -34,13 +34,12 @@ void pwm_config(void) {
     SetBit (PORT_MOTOR_IZQUIERDO_ENABLE, MOTOR_IZQUIERDO_ENABLE_NUMBER);
 }
 
-void pwm_on(void) {
+inline void pwm_on(void) {
     TCCR0B |= (0 << CS02) | (1 << CS01) | (0 << CS00);
     TCCR1B |= (0 << CS12) | (1 << CS11) | (0 << CS10);
-
 }
 
-void pwm_off(void) {
+inline void pwm_off(void) {
     TCCR0B &= ~((1 << CS02) | (1 << CS01) | (1 << CS00));
     TCCR1B &= ~((1 << CS12) | (1 << CS11) | (1 << CS10));
 }

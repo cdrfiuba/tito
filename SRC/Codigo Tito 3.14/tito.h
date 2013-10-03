@@ -4,11 +4,11 @@
 #include "lib/motores.h"
 #include "lib/common.h"
 #include "velocidades.h"
+
 /**
  Prototipos
 */
 void startup (void);
-//void prueba_frenado(void);
 
 /**
  estados y eventos para la fsm
@@ -32,28 +32,10 @@ typedef enum estados {
     ST_MAX_ESTADOS = 11
 
 } estados_t;
-typedef enum estados_resumidos {
-    EL=0,
 
-    YPPD=1,
-    YMPD=2,
-    APD=3,
-    VEPD=4,
-    VOPD=5,
-
-    YPPI=6,
-    YMPI=7,
-    API=8,
-    VEPI=9,
-    VOPI=10,
-
-    ME=11
-} estados_resumidos_t;
 // (los sensores se componen como:
 //  S_IZQ_AFUERA | S_IZQ_CENTRO | S_DER_CENTRO | S_DER_AFUERA )
 typedef enum eventos {
-    EV_CUALQUIERA = 16,
-
     EV_SENSORES_NNNN = 0,
     EV_SENSORES_NNNB = 1,
     EV_SENSORES_NNBN = 2,
@@ -70,13 +52,23 @@ typedef enum eventos {
     EV_SENSORES_BBNB = 13,
     EV_SENSORES_BBBN = 14,
     EV_SENSORES_BBBB = 15,
-    EV_MAX_SENSORES = 16
+    EV_CUALQUIERA = 16
 } eventos_t;
-// PARA 
+
 typedef enum tipos_estado {
     TIPO_RECTA = 0,
     TIPO_CURVA = 1
 } tipos_estado_t;
+
+// máquina de estados
+typedef struct {
+    estados_t estado;
+    eventos_t sensores;
+    estados_t estado_nuevo;
+    //tipos_estado_t tipo_estado; //RECTA o CURVA
+} tTransition;
+
+// configuración de los puertos
 
 #define PORT_LED_1_NAME      D
 #define LED_1_NUMBER         4
@@ -176,7 +168,6 @@ typedef enum tipos_estado {
 // la velocidad va de -100 a 100
 #define motor1_velocidad(vel)         OCR0A = (vel * 1.27 * COEFICIENTE_IZQUIERDA + 127); OCR0B = (vel * 1.27 * COEFICIENTE_IZQUIERDA + 127)
 #define motor2_velocidad(vel)         OCR1AL = (vel * 1.27 * COEFICIENTE_DERECHA + 127); OCR1BL = (vel * 1.27 * COEFICIENTE_DERECHA + 127)
-
 
 #define CANCELAR_INERCIA(us_ad, us_at) motor1_velocidad(100);_delay_us(us_ad);motor1_velocidad(-100);_delay_us(us_at);
 
