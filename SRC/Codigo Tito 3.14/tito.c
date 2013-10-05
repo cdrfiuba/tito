@@ -8,6 +8,46 @@
 
 // acá se definen las transiciones de la fsm:
 // esencialmente esto ES la fsm
+/*
+volatile static const tTransition transiciones[] = {
+    {ST_EN_LINEA, EV_SENSORES_NNNB, ST_YENDOSE_POCO_POR_IZQUIERDA},
+    {ST_EN_LINEA, EV_SENSORES_BNNN, ST_YENDOSE_POCO_POR_DERECHA},
+
+    {ST_YENDOSE_POCO_POR_DERECHA, EV_SENSORES_NNNN, ST_EN_LINEA},
+    {ST_YENDOSE_POCO_POR_IZQUIERDA, EV_SENSORES_NNNN, ST_EN_LINEA},
+
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS}, //BORRAME
+
+    {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS} // transición máxima
+};*/
+/*
 static const tTransition transiciones[] = {
     {ST_EN_LINEA, EV_SENSORES_NNNB, ST_YENDOSE_MUCHO_POR_IZQUIERDA},
     {ST_EN_LINEA, EV_SENSORES_NNBN, ST_YENDOSE_POCO_POR_IZQUIERDA},
@@ -62,7 +102,7 @@ static const tTransition transiciones[] = {
     {ST_VOLVIO_POR_IZQUIERDA, EV_SENSORES_NNBB, ST_YENDOSE_POCO_POR_IZQUIERDA},   
     
     {ST_MAX_ESTADOS, EV_CUALQUIERA, ST_MAX_ESTADOS} // transición máxima
-};
+};*/
 
 void startup () {
 // setear puertos de lectura o escritura,
@@ -104,7 +144,11 @@ void startup () {
 
 }
     
-inline void manejar_estado(int estado) {
+inline void manejar_estado(estados_t estado) {
+    ClearBit (PORT_LED_1, LED_1_NUMBER);
+    ClearBit (PORT_LED_2, LED_2_NUMBER);
+    ClearBit (PORT_LED_3, LED_3_NUMBER);
+    ClearBit (PORT_LED_4, LED_4_NUMBER);
     switch (estado) {
         case ST_EN_LINEA:
             motor1_velocidad(VELOCIDAD_IZQUIERDA_EL);
@@ -112,56 +156,78 @@ inline void manejar_estado(int estado) {
             break;
 
         case ST_YENDOSE_POCO_POR_DERECHA:
+            SetBit (PORT_LED_1, LED_1_NUMBER);
             motor1_velocidad(VELOCIDAD_IZQUIERDA_YPPD);
             motor2_velocidad(VELOCIDAD_DERECHA_YPPD);
             break;
+        case ST_YENDOSE_BASTANTE_POR_DERECHA:
+            SetBit (PORT_LED_2, LED_2_NUMBER);
+            motor1_velocidad(VELOCIDAD_IZQUIERDA_YBPD);
+            motor2_velocidad(VELOCIDAD_DERECHA_YBPD);
+            break;
         case ST_YENDOSE_MUCHO_POR_DERECHA:
+            SetBit (PORT_LED_3, LED_3_NUMBER);
             motor1_velocidad(VELOCIDAD_IZQUIERDA_YMPD);
             motor2_velocidad(VELOCIDAD_DERECHA_YMPD);
             break;
         case ST_AFUERA_POR_DERECHA:
+            SetBit (PORT_LED_4, LED_4_NUMBER);
             motor1_velocidad(VELOCIDAD_IZQUIERDA_APD);
             motor2_velocidad(VELOCIDAD_DERECHA_APD);
             break;
         case ST_VOLVIENDO_POR_DERECHA:
+            SetBit (PORT_LED_1, LED_1_NUMBER);
+            SetBit (PORT_LED_3, LED_3_NUMBER);
             motor1_velocidad(VELOCIDAD_IZQUIERDA_VEPD);
             motor2_velocidad(VELOCIDAD_DERECHA_VEPD);
             break;
-        case ST_VOLVIO_POR_DERECHA:
+        /*case ST_VOLVIO_POR_DERECHA:
             motor1_velocidad(VELOCIDAD_IZQUIERDA_VOPD);
             motor2_velocidad(VELOCIDAD_DERECHA_VOPD);
-            break;
+            break;*/
 
         case ST_YENDOSE_POCO_POR_IZQUIERDA:
+            SetBit (PORT_LED_1, LED_1_NUMBER);
             motor1_velocidad(VELOCIDAD_IZQUIERDA_YPPI);
             motor2_velocidad(VELOCIDAD_DERECHA_YPPI);
             break;
+        case ST_YENDOSE_BASTANTE_POR_IZQUIERDA:
+            SetBit (PORT_LED_2, LED_2_NUMBER);
+            motor1_velocidad(VELOCIDAD_IZQUIERDA_YBPI);
+            motor2_velocidad(VELOCIDAD_DERECHA_YBPI);
+            break;
         case ST_YENDOSE_MUCHO_POR_IZQUIERDA:
+            SetBit (PORT_LED_3, LED_3_NUMBER);
             motor1_velocidad(VELOCIDAD_IZQUIERDA_YMPI);
             motor2_velocidad(VELOCIDAD_DERECHA_YMPI);
             break;
         case ST_AFUERA_POR_IZQUIERDA:
+            SetBit (PORT_LED_4, LED_4_NUMBER);
             motor1_velocidad(VELOCIDAD_IZQUIERDA_API);
             motor2_velocidad(VELOCIDAD_DERECHA_API);
             break;
         case ST_VOLVIENDO_POR_IZQUIERDA:
+            SetBit (PORT_LED_1, LED_1_NUMBER);
+            SetBit (PORT_LED_3, LED_3_NUMBER);
             motor1_velocidad(VELOCIDAD_IZQUIERDA_VEPI);
             motor2_velocidad(VELOCIDAD_DERECHA_VEPI);
             break;
-        case ST_VOLVIO_POR_IZQUIERDA:
+        /*case ST_VOLVIO_POR_IZQUIERDA:
             motor1_velocidad(VELOCIDAD_IZQUIERDA_VOPI);
             motor2_velocidad(VELOCIDAD_DERECHA_VOPI);
-            break;
+            break;*/
     }
 }
+
     
 /**
  función principal
 */
 int main() {
-    uint8_t i = 0;
-    uint8_t trans_count = 0;
-    uint8_t estado_actual = ST_EN_LINEA;
+    //uint8_t i = 0;
+    //uint8_t trans_count = 0;
+    estados_t estado_actual = ST_EN_LINEA;
+    estados_t estado_nuevo = ST_EN_LINEA;
     uint8_t lectura_sensores = EV_CUALQUIERA;
     
     startup();
@@ -187,124 +253,56 @@ int main() {
             ClearBit (PORT_LED_4, LED_4_NUMBER);
     }*/
 
-    /*while (1) {
-        while (BOTON1_NO_APRETADO);
-        _delay_ms(50); //rebote botón
-        
-        while (BOTON1_APRETADO);
-        _delay_ms(5); //rebote botón
+    //uint8_t sensores[MAX_SENSORES];
 
-        while (BOTON1_NO_APRETADO) {
+    //sensores [0] = 100;
+    //sensores [1] = 150;
+    //sensores [2] = 150;
+    //sensores [3] = 100;
 
-            pwm_on();
+    //SetBit (PORT_LED_1, LED_1_NUMBER); 
+    //configurar_sensores();
+    //_delay_ms (500);
+    //ClearBit (PORT_LED_1, LED_1_NUMBER);
 
-            SetBit (PORT_LED_1, LED_1_NUMBER);
-
-	    motor1_velocidad(100);
-            motor2_velocidad(100);
-        
-            //OCR0A = 50;
-            //OCR0B = 50;
-        
-            //OCR1AL = 50;
-            //OCR1BL = 50;
-            //OCR1AH = 0;
-            //OCR1BH = 0;
-
-            _delay_ms(1000);
-           
-            ClearBit (PORT_LED_1, LED_1_NUMBER);
-
-            motor1_velocidad(-100);
-            motor2_velocidad(-100);
-
-            //OCR0A = 180;
-            //OCR0B = 180;
-
-            //OCR1AL = 180;
-            //OCR1BL = 180;
-            //OCR1AH = 0;
-            //OCR1BH = 0;
-
-            _delay_ms(1000);
-
-        }
-
-        pwm_off();        
-
-        while (BOTON1_APRETADO);
-        _delay_ms(50); //rebote botón
-
-    }*/
-    uint8_t sensores[MAX_SENSORES];
-
-    sensores [0] = 100;
-    sensores [1] = 150;
-    sensores [2] = 150;
-    sensores [3] = 100;
-
-
-    SetBit (PORT_LED_1, LED_1_NUMBER); 
-    configurar_sensores();
-    _delay_ms (500);
-    ClearBit (PORT_LED_1, LED_1_NUMBER);
-
-
-    while(1){
-
-
-            if (sensores[0] > 128)
-                SetBit (PORT_LED_1, LED_1_NUMBER);
-            else
-                ClearBit (PORT_LED_1, LED_1_NUMBER);
-            
-            if (sensores[1] > 128)
-                SetBit (PORT_LED_2, LED_2_NUMBER);
-            else
-                ClearBit (PORT_LED_2, LED_2_NUMBER);
-    
-            if (sensores[2] > 128)
-                SetBit (PORT_LED_3, LED_3_NUMBER);
-            else
-                ClearBit (PORT_LED_3, LED_3_NUMBER);
-            
-            if (sensores[3] > 128)
-                SetBit (PORT_LED_4, LED_4_NUMBER);
-            else
-                ClearBit (PORT_LED_4, LED_4_NUMBER);
-        obtener_sensores(sensores);
-    }
+    //while(1){
+    //        if (sensores[0] > 128)
+    //            SetBit (PORT_LED_1, LED_1_NUMBER);
+    //        else
+    //            ClearBit (PORT_LED_1, LED_1_NUMBER);
+    //        
+    //        if (sensores[1] > 128)
+    //            SetBit (PORT_LED_2, LED_2_NUMBER);
+    //        else
+    //            ClearBit (PORT_LED_2, LED_2_NUMBER);
+    // 
+    //        if (sensores[2] > 128)
+    //            SetBit (PORT_LED_3, LED_3_NUMBER);
+    //        else
+    //            ClearBit (PORT_LED_3, LED_3_NUMBER);
+    //        
+    //        if (sensores[3] > 128)
+    //            SetBit (PORT_LED_4, LED_4_NUMBER);
+    //        else
+    //            ClearBit (PORT_LED_4, LED_4_NUMBER);
+    //    obtener_sensores(sensores);
+    //}
  
-    for (i = 0; ; i++) {
+    /*for (i = 0; ; i++) {
         trans_count = i + 1;
         if (ST_MAX_ESTADOS == transiciones[i].estado) {
-            break;
+           break;
         }
-    }
+    }*/
+
+    SetBit (PORT_LED_1, LED_1_NUMBER);
     
     while (1) {
         motores_off();
 
         // ciclos para esperar a que arranque cuando
         // se suelta el botón
-        while (BOTON1_NO_APRETADO);
-        _delay_ms(50); //rebote botón
-
-        while (BOTON1_APRETADO);
-        _delay_ms(5); //rebote botón
-
-        // aceleración inicial gradual
-        motor1_velocidad(50);
-        motor2_velocidad(50);
-        motores_on();
-        _delay_ms(50);
-        
-        // inicialización estado
-        estado_actual = ST_EN_LINEA;
-        
-        while (BOTON1_NO_APRETADO) {
-	    
-    
+        while (BOTON2_NO_APRETADO) {
             if (SENSOR_IZQUIERDA_AFUERA)
                 SetBit (PORT_LED_1, LED_1_NUMBER);
             else
@@ -324,8 +322,49 @@ int main() {
                 SetBit (PORT_LED_4, LED_4_NUMBER);
             else
                 ClearBit (PORT_LED_4, LED_4_NUMBER);
+        }
+        _delay_ms(50); //rebote botón
+
+        while (BOTON2_APRETADO);
+        _delay_ms(5); //rebote botón
+
+        // aceleración inicial gradual
+        motor1_velocidad(20);
+        motor2_velocidad(20);
+        motores_on();
+        _delay_ms(50);
+        motor1_velocidad(40);
+        motor2_velocidad(40);
+        _delay_ms(50);
+        motor1_velocidad(60);
+        motor2_velocidad(60);
+        _delay_ms(50);
+        
+        // inicialización estado
+        estado_actual = ST_EN_LINEA;
+
+        while (BOTON2_NO_APRETADO) {
+            /*if (SENSOR_IZQUIERDA_AFUERA)
+                SetBit (PORT_LED_1, LED_1_NUMBER);
+            else
+                ClearBit (PORT_LED_1, LED_1_NUMBER);
+            
+            if (SENSOR_IZQUIERDA_CENTRO)
+                SetBit (PORT_LED_2, LED_2_NUMBER);
+            else
+                ClearBit (PORT_LED_2, LED_2_NUMBER);
     
-            lectura_sensores = ESTADO_SENSORES;
+            if (SENSOR_DERECHA_CENTRO)
+                SetBit (PORT_LED_3, LED_3_NUMBER);
+            else
+                ClearBit (PORT_LED_3, LED_3_NUMBER);
+            
+            if (SENSOR_DERECHA_AFUERA)
+                SetBit (PORT_LED_4, LED_4_NUMBER);
+            else
+                ClearBit (PORT_LED_4, LED_4_NUMBER);*/
+    
+            //lectura_sensores = ESTADO_SENSORES;
             // // relectura de sensores
             // while(1) {
                // lectura_sensores_nuevo = ESTADO_SENSORES;
@@ -337,20 +376,153 @@ int main() {
 
             // cicla por todas las transiciones, y busca la que coincida con
             // el estado y evento actuales
-            for (i = 0; i < trans_count; i++) {
+            /*for (i = 0; i < trans_count; i++) {
                 if ((estado_actual == transiciones[i].estado) && (lectura_sensores == transiciones[i].sensores)) {
                     estado_actual = transiciones[i].estado_nuevo;
                     manejar_estado(estado_actual);
                     break;
                 }
+            }*/
+            lectura_sensores = ESTADO_SENSORES;
+
+            if (estado_nuevo != estado_actual) {
+                estado_actual = estado_nuevo;
+                manejar_estado(estado_actual);
             }
+
+            switch (estado_actual) {
+                case ST_EN_LINEA:
+                    switch (lectura_sensores) {
+                        case EV_SENSORES_NNNB: estado_nuevo = ST_YENDOSE_MUCHO_POR_IZQUIERDA; break;
+                        case EV_SENSORES_NNBB: estado_nuevo = ST_YENDOSE_BASTANTE_POR_IZQUIERDA; break;
+                        case EV_SENSORES_NBBB: estado_nuevo = ST_YENDOSE_POCO_POR_IZQUIERDA; break;
+
+                        case EV_SENSORES_BNNN: estado_nuevo = ST_YENDOSE_MUCHO_POR_DERECHA; break;
+                        case EV_SENSORES_BBNN: estado_nuevo = ST_YENDOSE_BASTANTE_POR_DERECHA; break;
+                        case EV_SENSORES_BBBN: estado_nuevo = ST_YENDOSE_POCO_POR_DERECHA; break;
+
+                        case EV_SENSORES_BBBB: estado_nuevo = ST_EN_LINEA; break;
+                    }
+                    break;
+
+                case ST_YENDOSE_POCO_POR_DERECHA:
+                    switch (lectura_sensores) {
+                        case EV_SENSORES_BNNN: estado_nuevo = ST_YENDOSE_MUCHO_POR_DERECHA; break;
+                        case EV_SENSORES_BBNN: estado_nuevo = ST_YENDOSE_BASTANTE_POR_DERECHA; break;
+
+                        case EV_SENSORES_BBBB: estado_nuevo = ST_EN_LINEA; break;
+                    }
+                    break;
+                case ST_YENDOSE_BASTANTE_POR_DERECHA:
+                    switch (lectura_sensores) {
+                        case EV_SENSORES_BNNN: estado_nuevo = ST_YENDOSE_MUCHO_POR_DERECHA; break;
+                        case EV_SENSORES_BBBN: estado_nuevo = ST_YENDOSE_POCO_POR_DERECHA; break;
+
+                        case EV_SENSORES_BBBB: estado_nuevo = ST_EN_LINEA; break;
+                    }
+                    break;
+                case ST_YENDOSE_MUCHO_POR_DERECHA:
+                    switch (lectura_sensores) {
+                        case EV_SENSORES_NNNN: estado_nuevo = ST_AFUERA_POR_DERECHA; break;
+
+                        case EV_SENSORES_BBNN: estado_nuevo = ST_YENDOSE_BASTANTE_POR_DERECHA; break;
+                        case EV_SENSORES_BBBN: estado_nuevo = ST_YENDOSE_POCO_POR_DERECHA; break;
+
+                        case EV_SENSORES_BBBB: estado_nuevo = ST_EN_LINEA; break;
+                    }
+                    break;
+                case ST_AFUERA_POR_DERECHA:
+                    switch (lectura_sensores) {
+                        case EV_SENSORES_BBNN: estado_nuevo = ST_EN_LINEA; break;
+                        case EV_SENSORES_BBBN: estado_nuevo = ST_EN_LINEA; break;
+                    }
+                    break;
+                case ST_VOLVIENDO_POR_DERECHA:
+                    switch (lectura_sensores) {
+                        case EV_SENSORES_NNNN: estado_nuevo = ST_AFUERA_POR_DERECHA; break;
+                        case EV_SENSORES_BBBN: estado_nuevo = ST_YENDOSE_POCO_POR_DERECHA; break;
+                        case EV_SENSORES_BBBB: estado_nuevo = ST_EN_LINEA; break;
+                    }
+                    break;
+                /*case ST_VOLVIO_POR_DERECHA:
+                    switch (lectura_sensores) {
+                        case EV_SENSORES_NNNN: estado_nuevo = ST_; break;
+                        case EV_SENSORES_NNNB: estado_nuevo = ST_; break;
+                        case EV_SENSORES_NNBB: estado_nuevo = ST_; break;
+                        case EV_SENSORES_NBBB: estado_nuevo = ST_; break;
+
+                        case EV_SENSORES_BNNN: estado_nuevo = ST_; break;
+                        case EV_SENSORES_BBNN: estado_nuevo = ST_; break;
+                        case EV_SENSORES_BBBN: estado_nuevo = ST_; break;
+
+                        case EV_SENSORES_BBBB: estado_nuevo = ST_EN_LINEA; break;
+                    }
+                   break;*/
+
+                case ST_YENDOSE_POCO_POR_IZQUIERDA:
+                    switch (lectura_sensores) {
+                        case EV_SENSORES_NNNB: estado_nuevo = ST_YENDOSE_MUCHO_POR_IZQUIERDA; break;
+                        case EV_SENSORES_NNBB: estado_nuevo = ST_YENDOSE_BASTANTE_POR_IZQUIERDA; break;
+
+                        case EV_SENSORES_BBBB: estado_nuevo = ST_EN_LINEA; break;
+                    }
+                    break;
+                case ST_YENDOSE_BASTANTE_POR_IZQUIERDA:
+                    switch (lectura_sensores) {
+                        case EV_SENSORES_NNNB: estado_nuevo = ST_YENDOSE_MUCHO_POR_IZQUIERDA; break;
+                        case EV_SENSORES_NBBB: estado_nuevo = ST_YENDOSE_POCO_POR_IZQUIERDA; break;
+
+                        case EV_SENSORES_BBBB: estado_nuevo = ST_EN_LINEA; break;
+                    }
+                    break;
+                case ST_YENDOSE_MUCHO_POR_IZQUIERDA:
+                    switch (lectura_sensores) {
+                        case EV_SENSORES_NNNN: estado_nuevo = ST_AFUERA_POR_IZQUIERDA; break;
+
+                        case EV_SENSORES_NNBB: estado_nuevo = ST_YENDOSE_BASTANTE_POR_IZQUIERDA; break;
+                        case EV_SENSORES_NBBB: estado_nuevo = ST_YENDOSE_POCO_POR_IZQUIERDA; break;
+
+                        case EV_SENSORES_BBBB: estado_nuevo = ST_EN_LINEA; break;
+                    }
+                    break;
+                case ST_AFUERA_POR_IZQUIERDA:
+                    switch (lectura_sensores) {
+                        case EV_SENSORES_NNBB: estado_nuevo = ST_EN_LINEA; break;
+                        case EV_SENSORES_NBBB: estado_nuevo = ST_EN_LINEA; break;
+                    }
+                    break;
+                case ST_VOLVIENDO_POR_IZQUIERDA:
+                    switch (lectura_sensores) {
+                        case EV_SENSORES_NNNN: estado_nuevo = ST_AFUERA_POR_IZQUIERDA; break;
+                        case EV_SENSORES_NBBB: estado_nuevo = ST_YENDOSE_POCO_POR_IZQUIERDA; break;
+                        case EV_SENSORES_BBBB: estado_nuevo = ST_EN_LINEA; break;
+                    }
+                    break;
+                /*case ST_VOLVIO_POR_IZQUIERDA:
+                    switch (lectura_sensores) {
+                        case EV_SENSORES_NNNN: estado_nuevo = ST_; break;
+                        case EV_SENSORES_NNNB: estado_nuevo = ST_; break;
+                        case EV_SENSORES_NNBB: estado_nuevo = ST_; break;
+                        case EV_SENSORES_NBBB: estado_nuevo = ST_; break;
+
+                        case EV_SENSORES_BNNN: estado_nuevo = ST_; break;
+                        case EV_SENSORES_BBNN: estado_nuevo = ST_; break;
+                        case EV_SENSORES_BBBN: estado_nuevo = ST_; break;
+
+                        case EV_SENSORES_BBBB: estado_nuevo = ST_EN_LINEA; break;
+                    }
+                    break;*/
+            }
+
+
+
         }
 
         // fin de tareas, para poder empezar de nuevo
         motores_off();
         _delay_ms(50); //rebote botón
 
-        while (BOTON1_APRETADO);
+        while (BOTON2_APRETADO);
         _delay_ms(50); //rebote botón
         
     }
