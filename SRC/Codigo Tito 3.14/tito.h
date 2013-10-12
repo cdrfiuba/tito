@@ -10,103 +10,19 @@
 */
 void startup (void);
 
-inline void setear_conversor(uint8_t sensor){
-    ADMUX &= ~((1 << MUX3) | (1 << MUX2) | (1 << MUX1) | (1 << MUX0)); 
-    ADMUX |= sensor; 
-}
-
-#define CONVIRTIENDO (ADCSRA & (1 << ADSC))
+#define CONVIRTIENDO IsBitSet(ADCSRA, ADSC)
 #define LEER_CONVERSION ADCH
-
-void configurar_sensores(void){
-
-    ADMUX = ( (0 << REFS1) | (1 << REFS0) | (1 << ADLAR) | (0 << MUX3) | (0 << MUX2) | (0 << MUX1) | (0 << MUX0) );
-    ADCSRA = ( (1 << ADEN) | (1 << ADSC) | (1 << ADATE) | (1 << ADIE)  | (0 << ADPS2) | (0 << ADPS1)| (0 << ADPS0) );
-    ADCSRB = (  (0 << ADTS2) | (0 << ADTS1) | (0 << ADTS0) | (0 << ACME) );
-
-}
-
 #define MAX_SENSORES 4
 #define apagar_adc() (ADCSRA &= ~(1 << ADSC))
 #define prender_adc() (ADCSRA |= (1 << ADSC))
 
-
-inline void obtener_sensores(uint8_t *sensores){
-    uint8_t i;
-    apagar_adc();    
-
-    for (i = 0; i < MAX_SENSORES ; i++){
-        setear_conversor (i);
-        prender_adc();
-        //while(CONVIRTIENDO);
-        sensores[i] = LEER_CONVERSION;
-        apagar_adc();        
-    } 
-}
-
-
-/**
- estados y eventos para la fsm
-*/
-typedef enum estados {
-    
-    ST_EN_LINEA,
-
-    ST_YENDOSE_POCO_POR_DERECHA,
-    ST_YENDOSE_BASTANTE_POR_DERECHA,
-    ST_YENDOSE_MUCHO_POR_DERECHA,
-    ST_AFUERA_POR_DERECHA,
-    ST_VOLVIENDO_POR_DERECHA,/*
-    ST_VOLVIO_POR_DERECHA,*/
-
-    ST_YENDOSE_POCO_POR_IZQUIERDA,
-    ST_YENDOSE_BASTANTE_POR_IZQUIERDA,
-    ST_YENDOSE_MUCHO_POR_IZQUIERDA,
-    ST_AFUERA_POR_IZQUIERDA,
-    ST_VOLVIENDO_POR_IZQUIERDA/*,
-    ST_VOLVIO_POR_IZQUIERDA*/
-    
-    //ST_MAX_ESTADOS
-
-} estados_t;
-
-// (los sensores se componen como:
-//  S_IZQ_AFUERA | S_IZQ_CENTRO | S_DER_CENTRO | S_DER_AFUERA )
-typedef enum eventos {
-    EV_SENSORES_NNNN = 0,
-    EV_SENSORES_NNNB = 1,
-    EV_SENSORES_NNBN = 2,
-    EV_SENSORES_NNBB = 3,
-    EV_SENSORES_NBNN = 4,
-    EV_SENSORES_NBNB = 5,
-    EV_SENSORES_NBBN = 6,
-    EV_SENSORES_NBBB = 7,
-    EV_SENSORES_BNNN = 8,
-    EV_SENSORES_BNNB = 9,
-    EV_SENSORES_BNBN = 10,
-    EV_SENSORES_BNBB = 11,
-    EV_SENSORES_BBNN = 12,
-    EV_SENSORES_BBNB = 13,
-    EV_SENSORES_BBBN = 14,
-    EV_SENSORES_BBBB = 15,
-    EV_CUALQUIERA = 16
-} eventos_t;
-
-typedef enum tipos_estado {
-    TIPO_RECTA = 0,
-    TIPO_CURVA = 1
-} tipos_estado_t;
-
-// máquina de estados
-typedef struct {
-    estados_t estado;
-    eventos_t sensores;
-    estados_t estado_nuevo;
-    //tipos_estado_t tipo_estado; //RECTA o CURVA
-} tTransition;
+// números de sensores
+#define S1 0
+#define S2 1
+#define S3 2
+#define S4 3
 
 // configuración de los puertos
-
 #define PORT_LED_1_NAME      D
 #define LED_1_NUMBER         4
 #define PORT_LED_1		def_port_reg(PORT_LED_1_NAME)
