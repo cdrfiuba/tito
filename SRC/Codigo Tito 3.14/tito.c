@@ -5,6 +5,17 @@
 #include "tito.h"
 #include "lib/motores.h"
 #include "lib/common.h"
+//#include "lib/usart.c"
+
+inline void setear_conversor(uint8_t sensor){
+    ADMUX &= ~((1 << MUX3) | (1 << MUX2) | (1 << MUX1) | (1 << MUX0)); 
+    ADMUX |= sensor; 
+}
+void configurar_sensores(void) {
+    ADMUX = ( (0 << REFS1) | (1 << REFS0) | (1 << ADLAR) | (1 << MUX3) | (1 << MUX2) | (1 << MUX1) | (1 << MUX0) );
+    ADCSRA = ( (1 << ADEN) | (0 << ADSC) | (0 << ADATE) | (0 << ADIE)  | (0 << ADPS2) | (0 << ADPS1)| (0 << ADPS0) );
+    ADCSRB = ( (0 << ADTS2) | (0 << ADTS1) | (0 << ADTS0) | (0 << ACME) );
+}
 
 void startup () {
 // setear puertos de lectura o escritura,
@@ -34,6 +45,12 @@ void startup () {
 
     // configuración de PWMs en motores.h
     pwm_config();
+    
+    // configura los sensores para usar ADC
+    //configurar_sensores();
+    
+    // inicialización de puerto serie
+    //USART0Setup(USART_BAUDRATE, USART0_CHARSIZE_8BIT, USART0_STOP_1BIT, USART0_PARITY_DIS, USART0_MODE_ASYNC);
 
     // uno de los motores usa un timer de 16 bits,
     // pero se usa como si fuera de 8, por lo que la
@@ -46,25 +63,15 @@ void startup () {
 
 }
 
-inline void setear_conversor(uint8_t sensor){
-    ADMUX &= ~((1 << MUX3) | (1 << MUX2) | (1 << MUX1) | (1 << MUX0)); 
-    ADMUX |= sensor; 
-}
-void configurar_sensores(void) {
-    ADMUX = ( (0 << REFS1) | (1 << REFS0) | (1 << ADLAR) | (1 << MUX3) | (1 << MUX2) | (1 << MUX1) | (1 << MUX0) );
-    ADCSRA = ( (1 << ADEN) | (0 << ADSC) | (0 << ADATE) | (1 << ADIE)  | (0 << ADPS2) | (0 << ADPS1)| (0 << ADPS0) );
-    ADCSRB = ( (0 << ADTS2) | (0 << ADTS1) | (0 << ADTS0) | (0 << ACME) );
-}
-inline void obtener_sensores(uint8_t *sensores){
+inline void obtener_sensores(uint8_t *sensores) {
     uint8_t i;
-
+    
     for (i = 0; i < MAX_SENSORES ; i++) {
         setear_conversor (i);
         prender_adc();
         while(CONVIRTIENDO);
         sensores[i] = LEER_CONVERSION;
     }
-    SetBit(PORT_LED_4, LED_4_NUMBER);
 }
 
 
@@ -87,11 +94,11 @@ void mostrar_sensor_en_leds (uint8_t sensor) {
     } else {
         ClearBit(PORT_LED_3, LED_3_NUMBER);
     }
-    //if (IsBitSet(sensores[sensor], 5)) {
-    //    SetBit(PORT_LED_4, LED_4_NUMBER);
-    //} else {
-    //    ClearBit(PORT_LED_4, LED_4_NUMBER);
-    //}
+    if (IsBitSet(sensores[sensor], 5)) {
+        SetBit(PORT_LED_4, LED_4_NUMBER);
+    } else {
+        ClearBit(PORT_LED_4, LED_4_NUMBER);
+    }
 
 }
 
@@ -112,12 +119,12 @@ int main() {
 
         // ciclos para esperar a que arranque cuando
         // se suelta el botón
-        while (BOTON1_NO_APRETADO) {
+        while (BOTON2_NO_APRETADO) {
             mostrar_sensor_en_leds(S1);
         }
         _delay_ms(50); //rebote botón
 
-        while (BOTON1_APRETADO);
+        while (BOTON2_APRETADO);
         _delay_ms(5); //rebote botón
 
         // aceleración inicial gradual
@@ -126,7 +133,7 @@ int main() {
         motores_on();
         _delay_ms(50);
         
-        while (BOTON1_NO_APRETADO) {
+        while (BOTON2_NO_APRETADO) {
             //obtener_sensores(sensores);
             //valor_p = sensores[0]
             //sensores = sensores + 20000;
@@ -136,7 +143,7 @@ int main() {
         motores_off();
         _delay_ms(50); //rebote botón
 
-        while (BOTON1_APRETADO);
+        while (BOTON2_APRETADO);
         _delay_ms(50); //rebote botón
         
     }
