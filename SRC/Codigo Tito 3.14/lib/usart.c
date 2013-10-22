@@ -20,33 +20,15 @@ volatile unsigned char rx_in;
 volatile unsigned char rx_out;
 /* =================================================== */
 
-// Variables del sistema
-extern volatile global_stat_t global_status;   // Indica si el sistema está online u offline respecto del server.
-extern volatile unsigned char new_status;      // Guarda el comando que recibe del server, para modificar los parámetros del sistema
-extern volatile unsigned char update_device;   // Indica que llego un dato nuevo desde el server, relacionado con la configuración
-extern volatile unsigned char new_config;      // Guarda el comando que recibe del server, para modificar los parámetros del equipo
-extern volatile unsigned char update_status;   // Indica si se debe actualizar el sistema o no, debido a la llegada de un nuevo comando
 
-volatile unsigned char pos_data_uart;    // Guarda la posicion del primer dato del payload   
-volatile unsigned char data_count_uart;  // Cuenta la cantidad de datos recibidos como parte del payload
-volatile unsigned char flag_sinc_uart;   // Cuando vale 1 indica que recibí el byte de sincronizacion y lo siguiente es el payload
-volatile unsigned char set_new_date;     // Indica que el server va a actualizar la fecha, y el proximo payload es la nueva fecha
-volatile unsigned char new_date_counter; // Cuenta la cantidad de bytes recibidos para saber cuando se completa el payload
-
-volatile static_queue_s buffer_tx_rs232;
-volatile static_queue_s buffer_rx_rs232;
 
 
 void USART0Setup(uint16_t baudrate, uint8_t char_size, uint8_t stop_bit, uint8_t parity, uint8_t mode){
 
-    set_new_date = false;
-    new_date_counter = 0;
-    init_queue(&buffer_rx_rs232, DATE_STRING_LENGTH);
+  	UCSR0B |= (1<<RXEN0) | (1<<TXEN0); // activamos la recepcion y transmision en el USART0
 
-	UCSR0B |= (1<<RXEN0) | (1<<TXEN0); // activamos la recepcion y transmision en el USART0
-
-	UBRR0H = (BAUD_PRESCALER(baudrate)>>8); // seteamos los prescalers del baudrate
-	UBRR0L = (BAUD_PRESCALER(baudrate));
+	//UBRR0H = (BAUD_PRESCALER(baudrate)>>8); // seteamos los prescalers del baudrate
+	UBRR0 = (BAUD_PRESCALER(baudrate));
 	
 	UCSR0C |= (mode<<UMSEL00); // seteamos el modo de operacion syncronico o asyncronico
 

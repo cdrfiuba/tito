@@ -10,8 +10,8 @@
 #define TX_MASK		(TX_BUFF_SIZE-1)
 #define RX_MASK		(RX_BUFF_SIZE-1)
 
-#define USART_BAUDRATE				9600
-#define BAUD_PRESCALER(x)			((F_CPU/((x) * 16UL))-1)
+#define USART_BAUDRATE				2400
+#define BAUD_PRESCALER(x)			((F_CPU/((x) * 16UL)) - 1)
 //#define USART0_INTERRUPT              // Comentar para deshabilitar USART por interrupcion
 
 #define TX_BUFF_SIZE				64

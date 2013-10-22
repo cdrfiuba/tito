@@ -10,11 +10,11 @@
 */
 void startup (void);
 
-#define CONVIRTIENDO IsBitSet(ADCSRA, ADSC)
-#define LEER_CONVERSION ADCH
+#define CONVIRTIENDO_AD IsBitSet(ADCSRA, ADSC)
+#define LEER_CONVERSION_AD ADCH
 #define MAX_SENSORES 4
-#define apagar_adc() (ADCSRA &= ~(1 << ADSC))
-#define prender_adc() (ADCSRA |= (1 << ADSC))
+#define detener_conversion_ad() (ADCSRA &= ~(1 << ADSC))
+#define iniciar_conversion_ad() (ADCSRA |= (1 << ADSC))
 
 // números de sensores
 #define S1 0
