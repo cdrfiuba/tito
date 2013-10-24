@@ -6,6 +6,15 @@
 #include "lib/motores.h"
 #include "lib/common.h"
 #include "lib/usart.c"
+#include <stdio.h>
+
+int usart_putchar_printf(char var, FILE *stream) {
+    if (var == '\n') USART0Transmit('\r');
+    USART0Transmit(var);
+    return 0;
+}
+
+static FILE mystdout = FDEV_SETUP_STREAM(usart_putchar_printf, NULL, _FDEV_SETUP_WRITE);
 
 inline void setear_conversor_ad(uint8_t sensor){
     ADMUX &= ~((1 << MUX3) | (1 << MUX2) | (1 << MUX1) | (1 << MUX0)); 
@@ -20,6 +29,8 @@ void configurar_adc(void) {
 void startup () {
 // setear puertos de lectura o escritura,
 // según corresponda
+
+    stdout = &mystdout;
 
     // leds
     SetBit (DDR_LED_1, LED_1_NUMBER);
@@ -100,8 +111,8 @@ void mostrar_sensor_en_leds (uint8_t sensor) {
     } else {
         ClearBit(PORT_LED_4, LED_4_NUMBER);
     }
-    USART0Transmit(0xaf);
-    _delay_ms(100);
+    //USART0Transmit('S');
+    //_delay_ms(100);
 }
 
     
@@ -110,7 +121,12 @@ void mostrar_sensor_en_leds (uint8_t sensor) {
 */
 int main() {
     uint8_t sensores[MAX_SENSORES] = {0, 0, 0, 0};
-    uint32_t valor_sensado = 0;
+    int16_t sensores_linea = 0;
+    int16_t err_p = 0;
+    int16_t err_p_anterior = 0;
+    int16_t err_d = 0;
+    int32_t err_i = 0;
+    int8_t dif_potencia = 0;
     
     startup();
 
@@ -120,7 +136,7 @@ int main() {
         // ciclos para esperar a que arranque cuando
         // se suelta el botón
         while (BOTON2_NO_APRETADO) {
-            mostrar_sensor_en_leds(S2);
+            //mostrar_sensor_en_leds(S2);
         }
         _delay_ms(50); //rebote botón
 
@@ -128,34 +144,56 @@ int main() {
         _delay_ms(5); //rebote botón
 
         // aceleración inicial gradual
-        motor1_velocidad(50);
-        motor2_velocidad(50);
+        motor1_velocidad(20);
+        motor2_velocidad(20);
         motores_on();
         _delay_ms(50);
         
         while (BOTON2_NO_APRETADO) {
             obtener_sensores(sensores);
-            valor_sensado = (sensores[S1] * 0 + sensores[S2] * 1000 + sensores[S3] * 2000 + sensores[S4] * 3000) / 
-                            ((sensores[S1]) + (sensores[S2]) + (sensores[S3]) + (sensores[S4]));
-
-            /*valor_p = valor_sensado - 1500;
-            valor_d = valor_p - valor_p_anterior;
-            valor_i += valor_p;
-            valor_p_anterior = valor_p;
-
-            poder = valor_p / 20 + valor_i / 10000 + valor_d * 3 / 2;
- 
-            const int max = 60;
-            if(power_difference > max)
-                power_difference = max;
-            if(power_difference < -max)
-                power_difference = -max;
+            sensores_linea = ((int32_t)sensores[S2] * 1000 + (int32_t)sensores[S3] * 2000 + (int32_t)sensores[S4] * 3000) / 
+                             ( (int32_t)sensores[S1] + (int32_t)sensores[S2] + (int32_t)sensores[S3] + (int32_t)sensores[S4] );
              
-            if(power_difference < 0)
-                set_motors(max+power_difference, max);
-            else
-                set_motors(max, max-power_difference);*/
 
+            //printf("%10lu, %10lu\n", 
+            //    (int32_t)sensores[S2] * 1000 + (int32_t)sensores[S3] * 2000 + (int32_t)sensores[S4] * 3000, 
+            //    (int32_t)sensores[S1] + (int32_t)sensores[S2] + (int32_t)sensores[S3] + (int32_t)sensores[S4]);
+            //printf("%10i (%3d, %3d, %3d, %3d)\n", sensores_linea, sensores[S1], sensores[S2], sensores[S3], sensores[S4]);
+
+            err_p = sensores_linea - 1500;
+            err_d = err_p - err_p_anterior;
+            err_i += err_p;
+            /*if ( (err_i >= VALOR_MAX_INT32 - VALOR_MAX_INT16) || (err_i <= -(VALOR_MAX_INT32 - VALOR_MAX_INT16)) ) {
+                err_i -= err_p;
+            }*/
+            err_p_anterior = err_p;
+
+            //printf("%10i, %10li, %10i\n", err_p, err_i, err_d);
+
+            dif_potencia = err_p / 20 + /*err_i / 10000 + */ err_d * 3 / 2;
+ 
+            if (dif_potencia > MAX_VELOCIDAD) {
+                dif_potencia = MAX_VELOCIDAD;
+            }
+            if (dif_potencia < -MAX_VELOCIDAD) {
+                dif_potencia = -MAX_VELOCIDAD;
+            }
+             
+            //printf("%10i\n", dif_potencia);
+            
+            if (dif_potencia < 0) {
+                motor1_velocidad_pid(MAX_VELOCIDAD + dif_potencia + 127);
+                motor2_velocidad_pid(MAX_VELOCIDAD + 127);
+            } else {
+                motor1_velocidad_pid(MAX_VELOCIDAD + 127);
+                motor2_velocidad_pid(MAX_VELOCIDAD - dif_potencia + 127);
+            }
+            
+            //if (dif_potencia < 0) {
+            //    printf("motores %3i, %3i\n", MAX_VELOCIDAD + dif_potencia, MAX_VELOCIDAD);
+            //} else {
+            //    printf("motores %3i, %3i\n", MAX_VELOCIDAD, MAX_VELOCIDAD - dif_potencia);
+            //}
         }
 
         // fin de tareas, para poder empezar de nuevo

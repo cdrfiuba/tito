@@ -16,6 +16,9 @@ void startup (void);
 #define detener_conversion_ad() (ADCSRA &= ~(1 << ADSC))
 #define iniciar_conversion_ad() (ADCSRA |= (1 << ADSC))
 
+#define VALOR_MAX_INT32 2147483647L
+#define VALOR_MAX_INT16 32768
+
 // números de sensores
 #define S1 0
 #define S2 1
@@ -121,6 +124,9 @@ void startup (void);
 // la velocidad va de -100 a 100
 #define motor1_velocidad(vel)         OCR0A = (vel * 1.27 * COEFICIENTE_IZQUIERDA + 127); OCR0B = (vel * 1.27 * COEFICIENTE_IZQUIERDA + 127)
 #define motor2_velocidad(vel)         OCR1AL = (vel * 1.27 * COEFICIENTE_DERECHA + 127); OCR1BL = (vel * 1.27 * COEFICIENTE_DERECHA + 127)
+
+#define motor2_velocidad_pid(vel)     OCR0A = vel; OCR0B = vel
+#define motor1_velocidad_pid(vel)     OCR1AL = vel; OCR1BL = vel
 
 #define CANCELAR_INERCIA(us_ad, us_at) motor1_velocidad(100);_delay_us(us_ad);motor1_velocidad(-100);_delay_us(us_at);
 
