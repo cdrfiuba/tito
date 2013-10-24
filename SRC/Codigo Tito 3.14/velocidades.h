@@ -7,7 +7,7 @@
 
 // las velocidades van de -100 a 100, determinado en tito.h
 
-#define MAX_VELOCIDAD 90 // 0 a 127, 128 a 255
+#define MAX_VELOCIDAD 80 // 0 a 127, 128 a 255
 
 #define COEFICIENTE_DERECHA FACTOR * 0.9
 #define COEFICIENTE_IZQUIERDA FACTOR * 0.9

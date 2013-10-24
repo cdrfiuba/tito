@@ -17,8 +17,13 @@ void startup (void);
 #define iniciar_conversion_ad() (ADCSRA |= (1 << ADSC))
 
 #define VALOR_MAX_INT32 2147483647L
-#define VALOR_MAX_INT16 32768
+#define VALOR_MAX_INT16 32767
+#define VALOR_MAX_VALOR_P 1500
 
+#define COEFICIENTE_ERROR_P 20
+#define COEFICIENTE_ERROR_I 100000
+#define COEFICIENTE_ERROR_D_1 5
+#define COEFICIENTE_ERROR_D_2 3
 // números de sensores
 #define S1 0
 #define S2 1
