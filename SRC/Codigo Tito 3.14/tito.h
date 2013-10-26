@@ -18,17 +18,26 @@ void startup (void);
 
 #define VALOR_MAX_INT32 2147483647L
 #define VALOR_MAX_INT16 32767
-#define VALOR_MAX_VALOR_P 1500
+#define VALOR_MAX_ERR_P 1500
 
 #define COEFICIENTE_ERROR_P 20
-#define COEFICIENTE_ERROR_I 100000
-#define COEFICIENTE_ERROR_D_1 5
-#define COEFICIENTE_ERROR_D_2 3
+#define COEFICIENTE_ERROR_I 10000
+#define COEFICIENTE_ERROR_D 3 / 2
 // números de sensores
 #define S1 0
 #define S2 1
 #define S3 2
 #define S4 3
+
+//estados
+typedef enum estados {
+    ST_EN_PISTA,
+    ST_AFUERA
+} estados_t;
+typedef enum bordes {
+	BORDE_IZQUIERDA,
+	BORDE_DERECHA
+} bordes_t;
 
 // configuración de los puertos
 #define PORT_LED_1_NAME      D

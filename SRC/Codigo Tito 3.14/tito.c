@@ -127,6 +127,8 @@ int main() {
     int16_t err_d = 0;
     int16_t err_i = 0;
     int8_t dif_potencia = 0;
+    estados_t estado_actual = ST_EN_PISTA;
+    bordes_t ultimo_borde_sensado = BORDE_IZQUIERDA;
     
     startup();
 
@@ -144,66 +146,88 @@ int main() {
         _delay_ms(5); //rebote botón
 
         // aceleración inicial gradual
-        motor1_velocidad(20);
-        motor2_velocidad(20);
-        motores_on();
+        //motor1_velocidad(20);
+        //motor2_velocidad(20);
+        //motores_on();
         _delay_ms(50);
         
         while (BOTON2_NO_APRETADO) {
             obtener_sensores(sensores);
-            sensores_linea = ((int32_t)sensores[S2] * 1000 + (int32_t)sensores[S3] * 2000 + (int32_t)sensores[S4] * 3000) / 
-                             ( (int32_t)sensores[S1] + (int32_t)sensores[S2] + (int32_t)sensores[S3] + (int32_t)sensores[S4] );
             
-
-	    // Con 6 sensores el codigo resulta:
-	    //
-            //sensores_linea = ((int32_t)sensores[S2] * 1000 + (int32_t)sensores[S3] * 2000 + (int32_t)sensores[S4] * 3000 + (int32_t)sensores[S5] * 4000 + (int32_t)sensores[S6] * 5000) / 
-            //                 ( (int32_t)sensores[S1] + (int32_t)sensores[S2] + (int32_t)sensores[S3] + (int32_t)sensores[S4] + (int32_t)sensores[S5] + (int32_t)sensores[S6] );
-
-
-            //printf("%10lu, %10lu\n", 
-	    //    (int32_t)sensores[S2] * 1000 + (int32_t)sensores[S3] * 2000 + (int32_t)sensores[S4] * 3000, 
-            //    (int32_t)sensores[S1] + (int32_t)sensores[S2] + (int32_t)sensores[S3] + (int32_t)sensores[S4]);
-            //printf("%10i (%3d, %3d, %3d, %3d)\n", sensores_linea, sensores[S1], sensores[S2], sensores[S3], sensores[S4]);
-
-	    err_p = sensores_linea - 1500;  //Con 4 sensores
-            //err_p = sensores_linea - 2500; //Con 6 sensores
-            err_d = err_p - err_p_anterior;
-            err_i += err_p;
-            if ( (err_i >= VALOR_MAX_INT16 - VALOR_MAX_VALOR_P) || (err_i <= -(VALOR_MAX_INT16 - VALOR_MAX_VALOR_P)) ) {
-                err_i -= err_p;
+            // guardar último borde visto
+            if (sensores[S1] > 90) {
+                ultimo_borde_sensado = BORDE_IZQUIERDA;
             }
-            err_p_anterior = err_p;
-
-            //printf("Error p:%10i, Error i:%10li, Error d:%10li\n", err_p, err_i, err_d);
-
-            dif_potencia = err_p / COEFICIENTE_ERROR_P + err_i / COEFICIENTE_ERROR_I + err_d * COEFICIENTE_ERROR_D_1 / COEFICIENTE_ERROR_D_2;
-
-	    // err_p toma valores entre -1500 y 1500, por lo que su aporte a dif_potencia esta acotado entre -75 y +75 (-125 y +125 para 6 sensores)
-	    // err_i toma valores entre -32k y 32k, por lo que su aporte a diff_potencia esta acotado entre -32 y +32 (-32 y +32 para 6 sensores)
-	    // err_d toma valores entre -5k y 5k, por lo que su aporte a diff_potencia esta acotado entre -inf y +inf (para los niveles de representacion que manejamos). Para un caso normal, en que err_p varie 30 entre una medicion y la siguiente, estará acotado entre -45 y +45
- 
-            if (dif_potencia > MAX_VELOCIDAD)
-                dif_potencia = MAX_VELOCIDAD;
-	    else if (dif_potencia < -MAX_VELOCIDAD)
-                dif_potencia = -MAX_VELOCIDAD;
-                         
-            //printf("%10i\n", dif_potencia);
-            
-            //printf("Error p:%10i, Error i:%10i, Error d:%10i Dif potencia%10i\n", err_p, err_i, err_d, dif_potencia);
-            if (dif_potencia < 0) {
-                motor1_velocidad_pid(MAX_VELOCIDAD + dif_potencia + 127);
-                motor2_velocidad_pid(MAX_VELOCIDAD + 127);
+            if (sensores[S4] > 90) {
+                ultimo_borde_sensado = BORDE_DERECHA;
+            }
+            // si me fui, entro en modo "corrección máxima"
+            if ( (sensores[S1] < 50) && (sensores[S4] < 50) ) {
+                estado_actual = ST_AFUERA;
             } else {
-                motor1_velocidad_pid(MAX_VELOCIDAD + 127);
-                motor2_velocidad_pid(MAX_VELOCIDAD - dif_potencia + 127);
+                estado_actual = ST_EN_PISTA;
             }
-            
-            //if (dif_potencia < 0) {
-            //    printf("motores %3i, %3i\n", MAX_VELOCIDAD + dif_potencia, MAX_VELOCIDAD);
-            //} else {
-            //    printf("motores %3i, %3i\n", MAX_VELOCIDAD, MAX_VELOCIDAD - dif_potencia);
-            //}
+
+            switch (estado_actual) {
+                case ST_EN_PISTA:
+                    // 4 sensores
+                    sensores_linea = ((int32_t)sensores[S2] * 1000 + (int32_t)sensores[S3] * 2000 + (int32_t)sensores[S4] * 3000) / 
+                                     ( (int32_t)sensores[S1] + (int32_t)sensores[S2] + (int32_t)sensores[S3] + (int32_t)sensores[S4] );
+                    // 6 sensores
+                    //sensores_linea = ((int32_t)sensores[S2] * 1000 + (int32_t)sensores[S3] * 2000 + (int32_t)sensores[S4] * 3000 + (int32_t)sensores[S5] * 4000 + (int32_t)sensores[S6] * 5000) / 
+                    //                 ( (int32_t)sensores[S1] + (int32_t)sensores[S2] + (int32_t)sensores[S3] + (int32_t)sensores[S4] + (int32_t)sensores[S5] + (int32_t)sensores[S6] );
+
+                    printf("%10i (%3d, %3d, %3d, %3d)\n", sensores_linea, sensores[S1], sensores[S2], sensores[S3], sensores[S4]);
+
+                    err_p = sensores_linea - 1500;  //Con 4 sensores
+                    //err_p = sensores_linea - 2500; //Con 6 sensores
+                    err_d = err_p - err_p_anterior;
+                    err_i += err_p;
+                    if ( (err_i >= VALOR_MAX_INT16 - VALOR_MAX_ERR_P) || (err_i <= -(VALOR_MAX_INT16 - VALOR_MAX_ERR_P)) ) {
+                        err_i -= err_p;
+                    }
+                    err_p_anterior = err_p;
+
+                    dif_potencia = err_p / COEFICIENTE_ERROR_P + err_i / COEFICIENTE_ERROR_I + err_d * COEFICIENTE_ERROR_D;
+
+                    // err_p toma valores entre -1500 y 1500, por lo que su aporte a dif_potencia esta acotado entre -75 y +75 (-125 y +125 para 6 sensores)
+                    // err_i toma valores entre -32k y 32k, por lo que su aporte a diff_potencia esta acotado entre -32 y +32 (-32 y +32 para 6 sensores)
+                    // err_d toma valores entre -5k y 5k, por lo que su aporte a diff_potencia esta acotado entre -inf y +inf (para los niveles de representacion que manejamos). Para un caso normal, en que err_p varie 30 entre una medicion y la siguiente, estará acotado entre -45 y +45
+         
+                    if (dif_potencia > MAX_VELOCIDAD)
+                        dif_potencia = MAX_VELOCIDAD;
+                    else if (dif_potencia < -MAX_VELOCIDAD)
+                        dif_potencia = -MAX_VELOCIDAD;
+                                 
+                    //printf("p:%10i, i:%10i, d:%10i, pot%10i\n", err_p, err_i, err_d, dif_potencia);
+                    
+                    /*if (dif_potencia < 0) {
+                        motor1_velocidad_pid(MAX_VELOCIDAD + dif_potencia + 127);
+                        motor2_velocidad_pid(MAX_VELOCIDAD + 127);
+                    } else {
+                        motor1_velocidad_pid(MAX_VELOCIDAD + 127);
+                        motor2_velocidad_pid(MAX_VELOCIDAD - dif_potencia + 127);
+                    }*/
+                    
+                    //if (dif_potencia < 0) {
+                    //    printf("motores %3i, %3i\n", MAX_VELOCIDAD + dif_potencia, MAX_VELOCIDAD);
+                    //} else {
+                    //    printf("motores %3i, %3i\n", MAX_VELOCIDAD, MAX_VELOCIDAD - dif_potencia);
+                    //}
+                    break;
+                    
+                case ST_AFUERA:
+                    if (ultimo_borde_sensado == BORDE_IZQUIERDA) {
+                        printf("Todo afuera por izquierda\n");
+                        //motor1_velocidad(100 * COEFICIENTE_IZQUIERDA);
+                        //motor2_velocidad(0);
+                    } else if (ultimo_borde_sensado == BORDE_DERECHA) {
+                        printf("Todo afuera por derecha\n");
+                        //motor1_velocidad(0);
+                        //motor2_velocidad(100 * COEFICIENTE_DERECHA);
+                    }
+                    break;
+            }    
         }
 
         // fin de tareas, para poder empezar de nuevo

@@ -4,7 +4,7 @@ TARGET_P = m88
 # default hfuse
 HFUSE = 0xdf
 # internal clock, no divide by 8
-LFUSE = 0xe2
+LFUSE = 0xf2
 
 
 all: clean tito.hex
