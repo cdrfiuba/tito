@@ -20,9 +20,6 @@ void startup (void);
 #define VALOR_MAX_INT16 32767
 #define VALOR_MAX_ERR_P 1500
 
-#define COEFICIENTE_ERROR_P 20
-#define COEFICIENTE_ERROR_I 10000
-#define COEFICIENTE_ERROR_D 3 / 2
 // números de sensores
 #define S1 0
 #define S2 1
@@ -139,8 +136,8 @@ typedef enum bordes {
 #define motor1_velocidad(vel)         OCR0A = (vel * 1.27 * COEFICIENTE_IZQUIERDA + 127); OCR0B = (vel * 1.27 * COEFICIENTE_IZQUIERDA + 127)
 #define motor2_velocidad(vel)         OCR1AL = (vel * 1.27 * COEFICIENTE_DERECHA + 127); OCR1BL = (vel * 1.27 * COEFICIENTE_DERECHA + 127)
 
-#define motor2_velocidad_pid(vel)     OCR0A = vel; OCR0B = vel
-#define motor1_velocidad_pid(vel)     OCR1AL = vel; OCR1BL = vel
+#define motor1_velocidad_pid(vel)     OCR0A = vel; OCR0B = vel
+#define motor2_velocidad_pid(vel)     OCR1AL = vel; OCR1BL = vel
 
 #define CANCELAR_INERCIA(us_ad, us_at) motor1_velocidad(100);_delay_us(us_ad);motor1_velocidad(-100);_delay_us(us_at);
 
