@@ -8,10 +8,10 @@
 // las velocidades van de -100 a 100, determinado en tito.h
 
 // (MIN_VELOCIDAD + RANGO_VELOCIDAD) va de 0 a 255
-#define RANGO_VELOCIDAD 120
+#define RANGO_VELOCIDAD 127
 #define MIN_VELOCIDAD 127 // si es <127, los motores van en reversa
 
-#define COEFICIENTE_ERROR_P 1 / 20
+#define COEFICIENTE_ERROR_P 1 / 14
 #define COEFICIENTE_ERROR_I 1 / 10000
 #define COEFICIENTE_ERROR_D 1 / 2
 

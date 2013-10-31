@@ -12,7 +12,8 @@ void startup (void);
 
 #define CONVIRTIENDO_AD IsBitSet(ADCSRA, ADSC)
 #define LEER_CONVERSION_AD ADCH
-#define MAX_SENSORES 4
+#define MAX_SENSORES 6
+#define MAX_SENSORES_INIT {0, 0, 0, 0, 0, 0}
 #define detener_conversion_ad() (ADCSRA &= ~(1 << ADSC))
 #define iniciar_conversion_ad() (ADCSRA |= (1 << ADSC))
 
@@ -21,10 +22,12 @@ void startup (void);
 #define VALOR_MAX_ERR_P 1500
 
 // números de sensores
-#define S1 0
-#define S2 1
-#define S3 2
-#define S4 3
+#define S1 5
+#define S2 0
+#define S3 1
+#define S4 2
+#define S5 3
+#define S6 4
 
 //estados
 typedef enum estados {

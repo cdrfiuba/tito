@@ -88,7 +88,7 @@ inline void obtener_sensores(uint8_t *sensores) {
 
 
 void mostrar_sensor_en_leds (uint8_t sensor) {
-    uint8_t sensores[MAX_SENSORES] = {0, 0, 0, 0};
+    uint8_t sensores[MAX_SENSORES] = MAX_SENSORES_INIT;
     obtener_sensores(sensores);
 
     if (IsBitSet(sensores[sensor], 7)) {
@@ -115,12 +115,71 @@ void mostrar_sensor_en_leds (uint8_t sensor) {
     //_delay_ms(100);
 }
 
+inline void mostrar_leds(uint8_t *sensores) {
+    static uint8_t tolerancia = 180;
+    static uint8_t boton_apretado = 0;
+
+    while (BOTON1_APRETADO) {
+        boton_apretado = 1;
+    }
+    _delay_ms(5); //rebote botón
+    if (boton_apretado == 1) {
+        tolerancia = tolerancia - 5;
+        if (tolerancia == 0) {
+            tolerancia = 180;
+        }
+        boton_apretado = 0;
+    }        
+
+    if (sensores[S6] > tolerancia) {
+        SetBit(PORT_LED_1, LED_1_NUMBER);
+    } else {
+        ClearBit(PORT_LED_1, LED_1_NUMBER);
+    }
+    if ( (sensores[S5] > tolerancia) && (sensores[S4] > tolerancia) ) {
+        SetBit(PORT_LED_2, LED_2_NUMBER);
+    } else {
+        ClearBit(PORT_LED_2, LED_2_NUMBER);
+    }
+    if ( (sensores[S3] > tolerancia) && (sensores[S2] > tolerancia) ) {
+        SetBit(PORT_LED_3, LED_3_NUMBER);
+    } else {
+        ClearBit(PORT_LED_3, LED_3_NUMBER);
+    }
+    if (sensores[S1] > tolerancia) {
+        SetBit(PORT_LED_4, LED_4_NUMBER);
+    } else {
+        ClearBit(PORT_LED_4, LED_4_NUMBER);
+    }
+
+    /*if (sensores[3] > tolerancia) {
+        SetBit(PORT_LED_1, LED_1_NUMBER);
+    } else {
+        ClearBit(PORT_LED_1, LED_1_NUMBER);
+    }
+    if (sensores[2] > tolerancia) {
+        SetBit(PORT_LED_2, LED_2_NUMBER);
+    } else {
+        ClearBit(PORT_LED_2, LED_2_NUMBER);
+    }
+    if (sensores[1] > tolerancia) {
+        SetBit(PORT_LED_3, LED_3_NUMBER);
+    } else {
+        ClearBit(PORT_LED_3, LED_3_NUMBER);
+    }
+    if (sensores[0] > tolerancia) {
+        SetBit(PORT_LED_4, LED_4_NUMBER);
+    } else {
+        ClearBit(PORT_LED_4, LED_4_NUMBER);
+    }*/
+}
+
     
 /**
  función principal
 */
 int main() {
-    uint8_t sensores[MAX_SENSORES] = {0, 0, 0, 0};
+    uint8_t sensores[MAX_SENSORES] = MAX_SENSORES_INIT;
     int16_t sensores_linea = 0;
     int16_t err_p = 0;
     int16_t err_p_anterior = 0;
@@ -129,36 +188,11 @@ int main() {
     int16_t reduccion_velocidad = 0;
     estados_t estado_actual = ST_EN_PISTA;
     bordes_t ultimo_borde_valido = BORDE_IZQUIERDA;
-    bordes_t ultimo_borde_valido_anterior = BORDE_IZQUIERDA;
-    bordes_t ultimo_borde_valido_nuevo = BORDE_IZQUIERDA;
-    uint8_t contador_ultimo_borde_valido = 0;
+    //bordes_t ultimo_borde_valido_anterior = BORDE_IZQUIERDA;
+    //bordes_t ultimo_borde_valido_nuevo = BORDE_IZQUIERDA;
+    //uint8_t contador_ultimo_borde_valido = 0;
     
     startup();
-    
-    /*while (1) {
-        obtener_sensores(sensores);
-        #define TOLERANCIA 90
-        if (sensores[S4] > TOLERANCIA) {
-            SetBit(PORT_LED_1, LED_1_NUMBER);
-        } else {
-            ClearBit(PORT_LED_1, LED_1_NUMBER);
-        }
-        if (sensores[S3] > TOLERANCIA) {
-            SetBit(PORT_LED_2, LED_2_NUMBER);
-        } else {
-            ClearBit(PORT_LED_2, LED_2_NUMBER);
-        }
-        if (sensores[S2] > TOLERANCIA) {
-            SetBit(PORT_LED_3, LED_3_NUMBER);
-        } else {
-            ClearBit(PORT_LED_3, LED_3_NUMBER);
-        }
-        if (sensores[S1] > TOLERANCIA) {
-            SetBit(PORT_LED_4, LED_4_NUMBER);
-        } else {
-            ClearBit(PORT_LED_4, LED_4_NUMBER);
-        }
-    }*/
     
     while (1) {
         motores_off();
@@ -171,6 +205,8 @@ int main() {
         // se suelta el botón
         while (BOTON2_NO_APRETADO) {
             //mostrar_sensor_en_leds(S2);
+            obtener_sensores(sensores);
+            mostrar_leds(sensores);
         }
         _delay_ms(50); //rebote botón
 
@@ -183,6 +219,7 @@ int main() {
         err_d = 0;
         err_i = 0;
         estado_actual = ST_EN_PISTA;
+        //contador_ultimo_borde_valido = 0;
 
         // aceleración inicial gradual
         motor1_velocidad(20);
@@ -195,10 +232,13 @@ int main() {
         
         while (BOTON2_NO_APRETADO) {
             obtener_sensores(sensores);
+
+            //printf("%3d, %3d, %3d, %3d\n", sensores[S1], sensores[S2], sensores[S3], sensores[S4]);
+            //mostrar_leds(sensores);
             
-            if (sensores[S1] > 150) {
+            /*if (sensores[S1] > 100) {
                 ultimo_borde_valido_nuevo = BORDE_IZQUIERDA;
-            } else if (sensores[S4] > 50) {
+            } else if (sensores[S6] > 100) {
                 ultimo_borde_valido_nuevo = BORDE_DERECHA;
             }
             // promediar ultimas mediciones de "último borde válido"
@@ -211,38 +251,39 @@ int main() {
             } else {
                 contador_ultimo_borde_valido = 0;
                 ultimo_borde_valido_nuevo = ultimo_borde_valido_anterior;
-            }
-
-            /*if (sensores[S1] > 50) {
-                ultimo_borde_valido = BORDE_IZQUIERDA;
-            } else if (sensores[S4] > 50) {
-                ultimo_borde_valido = BORDE_DERECHA;
             }*/
-                       
+
+            if (sensores[S1] > 50) {
+                ultimo_borde_valido = BORDE_IZQUIERDA;
+            } else if (sensores[S6] > 50) {
+                ultimo_borde_valido = BORDE_DERECHA;
+            }
+            
             // si me fui, entro en modo "corrección máxima"
-            if ( (sensores[S1] < 50) && (sensores[S2] < 50) && (sensores[S3] < 50) && (sensores[S4] < 50) ) {
+            //if ( (sensores[S1] < 50) && (sensores[S2] < 50) && (sensores[S3] < 50) && (sensores[S4] < 50) ) {
+            if ( (sensores[S1] < 50) && (sensores[S2] < 50) && (sensores[S3] < 50) && (sensores[S4] < 50) && (sensores[S5] < 50) && (sensores[S6] < 50) ) {
                 estado_actual = ST_AFUERA;
             } else {
                 estado_actual = ST_EN_PISTA;
-                ClearBit(PORT_LED_1, LED_1_NUMBER);
-                ClearBit(PORT_LED_2, LED_2_NUMBER);
-                ClearBit(PORT_LED_3, LED_3_NUMBER);
-                ClearBit(PORT_LED_4, LED_4_NUMBER);
+                //ClearBit(PORT_LED_1, LED_1_NUMBER);
+                //ClearBit(PORT_LED_2, LED_2_NUMBER);
+                //ClearBit(PORT_LED_3, LED_3_NUMBER);
+                //ClearBit(PORT_LED_4, LED_4_NUMBER);
             }
 
             switch (estado_actual) {
                 case ST_EN_PISTA:
                     // 4 sensores
-                    sensores_linea = ((int32_t)sensores[S2] * 1000 + (int32_t)sensores[S3] * 2000 + (int32_t)sensores[S4] * 3000) / 
-                                     ( (int32_t)sensores[S1] + (int32_t)sensores[S2] + (int32_t)sensores[S3] + (int32_t)sensores[S4] );
+                    //sensores_linea = ((int32_t)sensores[S2] * 1000 + (int32_t)sensores[S3] * 2000 + (int32_t)sensores[S4] * 3000) / 
+                    //                 ( (int32_t)sensores[S1] + (int32_t)sensores[S2] + (int32_t)sensores[S3] + (int32_t)sensores[S4] );
                     // 6 sensores
-                    //sensores_linea = ((int32_t)sensores[S2] * 1000 + (int32_t)sensores[S3] * 2000 + (int32_t)sensores[S4] * 3000 + (int32_t)sensores[S5] * 4000 + (int32_t)sensores[S6] * 5000) / 
-                    //                 ( (int32_t)sensores[S1] + (int32_t)sensores[S2] + (int32_t)sensores[S3] + (int32_t)sensores[S4] + (int32_t)sensores[S5] + (int32_t)sensores[S6] );
+                    sensores_linea = ((int32_t)sensores[S2] * 1000 + (int32_t)sensores[S3] * 2000 + (int32_t)sensores[S4] * 3000 + (int32_t)sensores[S5] * 4000 + (int32_t)sensores[S6] * 5000) / 
+                                     ( (int32_t)sensores[S1] + (int32_t)sensores[S2] + (int32_t)sensores[S3] + (int32_t)sensores[S4] + (int32_t)sensores[S5] + (int32_t)sensores[S6] );
 
                     //printf("%10i (%3d, %3d, %3d, %3d)\n", sensores_linea, sensores[S1], sensores[S2], sensores[S3], sensores[S4]);
 
-                    err_p = sensores_linea - 1500;  //Con 4 sensores
-                    //err_p = sensores_linea - 2500; //Con 6 sensores
+                    //err_p = sensores_linea - 1500;  //Con 4 sensores
+                    err_p = sensores_linea - 2500; //Con 6 sensores
                     err_d = err_p - err_p_anterior;
                     err_i += err_p;
                     if ( (err_i >= VALOR_MAX_INT16 - VALOR_MAX_ERR_P) || (err_i <= -(VALOR_MAX_INT16 - VALOR_MAX_ERR_P)) ) {
@@ -250,16 +291,21 @@ int main() {
                     }
                     err_p_anterior = err_p;
 
-                    reduccion_velocidad = err_p * COEFICIENTE_ERROR_P /*+ err_i * COEFICIENTE_ERROR_I */+ err_d * COEFICIENTE_ERROR_D;
+                    reduccion_velocidad = err_p * COEFICIENTE_ERROR_P /*+ err_i * COEFICIENTE_ERROR_I*/ + err_d * COEFICIENTE_ERROR_D;
 
                     // err_p toma valores entre -1500 y 1500, por lo que su aporte a reduccion_velocidad esta acotado entre -75 y +75 (-125 y +125 para 6 sensores)
                     // err_i toma valores entre -32k y 32k, por lo que su aporte a diff_potencia esta acotado entre -32 y +32 (-32 y +32 para 6 sensores)
                     // err_d toma valores entre -5k y 5k, por lo que su aporte a diff_potencia esta acotado entre -inf y +inf (para los niveles de representacion que manejamos). Para un caso normal, en que err_p varie 30 entre una medicion y la siguiente, estará acotado entre -45 y +45
          
-                    if (reduccion_velocidad > RANGO_VELOCIDAD)
+                    if (reduccion_velocidad > RANGO_VELOCIDAD) {
                         reduccion_velocidad = RANGO_VELOCIDAD;
-                    else if (reduccion_velocidad < -RANGO_VELOCIDAD)
+                        SetBit(PORT_LED_2, LED_2_NUMBER);
+                    } else if (reduccion_velocidad < -RANGO_VELOCIDAD) {
                         reduccion_velocidad = -RANGO_VELOCIDAD;
+                        SetBit(PORT_LED_2, LED_2_NUMBER);
+                    } else {
+                        ClearBit(PORT_LED_2, LED_2_NUMBER);
+                    }
                                  
                     //printf("p:%10i, i:%10i, d:%10i, pot%10i\n", err_p, err_i, err_d, reduccion_velocidad);
                     
@@ -283,14 +329,14 @@ int main() {
                         //printf("Todo afuera por izquierda\n");
                         motor1_velocidad_pid(MIN_VELOCIDAD + 20);
                         motor2_velocidad_pid(MIN_VELOCIDAD);
-                        SetBit(PORT_LED_2, LED_2_NUMBER);
+                        //SetBit(PORT_LED_2, LED_2_NUMBER);
                     } else if (ultimo_borde_valido == BORDE_DERECHA) {
                         //printf("Todo afuera por derecha\n");
                         motor1_velocidad_pid(MIN_VELOCIDAD);
                         motor2_velocidad_pid(MIN_VELOCIDAD + 20);
-                        SetBit(PORT_LED_1, LED_1_NUMBER);
-                        SetBit(PORT_LED_3, LED_3_NUMBER);
-                        SetBit(PORT_LED_4, LED_4_NUMBER);
+                        //SetBit(PORT_LED_1, LED_1_NUMBER);
+                        //SetBit(PORT_LED_3, LED_3_NUMBER);
+                        //SetBit(PORT_LED_4, LED_4_NUMBER);
                     }
                     break;
             }    
