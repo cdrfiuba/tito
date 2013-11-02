@@ -222,12 +222,25 @@ int main() {
         //contador_ultimo_borde_valido = 0;
 
         // aceleración inicial gradual
+
+        motor1_velocidad(10);
+        motor2_velocidad(10);
+        motores_on();
+        _delay_ms(100);
         motor1_velocidad(20);
         motor2_velocidad(20);
-        motores_on();
+        _delay_ms(100);
+        motor1_velocidad(35);
+        motor2_velocidad(35);
         _delay_ms(100);
         motor1_velocidad(50);
         motor2_velocidad(50);
+        _delay_ms(100);
+        motor1_velocidad(65);
+        motor2_velocidad(65);
+        _delay_ms(100);
+        motor1_velocidad(80);
+        motor2_velocidad(80);
         _delay_ms(100);
         
         while (BOTON2_NO_APRETADO) {
@@ -261,14 +274,14 @@ int main() {
             
             // si me fui, entro en modo "corrección máxima"
             //if ( (sensores[S1] < 50) && (sensores[S2] < 50) && (sensores[S3] < 50) && (sensores[S4] < 50) ) {
-            if ( (sensores[S1] < 50) && (sensores[S2] < 50) && (sensores[S3] < 50) && (sensores[S4] < 50) && (sensores[S5] < 50) && (sensores[S6] < 50) ) {
-                estado_actual = ST_AFUERA;
+            if ( (sensores[S1] < 30) && (sensores[S2] < 30) && (sensores[S3] < 30) && (sensores[S4] < 30) && (sensores[S5] < 30) && (sensores[S6] < 30) ) {
+                //estado_actual = ST_AFUERA;
             } else {
                 estado_actual = ST_EN_PISTA;
-                //ClearBit(PORT_LED_1, LED_1_NUMBER);
-                //ClearBit(PORT_LED_2, LED_2_NUMBER);
-                //ClearBit(PORT_LED_3, LED_3_NUMBER);
-                //ClearBit(PORT_LED_4, LED_4_NUMBER);
+                ClearBit(PORT_LED_1, LED_1_NUMBER);
+                ClearBit(PORT_LED_2, LED_2_NUMBER);
+                ClearBit(PORT_LED_3, LED_3_NUMBER);
+                ClearBit(PORT_LED_4, LED_4_NUMBER);
             }
 
             switch (estado_actual) {
@@ -293,28 +306,24 @@ int main() {
 
                     reduccion_velocidad = err_p * COEFICIENTE_ERROR_P /*+ err_i * COEFICIENTE_ERROR_I*/ + err_d * COEFICIENTE_ERROR_D;
 
-                    // err_p toma valores entre -1500 y 1500, por lo que su aporte a reduccion_velocidad esta acotado entre -75 y +75 (-125 y +125 para 6 sensores)
+                    // err_p toma valores entre -1500 y 1500, por lo 0000000000000000reduccion_velocidad esta acotado entre -75 y +75 (-125 y +125 para 6 sensores)
                     // err_i toma valores entre -32k y 32k, por lo que su aporte a diff_potencia esta acotado entre -32 y +32 (-32 y +32 para 6 sensores)
                     // err_d toma valores entre -5k y 5k, por lo que su aporte a diff_potencia esta acotado entre -inf y +inf (para los niveles de representacion que manejamos). Para un caso normal, en que err_p varie 30 entre una medicion y la siguiente, estará acotado entre -45 y +45
          
                     if (reduccion_velocidad > RANGO_VELOCIDAD) {
                         reduccion_velocidad = RANGO_VELOCIDAD;
-                        SetBit(PORT_LED_2, LED_2_NUMBER);
                     } else if (reduccion_velocidad < -RANGO_VELOCIDAD) {
                         reduccion_velocidad = -RANGO_VELOCIDAD;
-                        SetBit(PORT_LED_2, LED_2_NUMBER);
-                    } else {
-                        ClearBit(PORT_LED_2, LED_2_NUMBER);
                     }
                                  
                     //printf("p:%10i, i:%10i, d:%10i, pot%10i\n", err_p, err_i, err_d, reduccion_velocidad);
                     
                     if (reduccion_velocidad < 0) {
-                        motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD);
-                        motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD + reduccion_velocidad);
+                        motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD/2 - reduccion_velocidad/2);
+                        motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD/2 + reduccion_velocidad/2);
                     } else {
-                        motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD - reduccion_velocidad);
-                        motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD);
+                        motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD/2 - reduccion_velocidad/2);
+                        motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD/2 + reduccion_velocidad/2);
                     }
                     
                     //if (reduccion_velocidad < 0) {
@@ -327,16 +336,16 @@ int main() {
                 case ST_AFUERA:
                     if (ultimo_borde_valido == BORDE_IZQUIERDA) {
                         //printf("Todo afuera por izquierda\n");
-                        motor1_velocidad_pid(MIN_VELOCIDAD + 20);
+                        motor1_velocidad_pid(MIN_VELOCIDAD + 65);
                         motor2_velocidad_pid(MIN_VELOCIDAD);
-                        //SetBit(PORT_LED_2, LED_2_NUMBER);
+                        SetBit(PORT_LED_2, LED_2_NUMBER);
                     } else if (ultimo_borde_valido == BORDE_DERECHA) {
                         //printf("Todo afuera por derecha\n");
                         motor1_velocidad_pid(MIN_VELOCIDAD);
-                        motor2_velocidad_pid(MIN_VELOCIDAD + 20);
-                        //SetBit(PORT_LED_1, LED_1_NUMBER);
-                        //SetBit(PORT_LED_3, LED_3_NUMBER);
-                        //SetBit(PORT_LED_4, LED_4_NUMBER);
+                        motor2_velocidad_pid(MIN_VELOCIDAD + 65);
+                        SetBit(PORT_LED_1, LED_1_NUMBER);
+                        SetBit(PORT_LED_3, LED_3_NUMBER);
+                        SetBit(PORT_LED_4, LED_4_NUMBER);
                     }
                     break;
             }    
