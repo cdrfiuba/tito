@@ -116,7 +116,7 @@ void mostrar_sensor_en_leds (uint8_t sensor) {
 }
 
 inline void mostrar_leds(uint8_t *sensores) {
-    static uint8_t tolerancia = 180;
+    static uint8_t tolerancia = 50;
     static uint8_t boton_apretado = 0;
 
     while (BOTON1_APRETADO) {
@@ -124,9 +124,9 @@ inline void mostrar_leds(uint8_t *sensores) {
     }
     _delay_ms(5); //rebote botón
     if (boton_apretado == 1) {
-        tolerancia = tolerancia - 5;
+        tolerancia = tolerancia - 2;
         if (tolerancia == 0) {
-            tolerancia = 180;
+            tolerancia = 50;
         }
         boton_apretado = 0;
     }        
@@ -191,6 +191,7 @@ int main() {
     //bordes_t ultimo_borde_valido_anterior = BORDE_IZQUIERDA;
     //bordes_t ultimo_borde_valido_nuevo = BORDE_IZQUIERDA;
     //uint8_t contador_ultimo_borde_valido = 0;
+    char output_byte = 0;
     
     startup();
     
@@ -293,18 +294,26 @@ int main() {
                     sensores_linea = ((int32_t)sensores[S2] * 1000 + (int32_t)sensores[S3] * 2000 + (int32_t)sensores[S4] * 3000 + (int32_t)sensores[S5] * 4000 + (int32_t)sensores[S6] * 5000) / 
                                      ( (int32_t)sensores[S1] + (int32_t)sensores[S2] + (int32_t)sensores[S3] + (int32_t)sensores[S4] + (int32_t)sensores[S5] + (int32_t)sensores[S6] );
 
-                    //printf("%10i (%3d, %3d, %3d, %3d)\n", sensores_linea, sensores[S1], sensores[S2], sensores[S3], sensores[S4]);
+                    //printf("%5i %3d %3d %3d %3d %3d %3d\n", sensores_linea, sensores[S1], sensores[S2], sensores[S3], sensores[S4], sensores[S5], sensores[S6]);
 
-                    //err_p = sensores_linea - 1500;  //Con 4 sensores
-                    err_p = sensores_linea - 2500; //Con 6 sensores
+                    err_p = sensores_linea - CENTRO_DE_LINEA;
                     err_d = err_p - err_p_anterior;
-                    err_i += err_p;
+                    err_i += (err_p >> 4);
                     if ( (err_i >= VALOR_MAX_INT16 - VALOR_MAX_ERR_P) || (err_i <= -(VALOR_MAX_INT16 - VALOR_MAX_ERR_P)) ) {
-                        err_i -= err_p;
+                        err_i -= (err_p >> 4);
                     }
                     err_p_anterior = err_p;
 
-                    reduccion_velocidad = err_p * COEFICIENTE_ERROR_P /*+ err_i * COEFICIENTE_ERROR_I*/ + err_d * COEFICIENTE_ERROR_D;
+                    reduccion_velocidad = err_p * COEFICIENTE_ERROR_P + err_i * COEFICIENTE_ERROR_I/* + err_d * COEFICIENTE_ERROR_D*/;
+
+                    //printf("p:%5i i:%5i d:%5i rv:%5i\n", err_p, err_i, err_d, reduccion_velocidad);
+
+                    /*USART0Transmit((char)(err_i >> 8));
+                    output_byte = (char)(err_i);
+                    if (output_byte == 255) output_byte = 254;
+                    USART0Transmit(output_byte);
+                    USART0Transmit(255);*/
+
 
                     // err_p toma valores entre -1500 y 1500, por lo 0000000000000000reduccion_velocidad esta acotado entre -75 y +75 (-125 y +125 para 6 sensores)
                     // err_i toma valores entre -32k y 32k, por lo que su aporte a diff_potencia esta acotado entre -32 y +32 (-32 y +32 para 6 sensores)
@@ -336,13 +345,13 @@ int main() {
                 case ST_AFUERA:
                     if (ultimo_borde_valido == BORDE_IZQUIERDA) {
                         //printf("Todo afuera por izquierda\n");
-                        motor1_velocidad_pid(MIN_VELOCIDAD + 65);
+                        motor1_velocidad_pid(MIN_VELOCIDAD + 20);
                         motor2_velocidad_pid(MIN_VELOCIDAD);
                         SetBit(PORT_LED_2, LED_2_NUMBER);
                     } else if (ultimo_borde_valido == BORDE_DERECHA) {
                         //printf("Todo afuera por derecha\n");
                         motor1_velocidad_pid(MIN_VELOCIDAD);
-                        motor2_velocidad_pid(MIN_VELOCIDAD + 65);
+                        motor2_velocidad_pid(MIN_VELOCIDAD + 20);
                         SetBit(PORT_LED_1, LED_1_NUMBER);
                         SetBit(PORT_LED_3, LED_3_NUMBER);
                         SetBit(PORT_LED_4, LED_4_NUMBER);

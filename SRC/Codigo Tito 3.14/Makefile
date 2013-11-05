@@ -1,4 +1,4 @@
-CLK = 1000000UL
+CLK = 8000000UL
 MMCU = atmega88
 TARGET_P = m88
 # default hfuse
@@ -11,6 +11,7 @@ all: clean tito.hex
 
 tito.hex: tito.c tito.h lib/motores.c lib/motores.h velocidades.h lib/common.h
 	avr-gcc -O3 -mmcu=$(MMCU) -Wall -DF_CPU=$(CLK) -o tito.bin -I/usr/avr/include/ tito.c lib/motores.c
+#	avr-gcc -O3 -mmcu=$(MMCU) -Wall -Wl,-u,vfprintf -lprintf_min -DF_CPU=$(CLK) -o tito.bin -I/usr/avr/include/ tito.c lib/motores.c
 	avr-objdump -h -S tito.bin > tito.lst
 	avr-objcopy -j .text -j .data -O ihex tito.bin tito.hex
 

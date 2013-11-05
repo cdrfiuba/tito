@@ -17,9 +17,11 @@ void startup (void);
 #define detener_conversion_ad() (ADCSRA &= ~(1 << ADSC))
 #define iniciar_conversion_ad() (ADCSRA |= (1 << ADSC))
 
+//#define CENTRO_DE_LINEA 1500 /* 4 sensores */
+#define CENTRO_DE_LINEA 2500 /* 6 sensores */
 #define VALOR_MAX_INT32 2147483647L
 #define VALOR_MAX_INT16 32767
-#define VALOR_MAX_ERR_P 1500
+#define VALOR_MAX_ERR_P CENTRO_DE_LINEA
 
 // números de sensores
 #define S1 5
