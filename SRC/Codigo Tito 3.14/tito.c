@@ -131,7 +131,7 @@ inline void mostrar_leds(uint8_t *sensores) {
         boton_apretado = 0;
     }        
 
-    if (sensores[S6] > tolerancia) {
+    /*if (sensores[S6] > tolerancia) {
         SetBit(PORT_LED_1, LED_1_NUMBER);
     } else {
         ClearBit(PORT_LED_1, LED_1_NUMBER);
@@ -150,7 +150,7 @@ inline void mostrar_leds(uint8_t *sensores) {
         SetBit(PORT_LED_4, LED_4_NUMBER);
     } else {
         ClearBit(PORT_LED_4, LED_4_NUMBER);
-    }
+    }*/
 
     /*if (sensores[3] > tolerancia) {
         SetBit(PORT_LED_1, LED_1_NUMBER);
@@ -192,6 +192,8 @@ int main() {
     //bordes_t ultimo_borde_valido_nuevo = BORDE_IZQUIERDA;
     //uint8_t contador_ultimo_borde_valido = 0;
     char output_byte = 0;
+    int16_t velocidad_1;
+    int16_t velocidad_2;
     
     startup();
     
@@ -227,22 +229,22 @@ int main() {
         motor1_velocidad(10);
         motor2_velocidad(10);
         motores_on();
-        _delay_ms(100);
+        _delay_ms(50);
         motor1_velocidad(20);
         motor2_velocidad(20);
-        _delay_ms(100);
+        _delay_ms(50);
         motor1_velocidad(35);
         motor2_velocidad(35);
-        _delay_ms(100);
+        _delay_ms(50);
         motor1_velocidad(50);
         motor2_velocidad(50);
-        _delay_ms(100);
+        _delay_ms(50);
         motor1_velocidad(65);
         motor2_velocidad(65);
-        _delay_ms(100);
+        _delay_ms(50);
         motor1_velocidad(80);
         motor2_velocidad(80);
-        _delay_ms(100);
+        _delay_ms(50);
         
         while (BOTON2_NO_APRETADO) {
             obtener_sensores(sensores);
@@ -304,7 +306,7 @@ int main() {
                     }
                     err_p_anterior = err_p;
 
-                    reduccion_velocidad = err_p * COEFICIENTE_ERROR_P + err_i * COEFICIENTE_ERROR_I/* + err_d * COEFICIENTE_ERROR_D*/;
+                    reduccion_velocidad = err_p * COEFICIENTE_ERROR_P + err_i * COEFICIENTE_ERROR_I + err_d * COEFICIENTE_ERROR_D;
 
                     //printf("p:%5i i:%5i d:%5i rv:%5i\n", err_p, err_i, err_d, reduccion_velocidad);
 
@@ -314,11 +316,12 @@ int main() {
                     USART0Transmit(output_byte);
                     USART0Transmit(255);*/
 
-
-                    // err_p toma valores entre -1500 y 1500, por lo 0000000000000000reduccion_velocidad esta acotado entre -75 y +75 (-125 y +125 para 6 sensores)
+                    // err_p toma valores entre -2500 y 2500, por lo reduccion_velocidad esta acotado entre -125 y +125 
                     // err_i toma valores entre -32k y 32k, por lo que su aporte a diff_potencia esta acotado entre -32 y +32 (-32 y +32 para 6 sensores)
                     // err_d toma valores entre -5k y 5k, por lo que su aporte a diff_potencia esta acotado entre -inf y +inf (para los niveles de representacion que manejamos). Para un caso normal, en que err_p varie 30 entre una medicion y la siguiente, estará acotado entre -45 y +45
          
+
+
                     if (reduccion_velocidad > RANGO_VELOCIDAD) {
                         reduccion_velocidad = RANGO_VELOCIDAD;
                     } else if (reduccion_velocidad < -RANGO_VELOCIDAD) {
@@ -334,6 +337,32 @@ int main() {
                         motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD/2 - reduccion_velocidad/2);
                         motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD/2 + reduccion_velocidad/2);
                     }
+                    
+ /*                   // NUEVO BLOQUE DE CONTRO PARA LA VELOCIDAD DE LOS MOTORES
+                    if (reduccion_velocidad/ESCALA_BAJA > RANGO_VELOCIDAD) {
+                        reduccion_velocidad = RANGO_VELOCIDAD/ESCALA_BAJA;
+                    } else if (reduccion_velocidad < -RANGO_VELOCIDAD/ESCALA_BAJA) {
+                        reduccion_velocidad = -RANGO_VELOCIDAD/ESCALA_BAJA;
+                    }
+                                        
+                    if (reduccion_velocidad < 0) {
+                        velocidad_1 = MIN_VELOCIDAD + BASE - reduccion_velocidad/ESCALA_ALTA;
+                        velocidad_2 = MIN_VELOCIDAD + BASE + reduccion_velocidad/ESCALA_BAJA;
+                        if (velocidad_1 > MIN_VELOCIDAD + RANGO_VELOCIDAD) velocidad_1 = MIN_VELOCIDAD + RANGO_VELOCIDAD;
+                        if (velocidad_2 < MIN_VELOCIDAD) velocidad_2 = MIN_VELOCIDAD;
+                    }else {
+                        velocidad_1 = MIN_VELOCIDAD + BASE - reduccion_velocidad/ESCALA_BAJA;
+                        velocidad_2 = MIN_VELOCIDAD + BASE + reduccion_velocidad/ESCALA_ALTA;
+                        if (velocidad_1 < MIN_VELOCIDAD) velocidad_1 = MIN_VELOCIDAD;
+                        if (velocidad_2 > MIN_VELOCIDAD + RANGO_VELOCIDAD) velocidad_2 = MIN_VELOCIDAD + RANGO_VELOCIDAD;
+                    }
+
+                    //printf("p:%10i, i:%10i, d:%10i, pot%10i\n", err_p, err_i, err_d, reduccion_velocidad);
+                    
+                    motor1_velocidad_pid(velocidad_1);
+                    motor2_velocidad_pid(velocidad_2);
+*/                    
+                    
                     
                     //if (reduccion_velocidad < 0) {
                     //    printf("motores %3i, %3i\n", MAX_VELOCIDAD + reduccion_velocidad, MAX_VELOCIDAD);
