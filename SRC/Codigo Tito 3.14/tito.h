@@ -23,6 +23,8 @@ void startup (void);
 #define VALOR_MAX_INT16 32767
 #define VALOR_MAX_ERR_P CENTRO_DE_LINEA
 
+#define DELAY_ARRANQUE 10
+
 // números de sensores
 #define S1 5
 #define S2 0
