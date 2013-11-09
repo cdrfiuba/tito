@@ -8,7 +8,7 @@
 // las velocidades van de -100 a 100, determinado en tito.h
 
 // (MIN_VELOCIDAD + RANGO_VELOCIDAD) va de 0 a 255
-#define RANGO_VELOCIDAD 120
+#define RANGO_VELOCIDAD 100
 #define MIN_VELOCIDAD 127 // si es <127, los motores van en reversa
 #define BASE 50 // define cual es la velocidad que se le suma a MIN_VELOCIDAD en el caso que se este en linea
 #define ESCALA_BAJA 2 // define que tan rapido satura la velocidad a MIN_VELOCIDAD para el motor que deseamos que vaya mas lento, valores mas grandes hacen que no se alcance la velocidad minima seguido
@@ -16,7 +16,7 @@
 
 #define COEFICIENTE_ERROR_P 1 / 14
 #define COEFICIENTE_ERROR_I 1 / 12016
-#define COEFICIENTE_ERROR_D 1 / 5000
+#define COEFICIENTE_ERROR_D 1 / 6
 
 // Valores que con 110 de velocidad andan el martes a la tarde
 

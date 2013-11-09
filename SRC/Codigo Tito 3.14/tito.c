@@ -8,6 +8,8 @@
 #include "lib/usart.c"
 #include <stdio.h>
 
+volatile uint8_t tolerancia = 30;
+
 int usart_putchar_printf(char var, FILE *stream) {
     if (var == '\n') USART0Transmit('\r');
     USART0Transmit(var);
@@ -116,7 +118,6 @@ void mostrar_sensor_en_leds (uint8_t sensor) {
 }
 
 inline void mostrar_leds(uint8_t *sensores) {
-    static uint8_t tolerancia = 180;
     static uint8_t boton_apretado = 0;
 
     while (BOTON1_APRETADO) {
@@ -124,9 +125,9 @@ inline void mostrar_leds(uint8_t *sensores) {
     }
     _delay_ms(5); //rebote botón
     if (boton_apretado == 1) {
-        tolerancia = tolerancia - 2;
-        if (tolerancia == 0) {
-            tolerancia = 180;
+        tolerancia = tolerancia + 5;
+        if (tolerancia == 180) {
+            tolerancia = 0;
         }
         boton_apretado = 0;
     }        
@@ -152,7 +153,7 @@ inline void mostrar_leds(uint8_t *sensores) {
         ClearBit(PORT_LED_4, LED_4_NUMBER);
     }
 
-    printf("%3d %3d %3d %3d %3d %3d\n", sensores[S1], sensores[S2], sensores[S3], sensores[S4], sensores[S5], sensores[S6]);
+    //printf("%3d %3d %3d %3d %3d %3d\n", sensores[S1], sensores[S2], sensores[S3], sensores[S4], sensores[S5], sensores[S6]);
 
     /*if (sensores[3] > tolerancia) {
         SetBit(PORT_LED_1, LED_1_NUMBER);
@@ -190,12 +191,7 @@ int main() {
     int16_t reduccion_velocidad = 0;
     estados_t estado_actual = ST_EN_PISTA;
     bordes_t ultimo_borde_valido = BORDE_IZQUIERDA;
-    //bordes_t ultimo_borde_valido_anterior = BORDE_IZQUIERDA;
-    //bordes_t ultimo_borde_valido_nuevo = BORDE_IZQUIERDA;
-    //uint8_t contador_ultimo_borde_valido = 0;
     char output_byte = 0;
-    int16_t velocidad_1;
-    int16_t velocidad_2;
     
     startup();
     
@@ -262,8 +258,8 @@ int main() {
             
             // si me fui, entro en modo "corrección máxima"
             //if ( (sensores[S1] < 50) && (sensores[S2] < 50) && (sensores[S3] < 50) && (sensores[S4] < 50) ) {
-            if ( (sensores[S1] < 30) && (sensores[S2] < 30) && (sensores[S3] < 30) && (sensores[S4] < 30) && (sensores[S5] < 30) && (sensores[S6] < 30) ) {
-                //estado_actual = ST_AFUERA;
+            if ( (sensores[S1] < tolerancia) && (sensores[S2] < tolerancia) && (sensores[S3] < tolerancia) && (sensores[S4] < tolerancia) && (sensores[S5] < tolerancia) && (sensores[S6] < tolerancia) ) {
+                estado_actual = ST_AFUERA;
             } else {
                 estado_actual = ST_EN_PISTA;
                 ClearBit(PORT_LED_1, LED_1_NUMBER);
@@ -285,9 +281,9 @@ int main() {
 
                     err_p = sensores_linea - CENTRO_DE_LINEA;
                     err_d = err_p - err_p_anterior;
-                    err_i += (err_p >> 10);
+                    err_i += (err_p >> 8);
                     if ( (err_i >= VALOR_MAX_INT16 - VALOR_MAX_ERR_P) || (err_i <= -(VALOR_MAX_INT16 - VALOR_MAX_ERR_P)) ) {
-                        err_i -= (err_p >> 10);
+                        err_i -= (err_p >> 8);
                     }
                     err_p_anterior = err_p;
 
@@ -321,40 +317,16 @@ int main() {
                         motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD / 2 - reduccion_velocidad / 2);
                         motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD / 2 + reduccion_velocidad / 2);
                     }
-                    
-                    
-                    // NUEVO BLOQUE DE CONTRO PARA LA VELOCIDAD DE LOS MOTORES
-                    /*          
-                    if (reduccion_velocidad < 0) {
-                        velocidad_1 = MIN_VELOCIDAD + BASE - reduccion_velocidad / ESCALA_ALTA;
-                        velocidad_2 = MIN_VELOCIDAD + BASE + reduccion_velocidad / ESCALA_BAJA;
-                        if (velocidad_1 > MIN_VELOCIDAD + RANGO_VELOCIDAD) {
-                            velocidad_1 = MIN_VELOCIDAD + RANGO_VELOCIDAD;
-                        }
-                        if (velocidad_2 < MIN_VELOCIDAD) {
-                            velocidad_2 = MIN_VELOCIDAD;
-                        }
-                    } else {
-                        velocidad_1 = MIN_VELOCIDAD + BASE - reduccion_velocidad / ESCALA_BAJA;
-                        velocidad_2 = MIN_VELOCIDAD + BASE + reduccion_velocidad / ESCALA_ALTA;
-                        if (velocidad_1 < MIN_VELOCIDAD) {
-                            velocidad_1 = MIN_VELOCIDAD;
-                        }
-                        if (velocidad_2 > MIN_VELOCIDAD + RANGO_VELOCIDAD) {
-                            velocidad_2 = MIN_VELOCIDAD + RANGO_VELOCIDAD;
-                        }
-                    }
 
                     //printf("p:%10i, i:%10i, d:%10i, pot%10i\n", err_p, err_i, err_d, reduccion_velocidad);
-                    
-                    motor1_velocidad_pid(velocidad_1);
-                    motor2_velocidad_pid(velocidad_2);                    
-                    */
-                    //if (reduccion_velocidad < 0) {
-                    //    printf("motores %3i, %3i\n", MAX_VELOCIDAD + reduccion_velocidad, MAX_VELOCIDAD);
-                    //} else {
-                    //    printf("motores %3i, %3i\n", MAX_VELOCIDAD, MAX_VELOCIDAD - reduccion_velocidad);
-                    //}
+
+                    // if (reduccion_velocidad < 0) {
+                        // motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD);
+                        // motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD + reduccion_velocidad);
+                    // } else {
+                        // motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD + -reduccion_velocidad);
+                        // motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD);
+                    // }
                     break;
                     
                 case ST_AFUERA:
