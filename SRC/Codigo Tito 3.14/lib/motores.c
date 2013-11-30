@@ -20,6 +20,9 @@ void pwm_config(void) {
     TCCR1B = (0 << ICNC1) | (0 << ICES1) | (0 << WGM13) | (0 << WGM12) | (0 << CS12) | (0 << CS11) | (0 << CS10);
     TCCR1C = (0 << FOC1A) | (0 << FOC1B); 
  
+    TCCR2A = (1 << COM2A1) | (0 << COM2A0) | (0 << WGM21) | (1 << WGM20);
+    TCCR2B = (0 << WGM22) | (0 << CS22) | (0 << CS21) | (0 << CS20);
+
     // configura los puertos como salida
 	SetBit (DDR_MOTOR_DERECHO_ENABLE, MOTOR_DERECHO_ENABLE_NUMBER);
 	SetBit (DDR_MOTOR_IZQUIERDO_ENABLE, MOTOR_IZQUIERDO_ENABLE_NUMBER); 
@@ -28,6 +31,8 @@ void pwm_config(void) {
 	SetBit (DDR_MOTOR_IZQUIERDO_2, MOTOR_IZQUIERDO_2_NUMBER);
 	SetBit (DDR_MOTOR_DERECHO_1, MOTOR_DERECHO_1_NUMBER);
 	SetBit (DDR_MOTOR_DERECHO_2, MOTOR_DERECHO_2_NUMBER);
+
+    SetBit (DDR_MOTOR_SERVO, MOTOR_SERVO_NUMBER);
 
     // habilita los ENABLE de los motores, que deben ir siempre en 1
     SetBit (PORT_MOTOR_DERECHO_ENABLE, MOTOR_DERECHO_ENABLE_NUMBER);
@@ -55,4 +60,15 @@ inline void motores_off(void) {
     pwm_off();
     ClearBit (PORT_MOTOR_DERECHO_ENABLE, MOTOR_DERECHO_ENABLE_NUMBER);
     ClearBit (PORT_MOTOR_IZQUIERDO_ENABLE, MOTOR_IZQUIERDO_ENABLE_NUMBER);
+}
+
+inline void timer2_init(void) {
+    TCNT2 = 0; // inicialización
+}
+inline void servo_on(void) {
+    TCCR2B |= (1 << CS22) | (1 << CS21) | (0 << CS20); // prescaler on /128
+    timer2_init();
+}
+inline void servo_off(void) {
+    TCCR2B &= ~((1 << CS22) | (1 << CS21) | (1 << CS20)); // prescaler off
 }

@@ -37,12 +37,23 @@
 #define PIN_MOTOR_IZQUIERDO_ENABLE		def_pin_reg(PORT_MOTOR_IZQUIERDO_ENABLE_NAME)
 #define DDR_MOTOR_IZQUIERDO_ENABLE		def_ddr_reg(PORT_MOTOR_IZQUIERDO_ENABLE_NAME)
 
+#define PORT_MOTOR_SERVO_NAME      B
+#define MOTOR_SERVO_NUMBER         3
+#define PORT_MOTOR_SERVO		def_port_reg(PORT_MOTOR_SERVO_NAME)
+#define PIN_MOTOR_SERVO			def_pin_reg(PORT_MOTOR_SERVO_NAME)
+#define DDR_MOTOR_SERVO			def_ddr_reg(PORT_MOTOR_SERVO_NAME)
+
+// el ángulo va de 0 a 180
+#define servo_angulo(ang)    OCR2A = (ang / 180 * 256)
 
 void pwm_config(void);
 void pwm_on(void);
 void pwm_off(void);
 void motores_on(void);
 void motores_off(void);
+void servo_on(void);
+void servo_off(void);
+void timer2_init(void);
 
 
 #endif

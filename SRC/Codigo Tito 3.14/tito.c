@@ -187,14 +187,43 @@ int main() {
     int16_t err_p = 0;
     int16_t err_p_anterior = 0;
     int16_t err_d = 0;
-    int32_t err_i = 0;
+    int16_t err_i = 0;
     int16_t reduccion_velocidad = 0;
     estados_t estado_actual = ST_EN_PISTA;
     bordes_t ultimo_borde_valido = BORDE_IZQUIERDA;
     char output_byte = 0;
     
     startup();
-    
+
+    /* // pruebas servo
+    servo_on();
+    while (1) {
+        OCR2A = 13;
+        SetBit(PORT_LED_1, LED_1_NUMBER);
+        _delay_ms(2000);
+
+        OCR2A = 15;
+        ClearBit(PORT_LED_1, LED_1_NUMBER);
+        _delay_ms(2000);
+
+        OCR2A = 17;
+        SetBit(PORT_LED_1, LED_1_NUMBER);
+        _delay_ms(2000);
+
+        OCR2A = 20;
+        ClearBit(PORT_LED_1, LED_1_NUMBER);
+        _delay_ms(2000);
+
+        OCR2A = 22;
+        SetBit(PORT_LED_1, LED_1_NUMBER);
+        _delay_ms(2000);
+
+        //servo_off();
+        OCR2A = 25;
+        ClearBit(PORT_LED_1, LED_1_NUMBER);
+        _delay_ms(2000);
+    }*/
+        
     while (1) {
         motores_off();
         ClearBit(PORT_LED_1, LED_1_NUMBER);
@@ -207,7 +236,7 @@ int main() {
         while (BOTON2_NO_APRETADO) {
             //mostrar_sensor_en_leds(S2);
             obtener_sensores(sensores);
-            // mostrar_leds(sensores);
+            mostrar_leds(sensores);
         }
         _delay_ms(50); //rebote botón
 
@@ -281,13 +310,13 @@ int main() {
 
                     err_p = sensores_linea - CENTRO_DE_LINEA;
                     err_d = err_p - err_p_anterior;
-                    err_i += (err_p >> 4);
-                    if ( (err_i >= VALOR_MAX_INT32 - VALOR_MAX_ERR_P) || (err_i <= -(VALOR_MAX_INT32 - VALOR_MAX_ERR_P)) ) {
-                        err_i -= (err_p >> 4);
+                    err_i += (err_p >> 8);
+                    if ( (err_i >= VALOR_MAX_INT16 - VALOR_MAX_ERR_P) || (err_i <= -(VALOR_MAX_INT16 - VALOR_MAX_ERR_P)) ) {
+                        err_i -= (err_p >> 8);
                     }
                     err_p_anterior = err_p;
 
-                    reduccion_velocidad = err_p * COEFICIENTE_ERROR_P + (int16_t)(err_i * COEFICIENTE_ERROR_I) + err_d * COEFICIENTE_ERROR_D;
+                    reduccion_velocidad = err_p * COEFICIENTE_ERROR_P + err_i * COEFICIENTE_ERROR_I + err_d * COEFICIENTE_ERROR_D;
                     
                     //printf("p:%5i i:%5i d:%5i rv:%5i\n", err_p, err_i, err_d, reduccion_velocidad);
 
@@ -310,30 +339,23 @@ int main() {
                                  
                     //printf("p:%10i, i:%10i, d:%10i, pot%10i\n", err_p, err_i, err_d, reduccion_velocidad);
                     
-                    // if (reduccion_velocidad < 0) {
-                        // motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD / 2 - reduccion_velocidad / 2);
-                        // motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD / 2 + reduccion_velocidad / 2);
-                    // } else {
-                        // motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD / 2 - reduccion_velocidad / 2);
-                        // motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD / 2 + reduccion_velocidad / 2);
-                    // }
+                    if (reduccion_velocidad < 0) {
+                        motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD / 2 - reduccion_velocidad / 2);
+                        motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD / 2 + reduccion_velocidad / 2);
+                    } else {
+                        motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD / 2 - reduccion_velocidad / 2);
+                        motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD / 2 + reduccion_velocidad / 2);
+                    }
 
                     //printf("p:%10i, i:%10i, d:%10i, pot%10i\n", err_p, err_i, err_d, reduccion_velocidad);
 
-                    // if (reduccion_velocidad < 0) {
-                        // motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD);
-                        // motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD + reduccion_velocidad);
-                    // } else {
-                        // motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD + -reduccion_velocidad);
-                        // motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD);
-                    // }
-                    if (reduccion_velocidad < 0) {
-                        motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD);
-                        motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD + reduccion_velocidad);
-                    } else {
-                        motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD + -reduccion_velocidad);
-                        motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD);
-                    }
+                    //if (reduccion_velocidad < 0) {
+                    //    motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD);
+                    //    motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD + reduccion_velocidad);
+                    //} else {
+                    //    motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD + -reduccion_velocidad);
+                    //    motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD);
+                    //}
                     
                     break;
                     
