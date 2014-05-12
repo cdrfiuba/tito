@@ -1,5 +1,5 @@
-update=vie 12 jul 2013 20:47:16 ART
-last_client=pcbnew
+update=lun 12 may 2014 19:16:44 ART
+last_client=eeschema
 [general]
 version=1
 [cvpcb]
@@ -7,6 +7,44 @@ version=1
 NetIExt=net
 [cvpcb/libraries]
 EquName1=devcms
+[pcbnew]
+version=1
+LastNetListRead=placa_principal.net
+UseCmpFile=0
+PadDrill="    3,048000"
+PadDrillOvalY="    3,048000"
+PadSizeH="    3,048000"
+PadSizeV="    3,048000"
+PcbTextSizeV="    2,032000"
+PcbTextSizeH="    1,524000"
+PcbTextThickness="    0,304800"
+ModuleTextSizeV="    1,524000"
+ModuleTextSizeH="    1,524000"
+ModuleTextSizeThickness="    0,304800"
+SolderMaskClearance="    0,254000"
+SolderMaskMinWidth="    0,000000"
+DrawSegmentWidth="    0,381000"
+BoardOutlineThickness="    0,381000"
+ModuleOutlineThickness="    0,381000"
+[pcbnew/libraries]
+LibDir=
+LibName1=sockets
+LibName2=connect
+LibName3=discret
+LibName4=pin_array
+LibName5=divers
+LibName6=libcms
+LibName7=display
+LibName8=valves
+LibName9=led
+LibName10=dip_sockets
+LibName11=../../Bibliotecas/1pin2mm
+LibName12=../../Bibliotecas/elpin
+LibName13=../../Bibliotecas/L298
+LibName14=../../Bibliotecas/SOT223-5
+LibName15=../../Bibliotecas/cny70
+LibName16=../../Bibliotecas/1PIN
+LibName17=../../Bibliotecas/tcrt1000
 [eeschema]
 version=1
 LibDir=
@@ -51,41 +89,4 @@ LibName32=../../Bibliotecas/7805b
 LibName33=../../Bibliotecas/reg_204-5
 LibName34=../../Bibliotecas/cny70
 LibName35=../../Bibliotecas/tcrt1000
-[pcbnew]
-version=1
-LastNetListRead=placa_principal.net
-UseCmpFile=0
-PadDrill="    3,048000"
-PadDrillOvalY="    3,048000"
-PadSizeH="    3,048000"
-PadSizeV="    3,048000"
-PcbTextSizeV="    2,032000"
-PcbTextSizeH="    1,524000"
-PcbTextThickness="    0,304800"
-ModuleTextSizeV="    1,524000"
-ModuleTextSizeH="    1,524000"
-ModuleTextSizeThickness="    0,304800"
-SolderMaskClearance="    0,254000"
-SolderMaskMinWidth="    0,000000"
-DrawSegmentWidth="    0,381000"
-BoardOutlineThickness="    0,381000"
-ModuleOutlineThickness="    0,381000"
-[pcbnew/libraries]
-LibDir=
-LibName1=sockets
-LibName2=connect
-LibName3=discret
-LibName4=pin_array
-LibName5=divers
-LibName6=libcms
-LibName7=display
-LibName8=valves
-LibName9=led
-LibName10=dip_sockets
-LibName11=../../Bibliotecas/1pin2mm
-LibName12=../../Bibliotecas/elpin
-LibName13=../../Bibliotecas/L298
-LibName14=../../Bibliotecas/SOT223-5
-LibName15=../../Bibliotecas/cny70
-LibName16=../../Bibliotecas/1PIN
-LibName17=../../Bibliotecas/tcrt1000
+LibName36=/home/alumno/Documentos/tito/Placas/Bibliotecas/drv8833

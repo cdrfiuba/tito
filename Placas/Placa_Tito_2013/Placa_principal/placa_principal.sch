@@ -34,14 +34,14 @@ LIBS:7805b
 LIBS:reg_204-5
 LIBS:cny70
 LIBS:tcrt1000
-LIBS:placa_principal-cache
+LIBS:drv8833
 EELAYER 27 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Tito, el autito más bonito"
-Date "7 mar 2014"
+Date "12 may 2014"
 Rev "0.3"
 Comp ""
 Comment1 ""
@@ -2503,4 +2503,15 @@ Wire Wire Line
 	11050 4500 11050 4550
 Text Notes 10600 4200 0    60   ~ 0
 5 a 3,3\n3,3 a 5
+$Comp
+L DRV8833 U?
+U 1 1 53714B04
+P 5800 1250
+F 0 "U?" H 5850 1600 60  0000 C CNN
+F 1 "DRV8833" H 5800 1700 60  0000 C CNN
+F 2 "~" H 5800 1250 60  0000 C CNN
+F 3 "~" H 5800 1250 60  0000 C CNN
+	1    5800 1250
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
