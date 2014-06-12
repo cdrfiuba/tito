@@ -1,4 +1,4 @@
-update=vie 30 may 2014 18:41:56 ART
+update=jue 12 jun 2014 20:15:48 ART
 last_client=kicad
 [cvpcb]
 version=1
@@ -47,9 +47,8 @@ LibName30=valves
 LibName31=../../Bibliotecas/L298
 LibName32=../../Bibliotecas/7805b
 LibName33=../../Bibliotecas/reg_204-5
-LibName34=../../Bibliotecas/cny70
-LibName35=../../Bibliotecas/tcrt1000
-LibName36=../../Bibliotecas/drv8833
+LibName34=../../Bibliotecas/tcrt1000
+LibName35=../../Bibliotecas/drv8833
 [pcbnew]
 version=1
 LastNetListRead=placa_principal.net
@@ -85,9 +84,8 @@ LibName11=../../Bibliotecas/1pin2mm
 LibName12=../../Bibliotecas/elpin
 LibName13=../../Bibliotecas/L298
 LibName14=../../Bibliotecas/SOT223-5
-LibName15=../../Bibliotecas/cny70
-LibName16=../../Bibliotecas/1PIN
-LibName17=../../Bibliotecas/tcrt1000
-LibName18=../../Bibliotecas/HTSSOP16
+LibName15=../../Bibliotecas/1PIN
+LibName16=../../Bibliotecas/tcrt1000
+LibName17=../../Bibliotecas/HTSSOP16
 [general]
 version=1
