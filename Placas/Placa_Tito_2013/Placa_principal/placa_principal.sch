@@ -41,7 +41,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 4
 Title "Tito, el autito más bonito"
-Date "14 jun 2014"
+Date "5 jul 2014"
 Rev "0.3"
 Comp ""
 Comment1 ""

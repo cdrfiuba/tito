@@ -41,7 +41,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 3 4
 Title ""
-Date "14 jun 2014"
+Date "5 jul 2014"
 Rev ""
 Comp ""
 Comment1 ""
@@ -473,7 +473,7 @@ F 3 "" H 2600 3400 60  0001 C CNN
 	1    2600 3400
 	-1   0    0    1   
 $EndComp
-Text Label 3800 3750 2    60   ~ 0
+Text Label 3800 4600 2    60   ~ 0
 SENSOR 3
 $Comp
 L TCRT1000 U5
@@ -497,7 +497,7 @@ F 3 "" H 4250 2550 60  0001 C CNN
 	1    4250 2550
 	-1   0    0    1   
 $EndComp
-Text Label 5450 2900 2    60   ~ 0
+Text Label 3800 3750 2    60   ~ 0
 SENSOR 2
 $Comp
 L TCRT1000 U6
@@ -521,7 +521,7 @@ F 3 "" H 4250 3400 60  0001 C CNN
 	1    4250 3400
 	-1   0    0    1   
 $EndComp
-Text Label 5450 3750 2    60   ~ 0
+Text Label 5450 2900 2    60   ~ 0
 SENSOR 4
 $Comp
 L TCRT1000 U4
@@ -545,7 +545,7 @@ F 3 "" H 2600 4250 60  0001 C CNN
 	1    2600 4250
 	-1   0    0    1   
 $EndComp
-Text Label 3800 4600 2    60   ~ 0
+Text Label 5450 3750 2    60   ~ 0
 SENSOR 5
 $Comp
 L TCRT1000 U7

@@ -1,5 +1,5 @@
-update=vie 13 jun 2014 22:16:19 ART
-last_client=kicad
+update=vie 04 jul 2014 20:57:13 ART
+last_client=pcbnew
 [cvpcb]
 version=1
 NetIExt=net
@@ -49,14 +49,16 @@ LibName32=../../Bibliotecas/7805b
 LibName33=../../Bibliotecas/reg_204-5
 LibName34=../../Bibliotecas/tcrt1000
 LibName35=../../Bibliotecas/drv8833
+[general]
+version=1
 [pcbnew]
 version=1
 LastNetListRead=placa_principal.net
-UseCmpFile=0
-PadDrill=0.000000000000
-PadDrillOvalY=0.000000000000
-PadSizeH=2.460000000000
-PadSizeV=2.460000000000
+UseCmpFile=1
+PadDrill=3.048000000000
+PadDrillOvalY=3.048000000000
+PadSizeH=3.048000000000
+PadSizeV=3.048000000000
 PcbTextSizeV=2.032000000000
 PcbTextSizeH=1.524000000000
 PcbTextThickness=0.304800000000
@@ -87,5 +89,3 @@ LibName14=../../Bibliotecas/SOT223-5
 LibName15=../../Bibliotecas/1PIN
 LibName16=../../Bibliotecas/tcrt1000
 LibName17=../../Bibliotecas/HTSSOP16
-[general]
-version=1
