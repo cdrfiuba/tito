@@ -3,7 +3,7 @@
   (general
     (links 171)
     (no_connects 171)
-    (area 26.809499 53.409499 194.915288 182.1988)
+    (area 26.809499 52.809499 194.915288 182.1988)
     (thickness 1.6002)
     (drawings 4)
     (tracks 0)
@@ -494,7 +494,7 @@
   )
 
   (module TCRT1000 (layer Back) (tedit 4E87D39D) (tstamp 53B73F9C)
-    (at 44.5 69.5 90)
+    (at 49.5 61.5 90)
     (path /5391786C/539180FB)
     (fp_text reference U2 (at 0 2.25044 90) (layer B.SilkS)
       (effects (font (size 0.9525 0.9525) (thickness 0.23876)) (justify mirror))
@@ -530,7 +530,7 @@
   )
 
   (module TCRT1000 (layer Back) (tedit 4E87D39D) (tstamp 53B73FA8)
-    (at 62.5 69.5 90)
+    (at 67.5 61.5 90)
     (path /5391786C/5391812D)
     (fp_text reference U5 (at 0 2.25044 90) (layer B.SilkS)
       (effects (font (size 0.9525 0.9525) (thickness 0.23876)) (justify mirror))
@@ -566,7 +566,7 @@
   )
 
   (module TCRT1000 (layer Back) (tedit 4E87D39D) (tstamp 53B73FB4)
-    (at 50.5 69.5 90)
+    (at 55.5 61.5 90)
     (path /5391786C/53918114)
     (fp_text reference U3 (at 0 2.25044 90) (layer B.SilkS)
       (effects (font (size 0.9525 0.9525) (thickness 0.23876)) (justify mirror))
@@ -602,7 +602,7 @@
   )
 
   (module TCRT1000 (layer Back) (tedit 4E87D39D) (tstamp 53B73FC0)
-    (at 72.5 69.5 90)
+    (at 57.5 93.5 90)
     (path /5391786C/53918146)
     (fp_text reference U6 (at 0 2.25044 90) (layer B.SilkS)
       (effects (font (size 0.9525 0.9525) (thickness 0.23876)) (justify mirror))
@@ -638,7 +638,7 @@
   )
 
   (module TCRT1000 (layer Back) (tedit 4E87D39D) (tstamp 53B751FB)
-    (at 76.5 69.5 90)
+    (at 61.5 93.5 90)
     (path /5391786C/53918178)
     (fp_text reference U7 (at 0 2.25044 90) (layer B.SilkS)
       (effects (font (size 0.9525 0.9525) (thickness 0.23876)) (justify mirror))
@@ -674,7 +674,7 @@
   )
 
   (module TCRT1000 (layer Back) (tedit 4E87D39D) (tstamp 53B73FD8)
-    (at 56.5 69.5 90)
+    (at 61.5 61.5 90)
     (path /5391786C/5391815F)
     (fp_text reference U4 (at 0 2.25044 90) (layer B.SilkS)
       (effects (font (size 0.9525 0.9525) (thickness 0.23876)) (justify mirror))
