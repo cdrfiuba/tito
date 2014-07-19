@@ -41,7 +41,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 4
 Title "Tito, el autito más bonito"
-Date "5 jul 2014"
+Date "18 jul 2014"
 Rev "0.3"
 Comp ""
 Comment1 ""
@@ -985,21 +985,6 @@ F 3 "" H 6400 1400 60  0001 C CNN
 	1    6400 1400
 	1    0    0    -1  
 $EndComp
-$Sheet
-S 6500 3150 1250 1350
-U 5391786C
-F0 "Sensores" 50
-F1 "Sensores.sch" 50
-F2 "Habilitador sensores" I L 6500 3450 60 
-F3 "Sensor 1" I L 6500 3650 60 
-F4 "Sensor 2" I L 6500 3800 60 
-F5 "Sensor 3" I L 6500 3950 60 
-F6 "Sensor 4" I L 6500 4100 60 
-F7 "Sensor 5" I L 6500 4250 60 
-F8 "Sensor 6" I L 6500 4400 60 
-F9 "Gnd" I R 7750 4250 60 
-F10 "+5V" I L 6500 3300 60 
-$EndSheet
 $Comp
 L GND #PWR024
 U 1 1 53919AC2
@@ -1098,4 +1083,37 @@ Text Label 7150 6550 0    60   ~ 0
 BOTÓN 1
 Text Label 8100 6550 0    60   ~ 0
 BOTÓN 2
+$Sheet
+S 6500 3150 1250 1650
+U 5391786C
+F0 "Sensores" 50
+F1 "Sensores.sch" 50
+F2 "Habilitador sensores" I L 6500 3450 60 
+F3 "Sensor 1" I L 6500 3650 60 
+F4 "Sensor 2" I L 6500 3800 60 
+F5 "Sensor 3" I L 6500 3950 60 
+F6 "Sensor 4" I L 6500 4100 60 
+F7 "Sensor 5" I L 6500 4250 60 
+F8 "Sensor 6" I L 6500 4400 60 
+F9 "Gnd" I R 7750 4250 60 
+F10 "+5V" I L 6500 3300 60 
+F11 "Sensor 7" I L 6500 4550 60 
+F12 "Sensor 8" I L 6500 4700 60 
+$EndSheet
+Text Label 1200 6100 0    60   ~ 0
+SENSOR 7
+Text Label 1200 6200 0    60   ~ 0
+SENSOR 8
+Wire Wire Line
+	1200 6100 1650 6100
+Wire Wire Line
+	1650 6200 1200 6200
+Text Label 6000 4550 0    60   ~ 0
+SENSOR 7
+Text Label 6000 4700 0    60   ~ 0
+SENSOR 8
+Wire Wire Line
+	6500 4550 6000 4550
+Wire Wire Line
+	6500 4700 6000 4700
 $EndSCHEMATC
