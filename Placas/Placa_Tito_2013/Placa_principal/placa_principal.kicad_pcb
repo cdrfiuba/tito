@@ -1,9 +1,9 @@
 (kicad_pcb (version 3) (host pcbnew "(22-Jun-2014 BZR 4027)-stable")
 
   (general
-    (links 189)
+    (links 0)
     (no_connects 189)
-    (area 26.5 52.5 92 157)
+    (area 21.630423 26.853445 190.331 165.243331)
     (thickness 1.6002)
     (drawings 35)
     (tracks 0)
@@ -54,7 +54,7 @@
     (mod_text_size 1.524 1.524)
     (mod_text_width 0.3048)
     (pad_size 2 2)
-    (pad_drill 2)
+    (pad_drill 1)
     (pad_to_mask_clearance 0.254)
     (aux_axis_origin 49.403 66.7512)
     (visible_elements 7FFFFBFF)

@@ -1,5 +1,5 @@
-update=vie 04 jul 2014 20:57:13 ART
-last_client=pcbnew
+update=vie 01 ago 2014 22:25:18 ART
+last_client=kicad
 [cvpcb]
 version=1
 NetIExt=net
@@ -49,16 +49,14 @@ LibName32=../../Bibliotecas/7805b
 LibName33=../../Bibliotecas/reg_204-5
 LibName34=../../Bibliotecas/tcrt1000
 LibName35=../../Bibliotecas/drv8833
-[general]
-version=1
 [pcbnew]
 version=1
 LastNetListRead=placa_principal.net
 UseCmpFile=1
-PadDrill=3.048000000000
-PadDrillOvalY=3.048000000000
-PadSizeH=3.048000000000
-PadSizeV=3.048000000000
+PadDrill=2.000000000000
+PadDrillOvalY=2.000000000000
+PadSizeH=2.000000000000
+PadSizeV=2.000000000000
 PcbTextSizeV=2.032000000000
 PcbTextSizeH=1.524000000000
 PcbTextThickness=0.304800000000
@@ -71,7 +69,7 @@ DrawSegmentWidth=0.381000000000
 BoardOutlineThickness=0.381000000000
 ModuleOutlineThickness=0.381000000000
 [pcbnew/libraries]
-LibDir=
+LibDir=../../Bibliotecas
 LibName1=sockets
 LibName2=connect
 LibName3=discret
@@ -89,3 +87,6 @@ LibName14=../../Bibliotecas/SOT223-5
 LibName15=../../Bibliotecas/1PIN
 LibName16=../../Bibliotecas/tcrt1000
 LibName17=../../Bibliotecas/HTSSOP16
+LibName18=Interruptores
+[general]
+version=1
