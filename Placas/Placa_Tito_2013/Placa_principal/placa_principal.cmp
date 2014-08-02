@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (22-Jun-2014 BZR 4027)-stable date = vie 18 jul 2014 20:52:46 ART
+Cmp-Mod V01 Created by CvPcb (22-Jun-2014 BZR 4027)-stable date = vie 01 ago 2014 20:41:38 ART
 
 BeginCmp
 TimeStamp = /5127FC45;
@@ -500,7 +500,7 @@ EndCmp
 BeginCmp
 TimeStamp = /5390D5B6/539C41EF;
 Reference = SW5;
-ValeurCmp = INTERRUPTOR BATERÍA 3,7V;
+ValeurCmp = INTERRUPTOR REGULADOR 3,3V;
 IdModule  = MICROSWITCH_SPST;
 EndCmp
 
