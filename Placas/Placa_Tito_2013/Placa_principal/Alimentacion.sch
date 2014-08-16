@@ -39,9 +39,9 @@ EELAYER 27 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 4 4
+Sheet 3 4
 Title ""
-Date "1 aug 2014"
+Date "16 aug 2014"
 Rev ""
 Comp ""
 Comment1 ""
@@ -333,4 +333,5 @@ F 3 "~" H 4400 5150 60  0000 C CNN
 	1    4400 5150
 	-1   0    0    1   
 $EndComp
+Connection ~ 5150 4800
 $EndSCHEMATC
