@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (22-Jun-2014 BZR 4027)-stable date = vie 15 ago 2014 20:25:10 ART
+Cmp-Mod V01 Created by CvPcb (22-Jun-2014 BZR 4027)-stable date = mié 20 ago 2014 13:38:58 ART
 
 BeginCmp
 TimeStamp = /5127FC45;
@@ -236,6 +236,20 @@ TimeStamp = /5390D5B6/5390D699;
 Reference = P10;
 ValeurCmp = Batería 3,6V;
 IdModule  = bornier2;
+EndCmp
+
+BeginCmp
+TimeStamp = /53F4D4F6;
+Reference = P11;
+ValeurCmp = ADICIONAL 3,3V;
+IdModule  = 1PIN2mm;
+EndCmp
+
+BeginCmp
+TimeStamp = /53F4D4F0;
+Reference = P12;
+ValeurCmp = ADICIONAL 3,3V;
+IdModule  = 1PIN2mm;
 EndCmp
 
 BeginCmp
