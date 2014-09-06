@@ -113,24 +113,22 @@ void mostrar_sensor_en_leds (uint8_t sensor) {
     } else {
         ClearBit(PORT_LED_4, LED_4_NUMBER);
     }
-    //USART0Transmit('S');
-    //_delay_ms(100);
 }
 
 inline void mostrar_leds(uint8_t *sensores) {
-    static uint8_t boton_apretado = 0;
+    //static uint8_t boton_apretado = 0;
 
-    while (BOTON1_APRETADO) {
-        boton_apretado = 1;
-    }
-    _delay_ms(5); //rebote botón
-    if (boton_apretado == 1) {
-        tolerancia = tolerancia + 5;
-        if (tolerancia == 180) {
-            tolerancia = 0;
-        }
-        boton_apretado = 0;
-    }        
+    //while (BOTON1_APRETADO) {
+        //boton_apretado = 1;
+    //}
+    //_delay_ms(5); //rebote botón
+    //if (boton_apretado == 1) {
+        //tolerancia = tolerancia + 5;
+        //if (tolerancia == 180) {
+            //tolerancia = 0;
+        //}
+        //boton_apretado = 0;
+    //}
 
     if (sensores[S6] > tolerancia) {
         SetBit(PORT_LED_1, LED_1_NUMBER);
@@ -155,26 +153,6 @@ inline void mostrar_leds(uint8_t *sensores) {
 
     // printf("%3d %3d %3d %3d %3d %3d\n", sensores[S1], sensores[S2], sensores[S3], sensores[S4], sensores[S5], sensores[S6]);
 
-    /*if (sensores[3] > tolerancia) {
-        SetBit(PORT_LED_1, LED_1_NUMBER);
-    } else {
-        ClearBit(PORT_LED_1, LED_1_NUMBER);
-    }
-    if (sensores[2] > tolerancia) {
-        SetBit(PORT_LED_2, LED_2_NUMBER);
-    } else {
-        ClearBit(PORT_LED_2, LED_2_NUMBER);
-    }
-    if (sensores[1] > tolerancia) {
-        SetBit(PORT_LED_3, LED_3_NUMBER);
-    } else {
-        ClearBit(PORT_LED_3, LED_3_NUMBER);
-    }
-    if (sensores[0] > tolerancia) {
-        SetBit(PORT_LED_4, LED_4_NUMBER);
-    } else {
-        ClearBit(PORT_LED_4, LED_4_NUMBER);
-    }*/
 }
 
     
@@ -191,38 +169,14 @@ int main() {
     int16_t reduccion_velocidad = 0;
     estados_t estado_actual = ST_EN_PISTA;
     bordes_t ultimo_borde_valido = BORDE_IZQUIERDA;
-    char output_byte = 0;
-    
+    int8_t coeficiente_error_p = 14;
+    int16_t coeficiente_error_i = 12016;
+    int8_t coeficiente_error_d = 6;
+    int8_t tipo_coeficiente = 0; // de 0 a 15
+    int16_t gusty1 = 0;
+    int16_t gusty2 = 0;
+    int16_t gusty3 = 0;
     startup();
-
-    /* // pruebas servo
-    servo_on();
-    while (1) {
-        OCR2A = 13;
-        SetBit(PORT_LED_1, LED_1_NUMBER);
-        _delay_ms(2000);
-
-        OCR2A = 15;
-        ClearBit(PORT_LED_1, LED_1_NUMBER);
-        _delay_ms(2000);
-
-        OCR2A = 17;
-        SetBit(PORT_LED_1, LED_1_NUMBER);
-        _delay_ms(2000);
-
-        OCR2A = 20;
-        ClearBit(PORT_LED_1, LED_1_NUMBER);
-        _delay_ms(2000);
-
-        OCR2A = 22;
-        SetBit(PORT_LED_1, LED_1_NUMBER);
-        _delay_ms(2000);
-
-        //servo_off();
-        OCR2A = 25;
-        ClearBit(PORT_LED_1, LED_1_NUMBER);
-        _delay_ms(2000);
-    }*/
         
     while (1) {
         motores_off();
@@ -230,13 +184,115 @@ int main() {
         ClearBit(PORT_LED_2, LED_2_NUMBER);
         ClearBit(PORT_LED_3, LED_3_NUMBER);
         ClearBit(PORT_LED_4, LED_4_NUMBER);
+        
+        // cambios de coeficientes
+        if (tipo_coeficiente == 16) {
+            tipo_coeficiente = 0;
+        }
+
+        switch (tipo_coeficiente) {
+            case 0:
+                // valor de referencia
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 240;
+                coeficiente_error_d = 2;
+                break;
+            case 1:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 12016;
+                coeficiente_error_d = 12;
+                break;
+            case 2:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 12016;
+                coeficiente_error_d = 24;
+                break;
+            case 3:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 12016;
+                coeficiente_error_d = 48;
+                break;
+            case 4:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 12016;
+                coeficiente_error_d = 96;
+                break;
+            case 5:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 12016;
+                coeficiente_error_d = 192;
+                break;
+            case 6:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 12016;
+                coeficiente_error_d = 6;
+                break;
+            case 7:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 6000;
+                coeficiente_error_d = 6;
+                break;
+            case 8:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 3000;
+                coeficiente_error_d = 6;
+                break;
+            case 9:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 1500;
+                coeficiente_error_d = 6;
+                break;
+            case 10:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 750;
+                coeficiente_error_d = 6;
+                break;
+            case 11:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 375;
+                coeficiente_error_d = 6;
+                break;
+            case 12:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 200;
+                coeficiente_error_d = 6;
+                break;
+            case 13:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 100;
+                coeficiente_error_d = 6;
+                break;
+            case 14:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 50;
+                coeficiente_error_d = 6;
+                break;
+            case 15:
+                coeficiente_error_p = 14;
+                coeficiente_error_i = 25;
+                coeficiente_error_d = 6;
+                break;
+        }
+        if (tipo_coeficiente & (1 << 0)) {
+            SetBit(PORT_LED_1, LED_1_NUMBER);
+        }
+        if (tipo_coeficiente & (1 << 1)) {
+            SetBit(PORT_LED_2, LED_2_NUMBER);
+        }
+        if (tipo_coeficiente & (1 << 2)) {
+            SetBit(PORT_LED_3, LED_3_NUMBER);
+        }
+        if (tipo_coeficiente & (1 << 3)) {
+            SetBit(PORT_LED_4, LED_4_NUMBER);
+        }
+        tipo_coeficiente++;
 
         // ciclos para esperar a que arranque cuando
         // se suelta el botón
         while (BOTON2_NO_APRETADO) {
             //mostrar_sensor_en_leds(S2);
-            obtener_sensores(sensores);
-            mostrar_leds(sensores);
+            //obtener_sensores(sensores);
+            //mostrar_leds(sensores);
         }
         _delay_ms(50); //rebote botón
 
@@ -276,9 +332,6 @@ int main() {
         while (BOTON2_NO_APRETADO) {
             obtener_sensores(sensores);
 
-            //printf("%3d, %3d, %3d, %3d\n", sensores[S1], sensores[S2], sensores[S3], sensores[S4]);
-            //mostrar_leds(sensores);
-
             if (sensores[S1] > 50) {
                 ultimo_borde_valido = BORDE_IZQUIERDA;
             } else if (sensores[S6] > 50) {
@@ -286,27 +339,21 @@ int main() {
             }
             
             // si me fui, entro en modo "corrección máxima"
-            //if ( (sensores[S1] < 50) && (sensores[S2] < 50) && (sensores[S3] < 50) && (sensores[S4] < 50) ) {
             if ( (sensores[S1] < tolerancia) && (sensores[S2] < tolerancia) && (sensores[S3] < tolerancia) && (sensores[S4] < tolerancia) && (sensores[S5] < tolerancia) && (sensores[S6] < tolerancia) ) {
                 estado_actual = ST_AFUERA;
             } else {
                 estado_actual = ST_EN_PISTA;
-                ClearBit(PORT_LED_1, LED_1_NUMBER);
-                ClearBit(PORT_LED_2, LED_2_NUMBER);
-                ClearBit(PORT_LED_3, LED_3_NUMBER);
-                ClearBit(PORT_LED_4, LED_4_NUMBER);
+                //ClearBit(PORT_LED_1, LED_1_NUMBER);
+                //ClearBit(PORT_LED_2, LED_2_NUMBER);
+                //ClearBit(PORT_LED_3, LED_3_NUMBER);
+                //ClearBit(PORT_LED_4, LED_4_NUMBER);
             }
 
             switch (estado_actual) {
                 case ST_EN_PISTA:
-                    // 4 sensores
-                    //sensores_linea = ((int32_t)sensores[S2] * 1000 + (int32_t)sensores[S3] * 2000 + (int32_t)sensores[S4] * 3000) / 
-                    //                 ( (int32_t)sensores[S1] + (int32_t)sensores[S2] + (int32_t)sensores[S3] + (int32_t)sensores[S4] );
                     // 6 sensores
                     sensores_linea = ((int32_t)sensores[S2] * 1000 + (int32_t)sensores[S3] * 2000 + (int32_t)sensores[S4] * 3000 + (int32_t)sensores[S5] * 4000 + (int32_t)sensores[S6] * 5000) / 
                                      ( (int32_t)sensores[S1] + (int32_t)sensores[S2] + (int32_t)sensores[S3] + (int32_t)sensores[S4] + (int32_t)sensores[S5] + (int32_t)sensores[S6] );
-
-                    //printf("%5i %3d %3d %3d %3d %3d %3d\n", sensores_linea, sensores[S1], sensores[S2], sensores[S3], sensores[S4], sensores[S5], sensores[S6]);
 
                     err_p = sensores_linea - CENTRO_DE_LINEA;
                     err_d = err_p - err_p_anterior;
@@ -315,16 +362,44 @@ int main() {
                         err_i -= (err_p >> 8);
                     }
                     err_p_anterior = err_p;
-
-                    reduccion_velocidad = err_p * COEFICIENTE_ERROR_P + err_i * COEFICIENTE_ERROR_I + err_d * COEFICIENTE_ERROR_D;
                     
+                    reduccion_velocidad = 0;
+                    //if (coeficiente_error_p > 0) {
+                        //reduccion_velocidad += err_p / coeficiente_error_p;
+                    //}
+                    //if (coeficiente_error_i > 0) {
+                        //reduccion_velocidad += err_i / coeficiente_error_i;
+                    //}
+                    //if (coeficiente_error_d > 0) {
+                        //reduccion_velocidad += err_d / coeficiente_error_d;
+                    //}
+                    
+                    gusty1=err_p/coeficiente_error_p;
+                    gusty2=err_i/coeficiente_error_i;
+                    gusty3=err_d/coeficiente_error_d;
+                    
+                    //if (gusty3 > RANGO_VELOCIDAD){
+                        //SetBit(PORT_LED_1, LED_1_NUMBER);
+                        //SetBit(PORT_LED_2, LED_2_NUMBER);
+                    //}else{
+                        //ClearBit(PORT_LED_1, LED_1_NUMBER);
+                        //ClearBit(PORT_LED_2, LED_2_NUMBER);
+                    //}    
+                     
+                    //if (gusty3 < -RANGO_VELOCIDAD){
+                        //SetBit(PORT_LED_3, LED_3_NUMBER);
+                        //SetBit(PORT_LED_4, LED_4_NUMBER);
+                    //}else{
+                        //ClearBit(PORT_LED_3, LED_3_NUMBER);
+                        //ClearBit(PORT_LED_4, LED_4_NUMBER);
+                    //}   
+                    
+                    reduccion_velocidad = gusty1 + gusty2 + gusty3;
+                            
+                    //reduccion_velocidad = err_p / coeficiente_error_p + err_i / coeficiente_error_i + err_d / coeficiente_error_d;
+                    
+                    // printf de valores PID
                     //printf("p:%5i i:%5i d:%5i rv:%5i\n", err_p, err_i, err_d, reduccion_velocidad);
-
-                    /*USART0Transmit((char)(reduccion_velocidad >> 8));
-                    output_byte = (char)(reduccion_velocidad);
-                    if (output_byte == 255) output_byte = 254;
-                    USART0Transmit(output_byte);
-                    USART0Transmit(255);*/
 
                     // err_p toma valores entre -2500 y 2500, por lo reduccion_velocidad esta acotado entre -125 y +125 
                     // err_i toma valores entre -32k y 32k, por lo que su aporte a diff_potencia esta acotado entre -32 y +32 (-32 y +32 para 6 sensores)
@@ -333,12 +408,11 @@ int main() {
                     
                     if (reduccion_velocidad > RANGO_VELOCIDAD) {
                         reduccion_velocidad = RANGO_VELOCIDAD;
+                        
                     } else if (reduccion_velocidad < -RANGO_VELOCIDAD) {
                         reduccion_velocidad = -RANGO_VELOCIDAD;
                     }
                                  
-                    //printf("p:%10i, i:%10i, d:%10i, pot%10i\n", err_p, err_i, err_d, reduccion_velocidad);
-                    
                     if (reduccion_velocidad < 0) {
                         motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD / 2 - reduccion_velocidad / 2);
                         motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD / 2 + reduccion_velocidad / 2);
@@ -346,16 +420,6 @@ int main() {
                         motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD / 2 - reduccion_velocidad / 2);
                         motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD / 2 + reduccion_velocidad / 2);
                     }
-
-                    //printf("p:%10i, i:%10i, d:%10i, pot%10i\n", err_p, err_i, err_d, reduccion_velocidad);
-
-                    //if (reduccion_velocidad < 0) {
-                    //    motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD);
-                    //    motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD + reduccion_velocidad);
-                    //} else {
-                    //    motor1_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD + -reduccion_velocidad);
-                    //    motor2_velocidad_pid(MIN_VELOCIDAD + RANGO_VELOCIDAD);
-                    //}
                     
                     break;
                     
