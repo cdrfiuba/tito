@@ -15,7 +15,7 @@
 #define ESCALA_ALTA 2 // define que tan rapido satura la velocidad a MIN_VELOCIDAD para el motor que deseamos que vaya mas lento, valores mas pequeños hacen que la velocidad maxima se alcance mas seguido
 
 #define COEFICIENTE_ERROR_P 1 / 14
-#define COEFICIENTE_ERROR_I 1 / 12016
+#define COEFICIENTE_ERROR_I 1 / 240
 #define COEFICIENTE_ERROR_D 1 / 6
 
 #define COEFICIENTE_DERECHA FACTOR * 0.9
