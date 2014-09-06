@@ -169,13 +169,13 @@ int main() {
     int16_t reduccion_velocidad = 0;
     estados_t estado_actual = ST_EN_PISTA;
     bordes_t ultimo_borde_valido = BORDE_IZQUIERDA;
-    int8_t coeficiente_error_p = 14;
-    int16_t coeficiente_error_i = 12016;
-    int8_t coeficiente_error_d = 6;
-    int8_t tipo_coeficiente = 0; // de 0 a 15
-    int16_t gusty1 = 0;
-    int16_t gusty2 = 0;
-    int16_t gusty3 = 0;
+    //int8_t coeficiente_error_p = 14;
+    //int16_t coeficiente_error_i = 12016;
+    //int8_t coeficiente_error_d = 6;
+    //int8_t tipo_coeficiente = 0; // de 0 a 15
+    //int16_t gusty1 = 0;
+    //int16_t gusty2 = 0;
+    //int16_t gusty3 = 0;
     startup();
         
     while (1) {
@@ -185,114 +185,114 @@ int main() {
         ClearBit(PORT_LED_3, LED_3_NUMBER);
         ClearBit(PORT_LED_4, LED_4_NUMBER);
         
-        // cambios de coeficientes
-        if (tipo_coeficiente == 16) {
-            tipo_coeficiente = 0;
-        }
+        //// cambios de coeficientes
+        //if (tipo_coeficiente == 16) {
+            //tipo_coeficiente = 0;
+        //}
 
-        switch (tipo_coeficiente) {
-            case 0:
-                // valor de referencia
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 240;
-                coeficiente_error_d = 2;
-                break;
-            case 1:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 12016;
-                coeficiente_error_d = 12;
-                break;
-            case 2:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 12016;
-                coeficiente_error_d = 24;
-                break;
-            case 3:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 12016;
-                coeficiente_error_d = 48;
-                break;
-            case 4:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 12016;
-                coeficiente_error_d = 96;
-                break;
-            case 5:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 12016;
-                coeficiente_error_d = 192;
-                break;
-            case 6:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 12016;
-                coeficiente_error_d = 6;
-                break;
-            case 7:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 6000;
-                coeficiente_error_d = 6;
-                break;
-            case 8:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 3000;
-                coeficiente_error_d = 6;
-                break;
-            case 9:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 1500;
-                coeficiente_error_d = 6;
-                break;
-            case 10:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 750;
-                coeficiente_error_d = 6;
-                break;
-            case 11:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 375;
-                coeficiente_error_d = 6;
-                break;
-            case 12:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 200;
-                coeficiente_error_d = 6;
-                break;
-            case 13:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 100;
-                coeficiente_error_d = 6;
-                break;
-            case 14:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 50;
-                coeficiente_error_d = 6;
-                break;
-            case 15:
-                coeficiente_error_p = 14;
-                coeficiente_error_i = 25;
-                coeficiente_error_d = 6;
-                break;
-        }
-        if (tipo_coeficiente & (1 << 0)) {
-            SetBit(PORT_LED_1, LED_1_NUMBER);
-        }
-        if (tipo_coeficiente & (1 << 1)) {
-            SetBit(PORT_LED_2, LED_2_NUMBER);
-        }
-        if (tipo_coeficiente & (1 << 2)) {
-            SetBit(PORT_LED_3, LED_3_NUMBER);
-        }
-        if (tipo_coeficiente & (1 << 3)) {
-            SetBit(PORT_LED_4, LED_4_NUMBER);
-        }
-        tipo_coeficiente++;
+        //switch (tipo_coeficiente) {
+            //case 0:
+                //// valor de referencia
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 240;
+                //coeficiente_error_d = 2;
+                //break;
+            //case 1:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 12016;
+                //coeficiente_error_d = 12;
+                //break;
+            //case 2:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 12016;
+                //coeficiente_error_d = 24;
+                //break;
+            //case 3:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 12016;
+                //coeficiente_error_d = 48;
+                //break;
+            //case 4:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 12016;
+                //coeficiente_error_d = 96;
+                //break;
+            //case 5:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 12016;
+                //coeficiente_error_d = 192;
+                //break;
+            //case 6:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 12016;
+                //coeficiente_error_d = 6;
+                //break;
+            //case 7:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 6000;
+                //coeficiente_error_d = 6;
+                //break;
+            //case 8:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 3000;
+                //coeficiente_error_d = 6;
+                //break;
+            //case 9:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 1500;
+                //coeficiente_error_d = 6;
+                //break;
+            //case 10:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 750;
+                //coeficiente_error_d = 6;
+                //break;
+            //case 11:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 375;
+                //coeficiente_error_d = 6;
+                //break;
+            //case 12:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 200;
+                //coeficiente_error_d = 6;
+                //break;
+            //case 13:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 100;
+                //coeficiente_error_d = 6;
+                //break;
+            //case 14:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 50;
+                //coeficiente_error_d = 6;
+                //break;
+            //case 15:
+                //coeficiente_error_p = 14;
+                //coeficiente_error_i = 25;
+                //coeficiente_error_d = 6;
+                //break;
+        //}
+        //if (tipo_coeficiente & (1 << 0)) {
+            //SetBit(PORT_LED_1, LED_1_NUMBER);
+        //}
+        //if (tipo_coeficiente & (1 << 1)) {
+            //SetBit(PORT_LED_2, LED_2_NUMBER);
+        //}
+        //if (tipo_coeficiente & (1 << 2)) {
+            //SetBit(PORT_LED_3, LED_3_NUMBER);
+        //}
+        //if (tipo_coeficiente & (1 << 3)) {
+            //SetBit(PORT_LED_4, LED_4_NUMBER);
+        //}
+        //tipo_coeficiente++;
 
         // ciclos para esperar a que arranque cuando
         // se suelta el botón
         while (BOTON2_NO_APRETADO) {
             //mostrar_sensor_en_leds(S2);
-            //obtener_sensores(sensores);
-            //mostrar_leds(sensores);
+            obtener_sensores(sensores);
+            mostrar_leds(sensores);
         }
         _delay_ms(50); //rebote botón
 
@@ -343,10 +343,10 @@ int main() {
                 estado_actual = ST_AFUERA;
             } else {
                 estado_actual = ST_EN_PISTA;
-                //ClearBit(PORT_LED_1, LED_1_NUMBER);
-                //ClearBit(PORT_LED_2, LED_2_NUMBER);
-                //ClearBit(PORT_LED_3, LED_3_NUMBER);
-                //ClearBit(PORT_LED_4, LED_4_NUMBER);
+                ClearBit(PORT_LED_1, LED_1_NUMBER);
+                ClearBit(PORT_LED_2, LED_2_NUMBER);
+                ClearBit(PORT_LED_3, LED_3_NUMBER);
+                ClearBit(PORT_LED_4, LED_4_NUMBER);
             }
 
             switch (estado_actual) {
@@ -363,7 +363,7 @@ int main() {
                     }
                     err_p_anterior = err_p;
                     
-                    reduccion_velocidad = 0;
+                    //reduccion_velocidad = 0;
                     //if (coeficiente_error_p > 0) {
                         //reduccion_velocidad += err_p / coeficiente_error_p;
                     //}
@@ -374,9 +374,9 @@ int main() {
                         //reduccion_velocidad += err_d / coeficiente_error_d;
                     //}
                     
-                    gusty1=err_p/coeficiente_error_p;
-                    gusty2=err_i/coeficiente_error_i;
-                    gusty3=err_d/coeficiente_error_d;
+                    //gusty1=err_p/coeficiente_error_p;
+                    //gusty2=err_i/coeficiente_error_i;
+                    //gusty3=err_d/coeficiente_error_d;
                     
                     //if (gusty3 > RANGO_VELOCIDAD){
                         //SetBit(PORT_LED_1, LED_1_NUMBER);
@@ -394,9 +394,7 @@ int main() {
                         //ClearBit(PORT_LED_4, LED_4_NUMBER);
                     //}   
                     
-                    reduccion_velocidad = gusty1 + gusty2 + gusty3;
-                            
-                    //reduccion_velocidad = err_p / coeficiente_error_p + err_i / coeficiente_error_i + err_d / coeficiente_error_d;
+                    reduccion_velocidad = err_p * COEFICIENTE_ERROR_P + err_i * COEFICIENTE_ERROR_I + err_d * COEFICIENTE_ERROR_D;
                     
                     // printf de valores PID
                     //printf("p:%5i i:%5i d:%5i rv:%5i\n", err_p, err_i, err_d, reduccion_velocidad);
